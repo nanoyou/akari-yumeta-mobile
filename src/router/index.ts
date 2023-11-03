@@ -10,12 +10,20 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: () => import('@/views/home/HomePage.vue')
+    component: () => import('@/views/home/HomePage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: true
+    }
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/login/LoginPage.vue')
+    component: () => import('@/views/login/LoginPage.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false 
+    }
   }
 ]
 

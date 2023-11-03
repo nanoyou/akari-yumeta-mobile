@@ -2,6 +2,11 @@
 
 <template>
   <h1>Home</h1>
+  <div class="ttt">aaa</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.ttt {
+  height: 800px;
+}
+</style>
