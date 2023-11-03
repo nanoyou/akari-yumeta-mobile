@@ -5,8 +5,10 @@ export const useUserStore = defineStore(
   'user',
   () => {
     const token = ref('')
+    const ID = ref('')
     const setToken = (tk: string) => (token.value = tk)
-    return { token, setToken }
+    const setID = (id: string) => (ID.value = id)
+    return { token, setToken, ID, setID }
   },
   {
     persist: true
