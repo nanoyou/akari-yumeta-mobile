@@ -21,7 +21,7 @@ const topBarCfg = {
   <div class="container-layout">
     <van-nav-bar
       v-if="$route.meta.showTopBar"
-      :title="topBarCfg.title"
+      :title="$route.meta.title"
       :left-text="topBarCfg.leftText"
       left-arrow
     >

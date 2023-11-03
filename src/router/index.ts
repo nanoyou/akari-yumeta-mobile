@@ -13,7 +13,8 @@ const routes = [
     component: () => import('@/views/home/HomePage.vue'),
     meta: {
       showTabBar: true,
-      showTopBar: true
+      showTopBar: true,
+      title: '首页'
     }
   },
   {
@@ -22,7 +23,7 @@ const routes = [
     component: () => import('@/views/login/LoginPage.vue'),
     meta: {
       showTabBar: false,
-      showTopBar: false 
+      showTopBar: false
     }
   }
 ]
