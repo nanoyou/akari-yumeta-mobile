@@ -15,9 +15,9 @@ const tabbarItems = [
 
 <template>
   <div class="container-layout">
-    <h1>LAYOUT</h1>
+    <h1>LAYOUT1111</h1>
     <router-view></router-view>
-    <tabbar-component :tabbarItems="tabbarItems"></tabbar-component>
+    <TabbarComponent :tabbarItems="tabbarItems"></TabbarComponent>
   </div>
 </template>
 

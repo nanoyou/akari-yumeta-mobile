@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import LayoutContainer from './views/layout/LayoutContainer.vue'
+</script>
 
 <template>
-  <router-view></router-view>
+  <layout-container></layout-container>
 </template>
 
 <style scoped></style>
