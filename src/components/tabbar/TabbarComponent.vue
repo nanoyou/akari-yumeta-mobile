@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <van-tabbar>
+  <van-tabbar route>
     <van-tabbar-item
       v-for="(item, index) in tabbarItems"
       :key="index"
