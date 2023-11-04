@@ -75,11 +75,7 @@ const submit = async () => {
       })
     } catch (e) {
       message.value = (e as Result<any>).message
-
-      show.value = true
-      setTimeout(() => {
-        show.value = false
-      }, 2000)
+      showNotify(message.value)
     }
   }
 }

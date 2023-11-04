@@ -1,6 +1,6 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
-import type { Result, User } from './entity'
+import type {Result, Task, User} from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
 
@@ -46,6 +46,12 @@ export default instance
 export const login = async (data: { username: string; password: string }) =>
   (await instance.post<User>('/login', data)).data
 
+export const getMyTask = async () =>
+    (await instance.get<User>('/my/task')).data
+
+export const getTask = async () =>
+    (await instance.get<Task>('/task')).data
+
 export const register = async (data: {
   username: string
   nickname: string
@@ -53,3 +59,15 @@ export const register = async (data: {
   password: string
   gender: string
 }) => (await instance.post<User>('/register', data)).data
+
+export const postTask = async (data: {
+    taskName: string
+    taskUploaderID: string
+    startTime: string
+    endTime: string
+    description: string
+    category: string
+    bonus: number
+    videoURL: string
+}) => (await instance.post<Task>('/task', data)).data
+
