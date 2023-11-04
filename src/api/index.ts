@@ -25,7 +25,8 @@ instance.interceptors.response.use(
     console.log(res)
     if (res.status === 200) {
       if (res.data.ok) {
-        return res.data.data
+        res.data = res.data.data
+        return Promise.resolve(res)
       } else {
         return Promise.reject(res.data)
       }

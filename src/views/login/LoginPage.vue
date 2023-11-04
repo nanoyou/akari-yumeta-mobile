@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import router from '@/router'
-import { ref } from 'vue';
-import {login} from "@/api";
-import type { Result } from '@/api/entity';
+import { ref } from 'vue'
+import { login } from '@/api'
+import type { Result } from '@/api/entity'
 
-const username = ref('');
-const password = ref('');
-const message = ref('');
-const show = ref(false);
+const username = ref('')
+const password = ref('')
+const message = ref('')
+const show = ref(false)
 
 // const login = () => {
 //   router.push('/home')
@@ -17,18 +17,18 @@ const register = () => {
 }
 const userLogin = async () => {
   // router.push('/home')
-  
+
   try {
     const user = await login({
       username: username.value,
-      password: password.value,
+      password: password.value
     })
 
     console.log(user, '登录成功')
 
     console.log(user.data.role)
 
-    if (user.data.role === "志愿者") {
+    if (user.data.role === '志愿者') {
       router.push('/volunteer')
     } else if (user.data.role === '儿童') {
       router.push('/child')
@@ -39,20 +39,17 @@ const userLogin = async () => {
     console.log(user, '登录成功')
   } catch (e) {
     message.value = (e as Result<any>).message
-    show.value = true;
+    show.value = true
     setTimeout(() => {
-      show.value = false;
-    }, 2000);
+      show.value = false
+    }, 2000)
   }
-
-
-
 }
 </script>
 
 <template>
   <van-notify v-model:show="show" type="danger">
-    <van-icon name="bell" style="margin-right: 4px;" />
+    <van-icon name="bell" style="margin-right: 4px" />
     <span>{{ message }}</span>
   </van-notify>
   <div class="img_container">
@@ -61,13 +58,22 @@ const userLogin = async () => {
   <!-- 可以使用 CellGroup 作为容器 -->
   <van-cell-group inset class="input_container">
     <van-field v-model="username" label="用户名" placeholder="请输入用户名" />
-    <van-field v-model="password" label="密码" type="password" placeholder="请输入密码" />
+    <van-field
+      v-model="password"
+      label="密码"
+      type="password"
+      placeholder="请输入密码"
+    />
   </van-cell-group>
 
   <div class="button_container">
-    <van-button type="primary" class="login_button" @click="userLogin">登录</van-button>
+    <van-button type="primary" class="login_button" @click="userLogin"
+      >登录</van-button
+    >
     <div style="width: 30px"></div>
-    <van-button type="primary" class="login_button" @click="register">注册</van-button>
+    <van-button type="primary" class="login_button" @click="register"
+      >注册</van-button
+    >
   </div>
 </template>
 
