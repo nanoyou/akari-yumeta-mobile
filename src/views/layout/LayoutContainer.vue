@@ -1,23 +1,24 @@
 <script setup lang="ts">
-const tabbarItems = [
-  {
-    name: '首页',
-    icon: 'home-o',
-    to: '/home'
-  },
-  {
-    name: '登录',
-    icon: 'search',
-    to: '/login'
-  }
-]
+const onClickLeft = () => history.back();
 </script>
 
 <template>
   <div class="container-layout">
-    <h1>LAYOUT1111</h1>
+    <van-nav-bar
+      v-if="$route.meta.showTopBar"
+      :title="$route.meta.title"
+      left-text="返回"
+      @click-left="onClickLeft"
+      left-arrow
+    >
+    </van-nav-bar>
+
     <router-view></router-view>
-    <TabbarComponent :tabbarItems="tabbarItems"></TabbarComponent>
+
+    <TabbarComponent
+      v-if="$route.meta.showTabBar"
+      :tabbarItems="$route.meta.tabbarItems"
+    ></TabbarComponent>
   </div>
 </template>
 
