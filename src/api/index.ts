@@ -44,7 +44,7 @@ export default instance
 // export { baseURL }
 
 export const login = async (data: { username: string; password: string }) =>
-  (await instance.post('/login', data)).data
+  (await instance.post<User>('/login', data)).data
 
 export const register = async (data: {
   username: string

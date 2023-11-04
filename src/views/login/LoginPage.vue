@@ -1,37 +1,37 @@
 <script setup lang="ts">
 import router from '@/router'
-import { ref } from 'vue';
-import {login, register} from "@/api";
-import {showNotify} from "vant";
+import { ref } from 'vue'
+import { login, register } from '@/api'
+import { showNotify } from 'vant'
+import { Role, type Result } from '@/api/entity'
 
-const message = ref('');
-const username = ref('');
-const nickname = ref('');
-const role = ref([]);
-const password = ref('');
-const password_second = ref('');
-const status = ref('login');
-const show = ref(false);
+const message = ref('')
+const username = ref('')
+const nickname = ref('')
+const role = ref([])
+const password = ref('')
+const password_second = ref('')
+const status = ref('login')
+const show = ref(false)
 
 const switch_register = () => {
-  username.value = '';
-  password.value = '';
-  nickname.value = '';
-  role.value = [];
-  password_second.value = '';
+  username.value = ''
+  password.value = ''
+  nickname.value = ''
+  role.value = []
+  password_second.value = ''
   status.value = 'register'
-
 }
 
 const switch_login = () => {
-  username.value = '';
-  password.value = '';
+  username.value = ''
+  password.value = ''
   status.value = 'login'
 }
 const submit = async () => {
   if (status.value === 'register') {
     if (password.value != password_second.value) {
-      showNotify('两次输入密码不一致');
+      showNotify('两次输入密码不一致')
       return
     }
     const res = await register({
@@ -39,75 +39,120 @@ const submit = async () => {
       nickname: nickname.value,
       password: password.value,
       role: role.value[0],
-      gender: 'SECRET',
+      gender: 'SECRET'
     })
     console.log(res)
-    if(res.code) {
-      showNotify(res.message);
+    if (res.code) {
+      showNotify(res.message)
     } else {
-      showNotify({type: 'success', message: '注册成功'});
+      showNotify({ type: 'success', message: '注册成功' })
       router.push('/login')
     }
   } else {
     try {
       const user = await login({
         username: username.value,
-        password: password.value,
+        password: password.value
       })
 
       console.log(user, '登录成功')
 
-      console.log(user.data.role)
+      console.log(user.role)
 
-      if (user.data.role === "志愿者") {
+
+      if (user.role === Role.Volunteer) {
         router.push('/volunteer')
-      } else if (user.data.role === '儿童') {
+      } else if (user.role === Role.Child) {
         router.push('/child/find')
-      } else if (user.data.role === '捐助者') {
+      } else if (user.role === Role.Sponsor) {
         router.push('/sponsor')
       }
 
       console.log(user, '登录成功')
+      showNotify({
+        type: 'success',
+        message: '登录成功'
+      })
     } catch (e) {
-      message.value = e.message
-      show.value = true;
+      message.value = (e as Result<any>).message
+
+      show.value = true
       setTimeout(() => {
-        show.value = false;
-      }, 2000);
+        show.value = false
+      }, 2000)
     }
   }
 }
-
 </script>
 
 <template>
-  <van-notify v-model:show="show" type="danger">
-    <van-icon name="bell" style="margin-right: 4px;" />
-    <span>{{ message }}</span>
-  </van-notify>
   <div class="img_container">
     <van-image src="../../../public/imgs/xiaoyi.png" class="logo"></van-image>
   </div>
   <div style="display: flex; justify-content: center">
     <div style="width: 50%">
       <div class="button_container">
-        <van-action-bar-button plain  @click='switch_login' type="primary" class="login_button" text="登录" />
-        <van-action-bar-button plain  @click="switch_register" type="primary" class="register_button" text="注册"/>
+        <van-action-bar-button
+          plain
+          @click="switch_login"
+          type="primary"
+          class="login_button"
+          text="登录"
+        />
+        <van-action-bar-button
+          plain
+          @click="switch_register"
+          type="primary"
+          class="register_button"
+          text="注册"
+        />
       </div>
     </div>
   </div>
 
-  <van-cell-group v-if="status==='login'" inset class="input_container">
+  <van-cell-group v-if="status === 'login'" inset class="input_container">
     <van-field v-model="username" label="用户名" placeholder="请输入用户名" />
-    <van-field v-model="password" label="密码" type="password" placeholder="请输入密码" />
+    <van-field
+      v-model="password"
+      label="密码"
+      type="password"
+      placeholder="请输入密码"
+    />
   </van-cell-group>
 
-  <van-cell-group v-if="status==='register'" inset class="input_container">
-    <van-field v-model="username" class="input" label="用户名" placeholder="请输入用户名" />
-    <van-field v-model="nickname" class="input" label="昵称" placeholder="请输入昵称" />
-    <van-field v-model="password" class="input" label="密码" type="password" placeholder="请输入密码" />
-    <van-field v-model="password_second" class="input" label="确认密码" type="password" placeholder="请再次输入密码" />
-    <van-checkbox-group class="checkbox_group" v-model="role" :max="1" direction="horizontal">
+  <van-cell-group v-if="status === 'register'" inset class="input_container">
+    <van-field
+      v-model="username"
+      class="input"
+      label="用户名"
+      placeholder="请输入用户名"
+    />
+    <van-field
+      v-model="nickname"
+      class="input"
+      label="昵称"
+      placeholder="请输入昵称"
+    />
+    <van-field
+      v-model="password"
+      class="input"
+      label="密码"
+      type="password"
+      placeholder="请输入密码"
+    />
+    <van-field
+      v-model="password_second"
+      class="input"
+      label="确认密码"
+      type="password"
+      placeholder="请再次输入密码"
+    />
+    <van-checkbox-group
+      class="checkbox_group"
+      v-model="role"
+      :max="1"
+      direction="horizontal"
+    >
       <van-checkbox name="VOLUNTEER">志愿者</van-checkbox>
       <van-checkbox name="CHILD">儿童</van-checkbox>
       <van-checkbox name="SPONSOR">捐助者</van-checkbox>
@@ -117,11 +162,15 @@ const submit = async () => {
   <div style="display: flex; justify-content: center">
     <div style="width: 50%">
       <div class="button_container">
-        <van-action-bar-button @click='submit' type="primary" class="submit_button" :text="status.valueOf() === 'login' ? '登录' : '注册'" />
+        <van-action-bar-button
+          @click="submit"
+          type="primary"
+          class="submit_button"
+          :text="status.valueOf() === 'login' ? '登录' : '注册'"
+        />
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -143,7 +192,6 @@ const submit = async () => {
 }
 .login_button {
   border-radius: 20px 0px 0px 20px;
-
 }
 .register_button {
   border-radius: 0px 20px 20px 0px;
