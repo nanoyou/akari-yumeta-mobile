@@ -13,7 +13,6 @@ const password_second = ref('');
 const status = ref('login');
 const show = ref(false);
 
-
 const switch_register = () => {
   username.value = '';
   password.value = '';
