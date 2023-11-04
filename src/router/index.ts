@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/',
     name: 'layout',
-    redirect: '/home',
+    redirect: '/login',
     component: () => import('@/views/layout/LayoutContainer.vue')
   },
   {
@@ -15,6 +15,15 @@ const routes = [
       showTabBar: true,
       showTopBar: true,
       title: '首页'
+    }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/register/RegisterPage.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false
     }
   },
   {
