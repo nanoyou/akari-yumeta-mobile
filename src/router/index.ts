@@ -84,7 +84,7 @@ const routes = [
     component: () => import('@/views/register/RegisterPage.vue'),
     meta: {
       showTabBar: false,
-      showTopBar: false
+      showTopBar: true
     }
   },
   {
