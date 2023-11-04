@@ -29,12 +29,12 @@ const topBarCfg = {
         <van-icon name="search" size="18" />
       </template>
     </van-nav-bar>
-    
+
     <router-view></router-view>
 
     <TabbarComponent
       v-if="$route.meta.showTabBar"
-      :tabbarItems="tabbarItems"
+      :tabbarItems="$route.meta.tabbarItems"
     ></TabbarComponent>
   </div>
 </template>

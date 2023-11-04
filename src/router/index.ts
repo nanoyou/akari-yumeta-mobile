@@ -14,7 +14,24 @@ const routes = [
     meta: {
       showTabBar: true,
       showTopBar: true,
-      title: '儿童'
+      title: '儿童',
+      tabbarItems: [
+        {
+          name: '首页',
+          icon: 'home-o',
+          to: '/child'
+        },
+        {
+          name: '页面2',
+          icon: 'home-o',
+          to: '/sponsor'
+        },
+        {
+          name: '页面3 ',
+          icon: 'home-o',
+          to: '/volunteer'
+        }
+      ]
     }
   },
   {
@@ -24,7 +41,19 @@ const routes = [
     meta: {
       showTabBar: true,
       showTopBar: true,
-      title: '捐助者'
+      title: '捐助者',
+      tabbarItems: [
+        {
+          name: '首页',
+          icon: 'home-o',
+          to: '/sponsor'
+        },
+        {
+          name: '退出登录 ',
+          icon: 'close',
+          to: '/login'
+        }
+      ]
     }
   },
   {
@@ -34,7 +63,19 @@ const routes = [
     meta: {
       showTabBar: true,
       showTopBar: true,
-      title: '志愿者'
+      title: '志愿者',
+      tabbarItems: [
+        {
+          name: '首页',
+          icon: 'home-o',
+          to: '/volunteer'
+        },
+        {
+          name: '退出登录 ',
+          icon: 'close',
+          to: '/login'
+        }
+      ]
     }
   },
   {
