@@ -1,19 +1,59 @@
 <script setup lang="ts">
 import router from '@/router'
 import { ref } from 'vue';
+import {login} from "@/api";
 
 const username = ref('');
 const password = ref('');
+const message = ref('');
+const show = ref(false);
 
-const login = () => {
-  router.push('/home')
-}
+// const login = () => {
+//   router.push('/home')
+// }
 const register = () => {
   router.push('/register')
+}
+const userLogin = async () => {
+  // router.push('/home')
+  
+  try {
+    const user = await login({
+      username: username.value,
+      password: password.value,
+    })
+
+    console.log(user, '登录成功')
+
+    console.log(user.data.role)
+
+    if (user.data.role === "志愿者") {
+      router.push('/volunteer')
+    } else if (user.data.role === '儿童') {
+      router.push('/child')
+    } else if (user.data.role === '捐助者') {
+      router.push('/sponsor')
+    }
+
+    console.log(user, '登录成功')
+  } catch (e) {
+    message.value = e.message
+    show.value = true;
+    setTimeout(() => {
+      show.value = false;
+    }, 2000);
+  }
+
+
+
 }
 </script>
 
 <template>
+  <van-notify v-model:show="show" type="danger">
+    <van-icon name="bell" style="margin-right: 4px;" />
+    <span>{{ message }}</span>
+  </van-notify>
   <div class="img_container">
     <van-image src="../../../public/imgs/xiaoyi.png" class="logo"></van-image>
   </div>
@@ -24,7 +64,7 @@ const register = () => {
   </van-cell-group>
 
   <div class="button_container">
-    <van-button type="primary" class="login_button" @click="login">登录</van-button>
+    <van-button type="primary" class="login_button" @click="userLogin">登录</van-button>
     <div style="width: 30px"></div>
     <van-button type="primary" class="login_button" @click="register">注册</van-button>
   </div>

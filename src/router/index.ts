@@ -8,13 +8,33 @@ const routes = [
     component: () => import('@/views/layout/LayoutContainer.vue')
   },
   {
-    path: '/home',
-    name: 'home',
-    component: () => import('@/views/home/HomePage.vue'),
+    path: '/child',
+    name: 'child',
+    component: () => import('@/views/child/ChildHomePage.vue'),
     meta: {
       showTabBar: true,
       showTopBar: true,
-      title: '首页'
+      title: '儿童'
+    }
+  },
+  {
+    path: '/sponsor',
+    name: 'sponsor',
+    component: () => import('@/views/sponsor/SponsorHomePage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: true,
+      title: '捐助者'
+    }
+  },
+  {
+    path: '/volunteer',
+    name: 'volunteer',
+    component: () => import('@/views/volunteer/VolunteerHomePage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: true,
+      title: '志愿者'
     }
   },
   {

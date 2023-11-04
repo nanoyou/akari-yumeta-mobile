@@ -1,8 +1,8 @@
 import { useUserStore } from '@/stores'
-import axios, { AxiosResponse } from 'axios'
-import { Result, User } from './entity'
+import axios, { type AxiosResponse } from 'axios'
+import type { Result, User } from './entity'
 
-const baseURL = 'http://127.0.0.1'
+const baseURL = 'http://127.0.0.1:8080'
 
 const instance = axios.create({
   baseURL,
@@ -23,9 +23,8 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (res: AxiosResponse<Result<any>>) => {
     console.log(res)
-    if (res.data.ok) {
-      res.data = res.data.data
-      return
+    if (res.status === 200) {
+      return res
     }
     
     // fail
@@ -45,4 +44,14 @@ export default instance
 export const login = async (data: {
     username: string,
     password: string,
-}) => (await instance.post<User>('/login', data)).data
+}) => (await instance.post('/login', data)).data
+
+export const register = async (data: {
+  username: string,
+  nickname: string,
+  role: string,
+  password: string,
+  gender: string,
+}) => (await instance.post<User>('/register', data)).data
+
+

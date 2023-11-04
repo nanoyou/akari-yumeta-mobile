@@ -12,10 +12,13 @@ declare module 'vue' {
     TabbarComponent: typeof import('./src/components/tabbar/TabbarComponent.vue')['default']
     VanButton: typeof import('vant/es')['Button']
     VanCellGroup: typeof import('vant/es')['CellGroup']
+    VanCheckbox: typeof import('vant/es')['Checkbox']
+    VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
     VanField: typeof import('vant/es')['Field']
     VanIcon: typeof import('vant/es')['Icon']
     VanImage: typeof import('vant/es')['Image']
     VanNavBar: typeof import('vant/es')['NavBar']
+    VanNotify: typeof import('vant/es')['Notify']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
   }
