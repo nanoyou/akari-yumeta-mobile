@@ -24,7 +24,11 @@ instance.interceptors.response.use(
   (res: AxiosResponse<Result<any>>) => {
     console.log(res)
     if (res.status === 200) {
-      return res
+      if (res.data.ok) {
+        return res.data.data
+      } else {
+        return Promise.reject(res.data)
+      }
     }
     
     // fail

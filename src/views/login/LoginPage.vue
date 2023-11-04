@@ -2,6 +2,7 @@
 import router from '@/router'
 import { ref } from 'vue';
 import {login} from "@/api";
+import type { Result } from '@/api/entity';
 
 const username = ref('');
 const password = ref('');
@@ -37,7 +38,7 @@ const userLogin = async () => {
 
     console.log(user, '登录成功')
   } catch (e) {
-    message.value = e.message
+    message.value = (e as Result<any>).message
     show.value = true;
     setTimeout(() => {
       show.value = false;
