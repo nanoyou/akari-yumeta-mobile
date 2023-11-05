@@ -57,10 +57,10 @@ export enum Gender {
  * 角色
  */
 export enum Role {
-  Admin = 'ADMIN',
-  Child = 'CHILD',
-  Sponsor = 'SPONSOR',
-  Volunteer = 'VOLUNTEER'
+  'ADMIN' = '管理员',
+  'CHILD' = '儿童',
+  'SPONSOR' = '捐助者',
+  'VOLUNTEER' = '志愿者'
 }
 
 /**

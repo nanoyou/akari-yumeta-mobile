@@ -98,8 +98,8 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '动态',
       showTabBar: true,
-      showTopBar: false
-      // tabbarItems: childTabbarItems
+      showTopBar: false,
+      tabbarItems: childTabbarItems
     }
   },
   {
@@ -109,8 +109,8 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '个人中心',
       showTabBar: true,
-      showTopBar: false
-      // tabbarItems: childTabbarItems
+      showTopBar: false,
+      tabbarItems: childTabbarItems
     }
   },
   {
@@ -120,9 +120,8 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '学习',
       showTabBar: true,
-      showTopBar: false
-      // tabbarItems: childTabbarItems
       showTopBar: false,
+      // tabbarItems: childTabbarItems
       tabbarItems: childTabbarItems
     }
   },

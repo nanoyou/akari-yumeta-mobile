@@ -65,14 +65,13 @@ const submit = async () => {
       })
 
       console.log(user, '登录成功')
-
       console.log(user.role)
 
-      if (user.role === Role.Volunteer) {
+      if (user.role.toString() === "Volunteer") {
         router.push('/volunteer')
-      } else if (user.role === Role.Child) {
+      } else if (user.role.toString() === "Child") {
         router.push('/child/find')
-      } else if (user.role === Role.Sponsor) {
+      } else if (user.role.toString() === "Sponsor") {
         router.push('/sponsor')
       }
 
@@ -208,7 +207,6 @@ const submit = async () => {
   border-radius: 20px 20px 20px 20px;
 }
 .input {
-  border-radius: 20px 0 0 20px;
   margin-top: 10px;
 }
 .checkbox_group {

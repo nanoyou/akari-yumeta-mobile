@@ -47,6 +47,9 @@ export default instance
 export const getMyTask = async () =>
     (await instance.get<Task[]>('/my/task')).data
 
+export const getMyInfo = async () =>
+    (await instance.get<User>('/my/info')).data
+
 export const getAllTask = async () =>
     (await instance.get<Task[]>('/task')).data
 
