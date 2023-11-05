@@ -35,23 +35,28 @@ const routes = [
     }
   },
   {
-    path: '/sponsor',
-    name: 'sponsor',
-    component: () => import('@/views/sponsor/SponsorHomePage.vue'),
+    path: '/donate/find',
+    name: 'donate_find',
+    component: () => import('@/views/donate/donate-find/find.vue'),
     meta: {
       showTabBar: true,
       showTopBar: true,
-      title: '捐助者',
+      title: '发现',
       tabbarItems: [
         {
           name: '首页',
-          icon: 'home-o',
-          to: '/sponsor'
+          icon: 'chat-o',
+          to: '/donate/home'
         },
         {
-          name: '退出登录 ',
-          icon: 'close',
-          to: '/login'
+          name: '发现',
+          icon: 'search',
+          to: '/donate/find'
+        },
+        {
+          name: '我的',
+          icon: 'user-o',
+          to: '/donate/mine'
         }
       ]
     }
