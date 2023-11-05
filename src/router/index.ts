@@ -1,37 +1,28 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+declare module 'vue-router' {
+  interface RouteMeta {
+    showTabBar: boolean
+    showTopBar: boolean
+    title?: string
+  }
+}
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'layout',
     redirect: '/login',
-    component: () => import('@/views/layout/LayoutContainer.vue')
+    component: () => import('@/views/layout/LayoutContainer.vue'),
+    children: []
   },
   {
-    path: '/child',
-    name: 'child',
-    component: () => import('@/views/child/ChildHomePage.vue'),
+    path: '/chat',
+    name: 'chat',
+    component: () => import('@/views/chat/ChatPage.vue'),
     meta: {
       showTabBar: true,
       showTopBar: true,
-      title: '儿童',
-      tabbarItems: [
-        {
-          name: '首页',
-          icon: 'home-o',
-          to: '/child'
-        },
-        {
-          name: '页面2',
-          icon: 'home-o',
-          to: '/sponsor'
-        },
-        {
-          name: '页面3 ',
-          icon: 'home-o',
-          to: '/volunteer'
-        }
-      ]
+      title: '聊天'
     }
   },
   {
@@ -39,9 +30,9 @@ const routes = [
     name: 'donate_find',
     component: () => import('@/views/donate/donate-find/find.vue'),
     meta: {
+      title: '动态',
       showTabBar: true,
       showTopBar: true,
-      title: '发现',
       tabbarItems: [
         {
           name: '首页',
@@ -62,34 +53,23 @@ const routes = [
     }
   },
   {
-    path: '/volunteer',
-    name: 'volunteer',
-    component: () => import('@/views/volunteer/VolunteerHomePage.vue'),
+    path: '/my',
+    name: 'my',
+    component: () => import('@/views/my/MyPage.vue'),
     meta: {
+      title: '我的',
       showTabBar: true,
-      showTopBar: true,
-      title: '志愿者',
-      tabbarItems: [
-        {
-          name: '首页',
-          icon: 'home-o',
-          to: '/volunteer'
-        },
-        {
-          name: '退出登录 ',
-          icon: 'close',
-          to: '/login'
-        }
-      ]
+      showTopBar: false
     }
   },
   {
-    path: '/register',
-    name: 'register',
-    component: () => import('@/views/register/RegisterPage.vue'),
+    path: '/study',
+    name: 'study',
+    component: () => import('@/views/study/StudyPage.vue'),
     meta: {
-      showTabBar: false,
-      showTopBar: true
+      title: '学习',
+      showTabBar: true,
+      showTopBar: false
     }
   },
   {
@@ -99,6 +79,15 @@ const routes = [
     meta: {
       showTabBar: false,
       showTopBar: false
+    }
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('@/views/TestPage.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: true
     }
   }
 ]
