@@ -47,8 +47,7 @@ const submit = async () => {
       })
       console.log(res)
       showNotify({ type: 'success', message: '注册成功' })
-      router.push('/login')
-
+      switch_login()
     } catch (e) {
       showNotify((e as Result<any>).message)
     }
@@ -149,16 +148,12 @@ const submit = async () => {
       type="password"
       placeholder="请再次输入密码"
     />
-    <van-checkbox-group
-      class="checkbox_group"
-      v-model="role"
-      :max="1"
-      direction="horizontal"
-    >
-      <van-checkbox name="VOLUNTEER">志愿者</van-checkbox>
-      <van-checkbox name="CHILD">儿童</van-checkbox>
-      <van-checkbox name="SPONSOR">捐助者</van-checkbox>
-    </van-checkbox-group>
+
+    <van-radio-group class="checkbox_group" v-model="role" direction="horizontal">
+      <van-radio name="VOLUNTEER">志愿者</van-radio>
+      <van-radio name="CHILD">儿童</van-radio>
+      <van-radio name="SPONSOR">捐助者</van-radio>
+    </van-radio-group>
   </van-cell-group>
 
   <div style="display: flex; justify-content: center">

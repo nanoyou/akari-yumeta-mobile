@@ -3,6 +3,7 @@ import {getMyTask, postTask, getAllTask, startTask} from '@/api'
 import { ref, onMounted  } from 'vue'
 import {Task, Category, Status} from '@/api/entity'
 import {showNotify} from "vant";
+import router from "@/router";
 
 const images = [
   '../../../../public/imgs/lesson1.png',
@@ -34,6 +35,10 @@ const getMy_task = () => {
         tasks.value = result;
         console.log(result);
       })
+}
+
+const check_task = (task_id) => {
+  router.push('/child/study/taskDetail/' + task_id)
 }
 
 const start_task = (task_id) => {
@@ -104,7 +109,7 @@ const submit = async () => {
 
             <template #footer>
               <van-button v-if="task.status === 'IN_PROGRESS'" @click="start_task(task.id)" size="mini">开启</van-button>
-              <van-button @click="getMy_task" size="mini">查看</van-button>
+              <van-button @click="check_task(task.id)" size="mini">查看</van-button>
 
             </template>
 

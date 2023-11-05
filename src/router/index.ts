@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 const childTabbarItems =
   [{
     name: '动态',
@@ -114,6 +115,27 @@ const routes = [
       showTabBar: true,
       showTopBar: false,
       tabbarItems: childTabbarItems
+    }
+  },
+  {
+    path: '/postDynamic',
+    name: 'post_dynamic',
+    component: () => import('@/views/child/find/PostDynamicPage.vue'),
+    meta: {
+      title: '发布动态',
+      showTabBar: false,
+      showTopBar: true,
+    }
+  },
+  {
+    path: '/child/study/taskDetail/:taskId',
+    name: 'child_study_taskDetail',
+    component: () => import('@/views/child/study/ChildTaskPage.vue'),
+    props: true,
+    meta: {
+      title: '课程详情',
+      showTabBar: false,
+      showTopBar: true
     }
   },
   {

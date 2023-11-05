@@ -51,6 +51,12 @@ export const getMyTask = async () =>
 export const getAllTask = async () =>
     (await instance.get<Task[]>('/task')).data
 
+export const getTaskDetail = async (taskID) =>
+    (await instance.get<Task>('/task/' + taskID)).data
+
+export const getTaskDynamic = async (taskID) =>
+    (await instance.get<Task>('/task/' + taskID + "/dynamic")).data
+
 export const startTask = async (taskID) =>
     (await instance.post<Result<any>>('/task/' + taskID + "/open")).data
 
