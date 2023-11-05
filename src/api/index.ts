@@ -1,7 +1,7 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
+import type { LoginUserDTO, Result, User } from './entity'
 import type {Result, Task, User} from './entity'
-import {showNotify} from "vant";
 
 const baseURL = 'http://127.0.0.1:8080'
 
@@ -14,7 +14,7 @@ instance.interceptors.request.use(
   (config) => {
     const userStore = useUserStore()
     if (userStore.token) {
-      config.headers.Authorization = userStore.token
+      config.headers.set('Akari-Yumeta-Token', userStore.token)
     }
     return config
   },
@@ -37,8 +37,7 @@ instance.interceptors.response.use(
   },
   (err) => {
     // fail
-    // console.log(err)
-    showNotify({message: 'tt'})
+    console.log(err)
   }
 )
 
@@ -61,7 +60,7 @@ export const startTask = async (taskID) =>
     (await instance.post<Result<any>>('/task/' + taskID + "/open")).data
 
 export const login = async (data: { username: string; password: string }) =>
-    (await instance.post<User>('/login', data)).data
+  (await instance.post<LoginUserDTO>('/login', data)).data
 
 export const register = async (data: {
   username: string
