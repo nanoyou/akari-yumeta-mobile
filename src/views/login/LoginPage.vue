@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import { login, register } from '@/api'
 import { showNotify } from 'vant'
 import { Role, type Result } from '@/api/entity'
+import { useUserStore } from '@/stores'
 
 const message = ref('')
 const username = ref('')
@@ -13,6 +14,7 @@ const password = ref('')
 const password_second = ref('')
 const status = ref('login')
 const show = ref(false)
+const userStore = useUserStore()
 
 const switch_register = () => {
   username.value = ''
@@ -59,7 +61,6 @@ const submit = async () => {
 
       console.log(user.role)
 
-
       if (user.role === Role.Volunteer) {
         router.push('/volunteer')
       } else if (user.role === Role.Child) {
@@ -68,6 +69,7 @@ const submit = async () => {
         router.push('/sponsor')
       }
 
+      userStore.setUserDTO(user)
       console.log(user, '登录成功')
       showNotify({
         type: 'success',
