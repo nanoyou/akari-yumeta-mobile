@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '动态',
       showTabBar: true,
-      showTopBar: true,
+      showTopBar: false,
       tabbarItems: [
         {
           name: '首页',

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
+import type { User } from '@/api/entity'
+import { Role, Gender } from '@/api/entity'
 import userCard from './user-card.vue'
 const choice = ref(true)
 const sortOrder = ref({
@@ -20,97 +22,22 @@ const checkedFollower = ref(false)
 //   { text: '重病', value: '重病' },
 //   { text: '遭遇重大灾难', value: '遭遇重大灾难' }
 // ])
-let children = ref([
-  {
-    avatarURL: '../../../public/imgs/xiaoyi.png',
-    username: '小益',
-    gender: '男',
-    introduction:
-      '肥肥胖胖是太阳，鼓鼓当当闹山岗，风风光光小路上，三个吊儿郎当',
-    tags: ['1', '2', '3']
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: [
-      '1',
-      '2',
-      '3',
-      '2',
-      '3',
-      '2',
-      '3',
-      '2',
-      '3',
-      '2',
-      '3',
-      '2',
-      '3',
-      '2',
-      '3',
-      '2',
-      '3',
-      '2',
-      '3'
-    ]
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: ['1', '2', '3']
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: ['1', '2', '3']
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: ['1', '2', '3']
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: ['1', '2', '3']
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: ['1', '2', '3']
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: ['1', '2', '3']
-  },
-  {
-    avatarURL: 'aaa',
-    username: 'aaa',
-    gender: 'aaa',
-    introduction: 'aaa',
-    tags: ['1', '2', '3']
-  }
-])
+const xiaoyi: User = {
+  avatarURL: '../../public/imgs/xiaoyi.png',
+  gender: Gender.Secret,
+  id: '123456789',
+  introduction: '肥肥胖胖是太阳，鼓鼓当当闹山岗，风风光光小路上，三个吊儿郎当',
+  nickname: '蛋筒',
+  role: Role.Child,
+  usageDuration: 3600,
+  username: '小益'
+}
+const children = ref([xiaoyi])
 </script>
 
 <template>
   <div id="navi-tab">
-    <van-tabs sticky @click="choice = !choice">
+    <van-tabs sticky @click-tab="choice = !choice">
       <van-tab title="资助儿童">
         <div id="show_children" v-show="choice">
           <span class="search-bar">
@@ -156,12 +83,9 @@ let children = ref([
             <van-list>
               <user-card
                 v-for="child in children"
-                :key="child.username"
-                :avatarURL="child.avatarURL"
-                :username="child.username"
-                :gender="child.gender"
-                :introduction="child.introduction"
-                :tags="child.tags"
+                :key="child.id"
+                :user="xiaoyi"
+                :is-followed="true"
               />
             </van-list>
           </div>

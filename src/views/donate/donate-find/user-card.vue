@@ -1,17 +1,19 @@
 <template>
   <div class="user-card">
     <div class="avatarURL-wrapper">
-      <img :src="avatarURL" alt="user avatarURL" />
+      <img :src="user.avatarURL" alt="user avatarURL" />
     </div>
     <div class="info-wrapper">
       <div class="name-wrapper">
-        <div class="username">{{ username }}</div>
-        <div class="gender">{{ gender }}</div>
+        <div class="username">{{ user.username }}</div>
+        <div class="gender">{{ checkGender }}</div>
       </div>
-      <div class="introduction van-multi-ellipsis--l2">{{ introduction }}</div>
+      <div class="introduction van-multi-ellipsis--l2">
+        {{ user.introduction }}
+      </div>
       <div class="tag-wrapper">
         <van-tag
-          v-for="(tag, index) in tags"
+          v-for="(tag, index) in user.tags"
           :key="index"
           color="#7232dd"
           plain
@@ -23,7 +25,7 @@
       </div>
     </div>
     <div class="follow-button-wrapper">
-      <van-button plain round size="small">{{
+      <van-button plain round size="small" @click="emitFollow">{{
         isFollowed ? '已关注' : '+ 关注'
       }}</van-button>
     </div>
@@ -31,15 +33,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { Gender, type User } from '@/api/entity'
 export default defineComponent({
   props: {
-    avatarURL: String,
-    username: String,
-    gender: String,
-    introduction: String,
-    tags: Array,
-    isFollowed: Boolean
+    user: {
+      type: Object as () => User, // 设置类型为User接口类型
+      required: true // 设置为必须传入的属性
+    },
+    isFollowed: { type: Boolean, required: true } // 是否关注
+  },
+  methods: {
+    emitFollow() {
+      this.$emit('followeeID', this.user.id)
+    }
+  },
+  computed: {
+    checkGender() {
+      if (this.user.gender == Gender.Female) {
+        return '女'
+      } else if (this.user.gender == Gender.Male) {
+        return '男'
+      } else {
+        return '未知'
+      }
+    }
   }
 })
 </script>
