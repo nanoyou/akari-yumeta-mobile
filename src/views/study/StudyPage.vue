@@ -2,10 +2,10 @@
 import { ref } from 'vue'
 import { Swipe, SwipeItem } from 'vant'
 const images = [
-  '../../../../public/imgs/lesson1.png',
-  '../../../../public/imgs/lesson2.png',
-  '../../../../public/imgs/lesson3.png',
-  '../../../../public/imgs/lesson4.png'
+  '/imgs/lesson1.png',
+  '/imgs/lesson2.png',
+  '/imgs/lesson3.png',
+  '/imgs/lesson4.png'
 ]
 </script>
 

@@ -84,7 +84,7 @@ const submit = async () => {
 
 <template>
   <div class="img_container">
-    <van-image src="../../../public/imgs/xiaoyi.png" class="logo"></van-image>
+    <van-image src="/imgs/xiaoyi.png" class="logo"></van-image>
   </div>
   <div style="display: flex; justify-content: center">
     <div style="width: 50%">
