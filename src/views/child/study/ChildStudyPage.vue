@@ -1,31 +1,64 @@
 <script setup lang="ts">
-import {getMyTask, postTask, getTask} from '@/api'
-import { ref } from 'vue'
+import {getMyTask, postTask, getAllTask, startTask} from '@/api'
+import { ref, onMounted  } from 'vue'
+import {Task, Category, Status} from '@/api/entity'
+import {showNotify} from "vant";
 
-const active = ref('')
 const images = [
   '../../../../public/imgs/lesson1.png',
   '../../../../public/imgs/lesson2.png',
   '../../../../public/imgs/lesson3.png',
   '../../../../public/imgs/lesson4.png',
 ];
-
 const TaskCategory = ['农业', '牧业', '语言', '科学', '卫生', '社会', '历史', '政治']
+const active = ref('')
+const tasks = ref<Task[]>([]);
 
+onMounted(async () => {
+  getAllTask()
+      .then((result) => {
+        tasks.value = result;
+        console.log(result);
+      })
 
-getTask().then((result) => {
-  console.log(result)
-})
+  getMyTask()
+      .then((result) => {
+        tasks.value = result;
+        console.log(result);
+      })
+});
+
+const getMy_task = () => {
+  getMyTask()
+      .then((result) => {
+        tasks.value = result;
+        console.log(result);
+      })
+}
+
+const start_task = (task_id) => {
+  try {
+    startTask(task_id).then((res) => {
+      if (res !== null) {
+        showNotify({ type: 'success', message: '开启成功' })
+      }
+      console.log(res)
+    })
+
+  } catch (e) {
+
+  }
+}
 
 const submit = async () => {
   const res = await postTask({
-    taskName: "string",
+    taskName: "课程222",
     taskUploaderID: "string",
     startTime: "1111-11-11 11:11:11",
-    endTime: "1111-11-11 11:11:11",
-    description: "string",
-    category: "AGRICULTURE",
-    bonus: 0,
+    endTime: "2222-11-11 11:11:11",
+    description: "阿珂is崇拜水彩笔八十次八次阿萨本次阿爸上次阿不擦啊擦拭擦拭擦拭擦拭擦拭擦擦",
+    category: "HYGIENE",
+    bonus: 10,
     videoURL: "string"
   })
   console.log(res)
@@ -47,6 +80,7 @@ const submit = async () => {
       <van-cell
           v-for="(category, index) in TaskCategory"
           :key="index"
+          @click="submit"
           class="custom-cell"
           :title="category"
       />
@@ -55,24 +89,40 @@ const submit = async () => {
 
   <div>
     <van-tabs v-model:active="active">
-      <van-tab title="我的学习"></van-tab>
-      <van-tab title="所有课程"></van-tab>
-    </van-tabs>
+      <van-tab title="所有课程">
+        <div v-for="(task, index) in tasks">
+          <van-card
+              :tag="'积分：' + task.bonus "
+              :desc="task.description"
+              :title="task.taskName"
+              :thumb="`../../../../public/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
+          >
+            <template #tags>
+              <van-tag plain type="primary">{{ Category[task.category] }}</van-tag>
+              <van-tag plain type="primary">{{ Status[task.status] }}</van-tag>
+            </template>
 
-    <van-card
-        desc="描述信息"
-        title="商品标题"
-        thumb="https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg"
-    >
-      <template #tags>
-        <van-tag plain type="primary">标签</van-tag>
-        <van-tag plain type="primary">标签</van-tag>
-      </template>
-      <template #footer>
-        <van-button size="mini">按钮</van-button>
-        <van-button size="mini">按钮</van-button>
-      </template>
-    </van-card>
+            <template #footer>
+              <van-button v-if="task.status === 'IN_PROGRESS'" @click="start_task(task.id)" size="mini">开启</van-button>
+              <van-button @click="getMy_task" size="mini">查看</van-button>
+
+            </template>
+
+            <template #bottom>
+              <div>
+                <div>开始时间：{{ task.startTime }}</div>
+                <div>结束时间：{{ task.endTime }}</div>
+              </div>
+            </template>
+          </van-card>
+        </div>
+      </van-tab>
+      <van-tab title="我的学习">
+
+      </van-tab>
+    </van-tabs>
+    <div style="height: 50px"></div>
+
   </div>
 
 </template>

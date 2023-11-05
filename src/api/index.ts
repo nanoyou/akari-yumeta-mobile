@@ -1,6 +1,7 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
 import type {Result, Task, User} from './entity'
+import {showNotify} from "vant";
 
 const baseURL = 'http://127.0.0.1:8080'
 
@@ -36,21 +37,25 @@ instance.interceptors.response.use(
   },
   (err) => {
     // fail
-    console.log(err)
+    // console.log(err)
+    showNotify({message: 'tt'})
   }
 )
 
 export default instance
 // export { baseURL }
 
-export const login = async (data: { username: string; password: string }) =>
-  (await instance.post<User>('/login', data)).data
-
 export const getMyTask = async () =>
-    (await instance.get<User>('/my/task')).data
+    (await instance.get<Task[]>('/my/task')).data
 
-export const getTask = async () =>
-    (await instance.get<Task>('/task')).data
+export const getAllTask = async () =>
+    (await instance.get<Task[]>('/task')).data
+
+export const startTask = async (taskID) =>
+    (await instance.post<Result<any>>('/task/' + taskID + "/open")).data
+
+export const login = async (data: { username: string; password: string }) =>
+    (await instance.post<User>('/login', data)).data
 
 export const register = async (data: {
   username: string

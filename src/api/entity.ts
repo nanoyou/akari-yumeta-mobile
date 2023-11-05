@@ -4,46 +4,7 @@ export interface Result<T> {
   message: string
   data: T
 }
-export interface Task {
-  /**
-   * 奖励积分，任务完成给予的积分数
-   */
-  bonus: number;
-  /**
-   * 任务类别
-   */
-  category: Category;
-  /**
-   * 任务创建时间，课程任务一旦被确认上传的时间
-   */
-  createdTime: string;
-  /**
-   * 任务描述
-   */
-  description: string;
-  /**
-   * 任务结束时间
-   */
-  endTime: string;
-  id: string;
-  /**
-   * 任务开始时间
-   */
-  startTime: string;
-  /**
-   * 任务状态，详见枚举
-   */
-  status: Status;
-  /**
-   * 任务名称
-   */
-  taskName: string;
-  /**
-   * 任务发布人ID
-   */
-  taskUploaderID: string;
-  [property: string]: any;
-}
+
 /**
  * User
  */
@@ -104,4 +65,71 @@ export enum Role {
   Child = 'CHILD',
   Sponsor = 'SPONSOR',
   Volunteer = 'VOLUNTEER'
+}
+
+/**
+ * Task
+ */
+export interface Task {
+  /**
+   * 奖励积分，任务完成给予的积分数
+   */
+  bonus: number;
+  /**
+   * 任务类别
+   */
+  category: Category;
+  /**
+   * 任务创建时间，课程任务一旦被确认上传的时间
+   */
+  createdTime: string;
+  /**
+   * 任务描述
+   */
+  description: string;
+  /**
+   * 任务结束时间
+   */
+  endTime: string;
+  id:      string;
+  /**
+   * 任务开始时间
+   */
+  startTime: string;
+  /**
+   * 任务状态，详见枚举
+   */
+  status: Status;
+  /**
+   * 任务名称
+   */
+  taskName: string;
+  /**
+   * 任务发布人ID
+   */
+  taskUploaderID: string;
+  [property: string]: any;
+}
+
+/**
+ * 任务类别
+ */
+export enum Category {
+  'AGRICULTURE' = "农业",
+  "ANIMAL_HUSBANDRY" = "牧业",
+  "HISTORY" = "历史",
+  "HYGIENE" = "卫生",
+  "LANGUAGE" = "语言",
+  "POLITICS" = "政治",
+  "SCIENCE" = "科学",
+  "SOCIETY" = "社会",
+}
+
+/**
+ * 任务状态，详见枚举
+ */
+export enum Status {
+  "FINISHED" = "已结束",
+  "IN_PROGRESS" = "进行中",
+  "NOT_STARTED" = "未开始",
 }
