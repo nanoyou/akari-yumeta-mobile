@@ -4,7 +4,11 @@ import donateHistoryCard0 from '../../views/donate/donate_my/donateHistoryCard0.
 
 <template>
   <h1>Home</h1>
-    <donateHistoryCard0/> //用于测试，合并可删
+  <div class="ttt">aaa</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.ttt {
+  height: 800px;
+}
+</style>
