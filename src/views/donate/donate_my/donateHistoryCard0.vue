@@ -2,12 +2,13 @@
 import { useUserStore } from '../../../stores/modules/user'
 import { ref } from 'vue'
 import axios from 'axios'
+import { getCurrentInstance } from 'vue'
 
 const userStore = useUserStore()
 userStore.setID('12313131313')
 let userID = userStore.ID
 let resultData = ref(null) // 使用 ref 创建响应式的 resultData
-
+const instance = getCurrentInstance()
 console.log(userID) // 打印UserID
 
 if (userID) {
@@ -15,6 +16,8 @@ if (userID) {
 
   axios
     .get(`https://mock.apifox.com/m1/3503500-0-default/donate/${userID}/info`, {
+      //改为自己的接口地址即可，现在是apifox的mock地址
+      method: 'get',
       params: {
         userID: userID
       }
@@ -30,7 +33,18 @@ if (userID) {
 } else {
   console.log('用户未登录')
 }
+
+const handleButtonClick = () => {
+  console.log('按钮被点击了！')
+
+  console.log(instance)
+  if (instance) {
+    console.log('子组件：触发自定义的 navigate 事件')
+    instance.emit('navigate') // 触发自定义的 navigate 事件
+  }
+}
 </script>
+<!-- 模板部分略去 -->
 <template>
   <div class="card-component" style="background-color: #fdedec">
     <!-- 模板内容 -->
@@ -84,7 +98,9 @@ if (userID) {
         align-items: center;
       "
     >
-      <van-button type="primary" round center> 查看详细 </van-button>
+      <van-button type="primary" round center @click="handleButtonClick">
+        查看详细
+      </van-button>
     </div>
   </div>
 </template>

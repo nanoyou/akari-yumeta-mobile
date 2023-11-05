@@ -137,9 +137,27 @@ const routes = [
     }
   },
   {
-    path: '/testCard0',
-    name: 'donate',
+    path: '/testCard0', //有用，别删
+    name: 'donate@1231313',
     component: () => import('@/views/donate/donate_my/donateHistoryCard0.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/testMy', //有用，别删
+    name: 'donate@5243241',
+    component: () => import('@/views/donate/donate_my/my.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/testDonateHistory',
+    name: 'donate@45353',
+    component: () => import('@/views/donate/donate_my/DonateHistory.vue'),
     meta: {
       showTabBar: false,
       showTopBar: false
