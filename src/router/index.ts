@@ -21,7 +21,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/chat/ChatPage.vue'),
     meta: {
       showTabBar: true,
-      showTopBar: false,
+      showTopBar: true,
       title: '聊天'
     }
   },
@@ -62,6 +62,15 @@ const routes: RouteRecordRaw[] = [
     meta: {
       showTabBar: false,
       showTopBar: false
+    }
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('@/views/TestPage.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: true
     }
   }
 ]
