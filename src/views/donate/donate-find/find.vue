@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import type { User } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
 import userCard from './user-card.vue'
+import { Tag } from 'vant'
 const choice = ref(true)
 const sortOrder = ref({
   value: 0,
@@ -30,9 +31,11 @@ const xiaoyi: User = {
   nickname: '蛋筒',
   role: Role.Child,
   usageDuration: 3600,
-  username: '小益'
+  username: '小益',
+  tags: ['hh', 'heihei', 'yy', 'ss']
 }
 const children = ref([xiaoyi])
+const isFollowed = ref(true)
 </script>
 
 <template>
@@ -85,7 +88,8 @@ const children = ref([xiaoyi])
                 v-for="child in children"
                 :key="child.id"
                 :user="xiaoyi"
-                :is-followed="true"
+                :is-followed="isFollowed"
+                @follow="!isFollowed"
               />
             </van-list>
           </div>

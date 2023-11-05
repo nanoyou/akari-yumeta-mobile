@@ -45,7 +45,7 @@ export default defineComponent({
   },
   methods: {
     emitFollow() {
-      this.$emit('followeeID', this.user.id)
+      this.$emit('follow', this.user.id)
     }
   },
   computed: {
