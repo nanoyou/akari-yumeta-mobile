@@ -24,9 +24,13 @@ instance.interceptors.response.use(
   (res: AxiosResponse<Result<any>>) => {
     console.log(res)
     if (res.status === 200) {
-      return res
+      if (res.data.ok) {
+        res.data = res.data.data
+        return Promise.resolve(res)
+      } else {
+        return Promise.reject(res.data)
+      }
     }
-    
     // fail
     return Promise.reject(res.data)
   },
@@ -39,19 +43,13 @@ instance.interceptors.response.use(
 export default instance
 // export { baseURL }
 
-
-
-export const login = async (data: {
-    username: string,
-    password: string,
-}) => (await instance.post('/login', data)).data
+export const login = async (data: { username: string; password: string }) =>
+  (await instance.post<User>('/login', data)).data
 
 export const register = async (data: {
-  username: string,
-  nickname: string,
-  role: string,
-  password: string,
-  gender: string,
+  username: string
+  nickname: string
+  role: string
+  password: string
+  gender: string
 }) => (await instance.post<User>('/register', data)).data
-
-

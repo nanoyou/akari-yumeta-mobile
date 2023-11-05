@@ -1,4 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
+const childTabbarItems =
+  [{
+    name: '动态',
+    icon: 'star-o',
+    to: '/child/find'
+  },
+  {
+    name: '学习',
+    icon: 'records-o',
+    to: '/child/study'
+  },
+  {
+  name: '聊天',
+  icon: 'chat-o',
+  to: '/child/chat'
+  },
+  {
+    name: '我的',
+    icon: 'home-o',
+    to: '/child/my'
+  }]
 
 const routes = [
   {
@@ -6,33 +27,6 @@ const routes = [
     name: 'layout',
     redirect: '/login',
     component: () => import('@/views/layout/LayoutContainer.vue')
-  },
-  {
-    path: '/child',
-    name: 'child',
-    component: () => import('@/views/child/ChildHomePage.vue'),
-    meta: {
-      showTabBar: true,
-      showTopBar: true,
-      title: '儿童',
-      tabbarItems: [
-        {
-          name: '首页',
-          icon: 'home-o',
-          to: '/child'
-        },
-        {
-          name: '页面2',
-          icon: 'home-o',
-          to: '/sponsor'
-        },
-        {
-          name: '页面3 ',
-          icon: 'home-o',
-          to: '/volunteer'
-        }
-      ]
-    }
   },
   {
     path: '/sponsor',
@@ -79,10 +73,55 @@ const routes = [
     }
   },
   {
+    path: '/child/chat',
+    name: 'child_chat',
+    component: () => import('@/views/child/chat/ChildChatPage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: false,
+      title: '聊天',
+      tabbarItems: childTabbarItems
+    }
+  },
+  {
+    path: '/child/find',
+    name: 'child_find',
+    component: () => import('@/views/child/find/ChildFindPage.vue'),
+    meta: {
+      title: '动态',
+      showTabBar: true,
+      showTopBar: false,
+      tabbarItems: childTabbarItems
+    }
+  },
+  {
+    path: '/child/my',
+    name: 'child_my',
+    component: () => import('@/views/child/my/ChildMyPage.vue'),
+    meta: {
+      title: '个人中心',
+      showTabBar: true,
+      showTopBar: false,
+      tabbarItems: childTabbarItems
+    }
+  },
+  {
+    path: '/child/study',
+    name: 'child_study',
+    component: () => import('@/views/child/study/ChildStudyPage.vue'),
+    meta: {
+      title: '学习',
+      showTabBar: true,
+      showTopBar: false,
+      tabbarItems: childTabbarItems
+    }
+  },
+  {
     path: '/register',
     name: 'register',
     component: () => import('@/views/register/RegisterPage.vue'),
     meta: {
+      title: '注册',
       showTabBar: false,
       showTopBar: true
     }

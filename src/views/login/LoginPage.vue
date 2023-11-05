@@ -1,78 +1,181 @@
 <script setup lang="ts">
 import router from '@/router'
-import { ref } from 'vue';
-import {login} from "@/api";
+import { ref } from 'vue'
+import { login, register } from '@/api'
+import { showNotify } from 'vant'
+import { Role, type Result } from '@/api/entity'
 
-const username = ref('');
-const password = ref('');
-const message = ref('');
-const show = ref(false);
+const message = ref('')
+const username = ref('')
+const nickname = ref('')
+const role = ref([])
+const password = ref('')
+const password_second = ref('')
+const status = ref('login')
+const show = ref(false)
 
-// const login = () => {
-//   router.push('/home')
-// }
-const register = () => {
-  router.push('/register')
+const switch_register = () => {
+  username.value = ''
+  password.value = ''
+  nickname.value = ''
+  role.value = []
+  password_second.value = ''
+  status.value = 'register'
 }
-const userLogin = async () => {
-  // router.push('/home')
-  
-  try {
-    const user = await login({
-      username: username.value,
-      password: password.value,
-    })
 
-    console.log(user, '登录成功')
-
-    console.log(user.data.role)
-
-    if (user.data.role === "志愿者") {
-      router.push('/volunteer')
-    } else if (user.data.role === '儿童') {
-      router.push('/child')
-    } else if (user.data.role === '捐助者') {
-      router.push('/sponsor')
+const switch_login = () => {
+  username.value = ''
+  password.value = ''
+  status.value = 'login'
+}
+const submit = async () => {
+  if (status.value === 'register') {
+    if (password.value != password_second.value) {
+      showNotify('两次输入密码不一致')
+      return
     }
+    const res = await register({
+      username: username.value,
+      nickname: nickname.value,
+      password: password.value,
+      role: role.value[0],
+      gender: 'SECRET'
+    })
+    console.log(res)
+    if (res.code) {
+      showNotify(res.message)
+    } else {
+      showNotify({ type: 'success', message: '注册成功' })
+      router.push('/login')
+    }
+  } else {
+    try {
+      const user = await login({
+        username: username.value,
+        password: password.value
+      })
 
-    console.log(user, '登录成功')
-  } catch (e) {
-    message.value = e.message
-    show.value = true;
-    setTimeout(() => {
-      show.value = false;
-    }, 2000);
+      console.log(user, '登录成功')
+
+      console.log(user.role)
+
+
+      if (user.role === Role.Volunteer) {
+        router.push('/volunteer')
+      } else if (user.role === Role.Child) {
+        router.push('/child/find')
+      } else if (user.role === Role.Sponsor) {
+        router.push('/sponsor')
+      }
+
+      console.log(user, '登录成功')
+      showNotify({
+        type: 'success',
+        message: '登录成功'
+      })
+    } catch (e) {
+      message.value = (e as Result<any>).message
+
+      show.value = true
+      setTimeout(() => {
+        show.value = false
+      }, 2000)
+    }
   }
-
-
-
 }
 </script>
 
 <template>
-  <van-notify v-model:show="show" type="danger">
-    <van-icon name="bell" style="margin-right: 4px;" />
-    <span>{{ message }}</span>
-  </van-notify>
   <div class="img_container">
     <van-image src="../../../public/imgs/xiaoyi.png" class="logo"></van-image>
   </div>
-  <!-- 可以使用 CellGroup 作为容器 -->
-  <van-cell-group inset class="input_container">
+  <div style="display: flex; justify-content: center">
+    <div style="width: 50%">
+      <div class="button_container">
+        <van-action-bar-button
+          plain
+          @click="switch_login"
+          type="primary"
+          class="login_button"
+          text="登录"
+        />
+        <van-action-bar-button
+          plain
+          @click="switch_register"
+          type="primary"
+          class="register_button"
+          text="注册"
+        />
+      </div>
+    </div>
+  </div>
+
+  <van-cell-group v-if="status === 'login'" inset class="input_container">
     <van-field v-model="username" label="用户名" placeholder="请输入用户名" />
-    <van-field v-model="password" label="密码" type="password" placeholder="请输入密码" />
+    <van-field
+      v-model="password"
+      label="密码"
+      type="password"
+      placeholder="请输入密码"
+    />
   </van-cell-group>
 
-  <div class="button_container">
-    <van-button type="primary" class="login_button" @click="userLogin">登录</van-button>
-    <div style="width: 30px"></div>
-    <van-button type="primary" class="login_button" @click="register">注册</van-button>
+  <van-cell-group v-if="status === 'register'" inset class="input_container">
+    <van-field
+      v-model="username"
+      class="input"
+      label="用户名"
+      placeholder="请输入用户名"
+    />
+    <van-field
+      v-model="nickname"
+      class="input"
+      label="昵称"
+      placeholder="请输入昵称"
+    />
+    <van-field
+      v-model="password"
+      class="input"
+      label="密码"
+      type="password"
+      placeholder="请输入密码"
+    />
+    <van-field
+      v-model="password_second"
+      class="input"
+      label="确认密码"
+      type="password"
+      placeholder="请再次输入密码"
+    />
+    <van-checkbox-group
+      class="checkbox_group"
+      v-model="role"
+      :max="1"
+      direction="horizontal"
+    >
+      <van-checkbox name="VOLUNTEER">志愿者</van-checkbox>
+      <van-checkbox name="CHILD">儿童</van-checkbox>
+      <van-checkbox name="SPONSOR">捐助者</van-checkbox>
+    </van-checkbox-group>
+  </van-cell-group>
+
+  <div style="display: flex; justify-content: center">
+    <div style="width: 50%">
+      <div class="button_container">
+        <van-action-bar-button
+          @click="submit"
+          type="primary"
+          class="submit_button"
+          :text="status.valueOf() === 'login' ? '登录' : '注册'"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .logo {
-  width: 70%;
+  width: 40%;
 }
 .img_container {
   margin-top: 30px;
@@ -80,7 +183,7 @@ const userLogin = async () => {
   justify-content: center;
 }
 .input_container {
-  margin-top: 40px;
+  margin-top: 10px;
 }
 .button_container {
   margin-top: 30px;
@@ -88,8 +191,20 @@ const userLogin = async () => {
   display: flex;
 }
 .login_button {
-  width: 80px;
-  border-radius: 20px;
-  font-weight: bold;
+  border-radius: 20px 0px 0px 20px;
+}
+.register_button {
+  border-radius: 0px 20px 20px 0px;
+}
+.submit_button {
+  border-radius: 20px 20px 20px 20px;
+}
+.input {
+  margin-top: 10px;
+}
+.checkbox_group {
+  justify-content: center;
+  display: flex;
+  margin-top: 30px;
 }
 </style>
