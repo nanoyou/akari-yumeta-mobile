@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-const childTabbarItems =
-  [{
+const childTabbarItems = [
+  {
     name: '动态',
     icon: 'star-o',
     to: '/child/find'
@@ -11,15 +11,16 @@ const childTabbarItems =
     to: '/child/study'
   },
   {
-  name: '聊天',
-  icon: 'chat-o',
-  to: '/child/chat'
+    name: '聊天',
+    icon: 'chat-o',
+    to: '/child/chat'
   },
   {
     name: '我的',
     icon: 'home-o',
     to: '/child/my'
-  }]
+  }
+]
 
 const routes = [
   {
@@ -130,6 +131,15 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/LoginPage.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/testCard0',
+    name: 'donate',
+    component: () => import('@/views/donate/donate_my/donateHistoryCard0.vue'),
     meta: {
       showTabBar: false,
       showTopBar: false
