@@ -1,6 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
-const childTabbarItems =
-  [{
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+declare module 'vue-router' {
+  interface RouteMeta {
+    showTabBar: boolean
+    showTopBar: boolean
+    title?: string
+  }
+}
+const childTabbarItems = [
+  {
     name: '动态',
     icon: 'star-o',
     to: '/child/find'
@@ -11,22 +18,24 @@ const childTabbarItems =
     to: '/child/study'
   },
   {
-  name: '聊天',
-  icon: 'chat-o',
-  to: '/child/chat'
+    name: '聊天',
+    icon: 'chat-o',
+    to: '/child/chat'
   },
   {
     name: '我的',
     icon: 'home-o',
     to: '/child/my'
-  }]
+  }
+]
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'layout',
     redirect: '/login',
-    component: () => import('@/views/layout/LayoutContainer.vue')
+    component: () => import('@/views/layout/LayoutContainer.vue'),
+    children: []
   },
   {
     path: '/sponsor',
@@ -90,8 +99,8 @@ const routes = [
     meta: {
       title: '动态',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: childTabbarItems
+      showTopBar: false
+      // tabbarItems: childTabbarItems
     }
   },
   {
@@ -101,8 +110,8 @@ const routes = [
     meta: {
       title: '个人中心',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: childTabbarItems
+      showTopBar: false
+      // tabbarItems: childTabbarItems
     }
   },
   {
@@ -112,18 +121,8 @@ const routes = [
     meta: {
       title: '学习',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: childTabbarItems
-    }
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import('@/views/register/RegisterPage.vue'),
-    meta: {
-      title: '注册',
-      showTabBar: false,
-      showTopBar: true
+      showTopBar: false
+      // tabbarItems: childTabbarItems
     }
   },
   {

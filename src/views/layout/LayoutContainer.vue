@@ -1,12 +1,15 @@
 <script setup lang="ts">
-const onClickLeft = () => history.back();
+import { useRoute } from 'vue-router'
+
+const onClickLeft = () => history.back()
+const route = useRoute()
 </script>
 
 <template>
   <div class="container-layout">
     <van-nav-bar
-      v-if="$route.meta.showTopBar"
-      :title="$route.meta.title"
+      v-if="route.meta.showTopBar"
+      :title="route.meta.title"
       left-text="返回"
       @click-left="onClickLeft"
       left-arrow
