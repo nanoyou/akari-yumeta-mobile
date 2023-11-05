@@ -18,10 +18,7 @@ const route = useRoute()
 
     <router-view></router-view>
 
-    <TabbarComponent
-      v-if="$route.meta.showTabBar"
-      :tabbarItems="$route.meta.tabbarItems"
-    ></TabbarComponent>
+    <TabbarComponent v-if="$route.meta.showTabBar"></TabbarComponent>
   </div>
 </template>
 

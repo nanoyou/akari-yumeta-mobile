@@ -61,13 +61,8 @@ const submit = async () => {
 
       console.log(user.role)
 
-      if (user.role === Role.Volunteer) {
-        router.push('/volunteer')
-      } else if (user.role === Role.Child) {
-        router.push('/child/find')
-      } else if (user.role === Role.Sponsor) {
-        router.push('/sponsor')
-      }
+      // 聊天界面三个角色共有，进入相同页面
+      router.push('/chat')
 
       userStore.setUserDTO(user)
       console.log(user, '登录成功')
