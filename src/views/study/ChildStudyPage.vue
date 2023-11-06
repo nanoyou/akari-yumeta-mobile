@@ -1,36 +1,43 @@
 <script setup lang="ts">
-import {getMyTask, postTask, getAllTask, startTask} from '@/api'
-import { ref, onMounted  } from 'vue'
-import {Task, Category, Status} from '@/api/entity'
-import {showNotify} from "vant";
-import router from "@/router";
+import { getMyTask, postTask, getAllTask, startTask } from '@/api'
+import { ref, onMounted } from 'vue'
+import { Task, Category, Status } from '@/api/entity'
+import { showNotify } from 'vant'
+import router from '@/router'
 
 const images = [
   '/imgs/lesson1.png',
-  'imgs/lesson2.png',
+  '/imgs/lesson2.png',
   '/imgs/lesson3.png',
-  '/imgs/lesson4.png',
-];
+  '/imgs/lesson4.png'
+]
 
-const TaskCategory = ['农业', '牧业', '语言', '科学', '卫生', '社会', '历史', '政治']
+const TaskCategory = [
+  '农业',
+  '牧业',
+  '语言',
+  '科学',
+  '卫生',
+  '社会',
+  '历史',
+  '政治'
+]
 const active = ref('')
-const allTasks = ref<Task[]>([]);
-const myTasks = ref<Task[]>([]);
-let is_select = ref(Array(8).fill(0));
+const allTasks = ref<Task[]>([])
+const myTasks = ref<Task[]>([])
+let is_select = ref(Array(8).fill(0))
 
 onMounted(async () => {
-  getAllTask()
-      .then((result) => {
-        allTasks.value = result;
-        console.log(allTasks.value);
-      })
+  getAllTask().then((result) => {
+    allTasks.value = result
+    console.log(allTasks.value)
+  })
 
-  getMyTask()
-      .then((result) => {
-        myTasks.value = result;
-        console.log(myTasks.value);
-      })
-});
+  getMyTask().then((result) => {
+    myTasks.value = result
+    console.log(myTasks.value)
+  })
+})
 
 const check_task = (task_id) => {
   router.push('/study/taskDetail/' + task_id)
@@ -44,21 +51,18 @@ const start_task = (task_id) => {
       }
       console.log(res)
     })
-
-  } catch (e) {
-
-  }
+  } catch (e) {}
 }
 
 const submit = async () => {
   const res = await postTask({
-    taskName: "食品安全",
-    startTime: "1111-11-11 11:11:11",
-    endTime: "2222-11-11 11:11:11",
-    description: "浙江大学、北京大学、中国农业大学等13校/跨校共建",
-    category: "HYGIENE",
+    taskName: '食品安全',
+    startTime: '1111-11-11 11:11:11',
+    endTime: '2222-11-11 11:11:11',
+    description: '浙江大学、北京大学、中国农业大学等13校/跨校共建',
+    category: 'HYGIENE',
     bonus: 10,
-    videoURL: "https://www.icourse163.org/"
+    videoURL: 'https://www.icourse163.org/'
   })
   console.log(res)
 }
@@ -67,7 +71,6 @@ const select_tag = (index: number) => {
   submit()
   is_select.value[index] = 1 - is_select.value[index]
 }
-
 </script>
 
 <template>
@@ -77,86 +80,102 @@ const select_tag = (index: number) => {
     </van-swipe-item>
   </van-swipe>
   <div>
-    <div class="task-category">
-      任务分类
-    </div>
-    <div style="display: flex;justify-content: center">
+    <div class="task-category">任务分类</div>
+    <div style="display: flex; justify-content: center">
       <div class="tag-container">
         <div
-            v-for="(category, index) in TaskCategory"
-            :key="index"
-            @click="select_tag(index)"
-            :class="is_select[index] === 1 ? 'custom_tag_active' : 'custom_tag'">
+          v-for="(category, index) in TaskCategory"
+          :key="index"
+          @click="select_tag(index)"
+          :class="is_select[index] === 1 ? 'custom_tag_active' : 'custom_tag'"
+        >
           {{ category }}
         </div>
       </div>
     </div>
-
   </div>
 
   <div>
     <van-tabs v-model:active="active">
       <van-tab title="所有课程">
-          <div v-for="(task, index) in allTasks">
-            <van-card
-                :tag="'积分：' + task.bonus "
-                :desc="task.description"
-                :title="task.taskName"
-                :thumb="`../../../../public/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
-            >
-              <template #tags>
-                <van-tag plain type="primary">{{ Category[task.category] }}</van-tag>
-                <van-tag plain type="primary">{{ Status[task.status] }}</van-tag>
-              </template>
+        <div v-for="(task, index) in allTasks" :key="task.id">
+          <van-card
+            :tag="'积分：' + task.bonus"
+            :desc="task.description"
+            :title="task.taskName"
+            :thumb="`../../../../public/imgs/task${
+              Math.floor(Math.random() * 6) + 1
+            }.png`"
+          >
+            <template #tags>
+              <van-tag plain type="primary">{{
+                Category[task.category]
+              }}</van-tag>
+              <van-tag plain type="primary">{{ Status[task.status] }}</van-tag>
+            </template>
 
-              <template #footer>
-                <van-button v-if="task.status === 'IN_PROGRESS'" @click="start_task(task.id)" size="mini">开启</van-button>
-                <van-button @click="check_task(task.id)" size="mini">查看</van-button>
+            <template #footer>
+              <van-button
+                v-if="task.status === 'IN_PROGRESS'"
+                @click="start_task(task.id)"
+                size="mini"
+                >开启</van-button
+              >
+              <van-button @click="check_task(task.id)" size="mini"
+                >查看</van-button
+              >
+            </template>
 
-              </template>
-
-              <template #bottom>
-                <div>
-                  <div>开始时间：{{ task.startTime }}</div>
-                  <div>结束时间：{{ task.endTime }}</div>
-                </div>
-              </template>
-            </van-card>
-          </div>
+            <template #bottom>
+              <div>
+                <div>开始时间：{{ task.startTime }}</div>
+                <div>结束时间：{{ task.endTime }}</div>
+              </div>
+            </template>
+          </van-card>
+        </div>
       </van-tab>
       <van-tab title="我的学习">
-          <div v-for="(task, index) in myTasks">
-            <van-card
-                :tag="'积分：' + task.bonus "
-                :desc="task.description"
-                :title="task.taskName"
-                :thumb="`../../../../public/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
-            >
-              <template #tags>
-                <van-tag plain type="primary">{{ Category[task.category] }}</van-tag>
-                <van-tag plain type="primary">{{ Status[task.status] }}</van-tag>
-              </template>
+        <div v-for="(task, index) in myTasks">
+          <van-card
+            :tag="'积分：' + task.bonus"
+            :desc="task.description"
+            :title="task.taskName"
+            :thumb="`../../../../public/imgs/task${
+              Math.floor(Math.random() * 6) + 1
+            }.png`"
+          >
+            <template #tags>
+              <van-tag plain type="primary">{{
+                Category[task.category]
+              }}</van-tag>
+              <van-tag plain type="primary">{{ Status[task.status] }}</van-tag>
+            </template>
 
-              <template #footer>
-                <van-button v-if="task.status === 'IN_PROGRESS'" @click="start_task(task.id)" size="mini">开启</van-button>
-                <van-button @click="check_task(task.id)" size="mini">查看</van-button>
+            <template #footer>
+              <van-button
+                v-if="task.status === 'IN_PROGRESS'"
+                @click="start_task(task.id)"
+                size="mini"
+                >开启</van-button
+              >
+              <van-button @click="check_task(task.id)" size="mini"
+                >查看</van-button
+              >
+            </template>
 
-              </template>
-
-              <template #bottom>
-                <div>
-                  <div>开始时间：{{ task.startTime }}</div>
-                  <div>结束时间：{{ task.endTime }}</div>
-                </div>
-              </template>
-            </van-card>
-          </div>
+            <template #bottom>
+              <div>
+                <div>开始时间：{{ task.startTime }}</div>
+                <div>结束时间：{{ task.endTime }}</div>
+              </div>
+            </template>
+          </van-card>
+        </div>
       </van-tab>
     </van-tabs>
     <div style="height: 50px"></div>
-
   </div>
-
 </template>
 
 <style scoped>
@@ -195,7 +214,9 @@ const select_tag = (index: number) => {
   padding: 5px 20px;
   margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   font-weight: bold;
@@ -210,7 +231,9 @@ const select_tag = (index: number) => {
   padding: 5px 20px;
   margin: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   font-weight: bold;
@@ -220,5 +243,4 @@ const select_tag = (index: number) => {
 .custom_tag_acitve:hover {
   background-color: #2980b9;
 }
-
 </style>
