@@ -132,5 +132,6 @@ const handleButtonClick = () => {
 }
 .red-text {
   color: red; /* 设置文本颜色为红色 */
+  font-size: 1.7em;
 }
 </style>
