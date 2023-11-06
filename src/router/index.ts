@@ -18,15 +18,16 @@ const childTabbarItems = [
     to: '/dynamic/study'
   },
   {
-  name: '聊天',
-  icon: 'chat-o',
-  to: '/dynamic/chat'
+    name: '聊天',
+    icon: 'chat-o',
+    to: '/dynamic/chat'
   },
   {
     name: '我的',
     icon: 'home-o',
     to: '/dynamic/my'
-  }]
+  }
+]
 
 const routes: RouteRecordRaw[] = [
   {
@@ -98,8 +99,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '动态',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: childTabbarItems
+      showTopBar: false
     }
   },
   {
@@ -132,7 +132,7 @@ const routes: RouteRecordRaw[] = [
     meta: {
       title: '发布动态',
       showTabBar: false,
-      showTopBar: true,
+      showTopBar: true
     }
   },
   {
@@ -142,16 +142,6 @@ const routes: RouteRecordRaw[] = [
     props: true,
     meta: {
       title: '课程详情',
-      showTabBar: false,
-      showTopBar: true
-    }
-  },
-  {
-    path: '/register',
-    name: 'register',
-    component: () => import('@/views/register/RegisterPage.vue'),
-    meta: {
-      title: '注册',
       showTabBar: false,
       showTopBar: true
     }
