@@ -1,13 +1,18 @@
 <script setup lang="ts">
   import {ref} from "vue";
+  import router from "@/router";
 
   const search_value = ref("")
+
+  const to_my = () => {
+    router.push("/my")
+  }
 </script>
 
 <template>
   <div class="head_container">
     <div class="user_info_container">
-      <img class="user_photo" src="/imgs/xiaoyi.png" alt="">
+      <img @click="to_my" class="user_photo" src="/imgs/xiaoyi.png" alt="">
       <div>
         <div class="user_name">小益</div>
         <div class="flex_container">
@@ -33,6 +38,7 @@
             <div class="record_right">
               <div class="record_first_line">
                 <div class="record_name">neu软件2021级</div>
+                <div class="role_tag">志愿者</div>
                 <div style="width: 200px"></div>
                 <div class="record_time">19:20</div>
               </div>
@@ -53,6 +59,7 @@
           <div class="record_right">
             <div class="record_first_line">
               <div class="record_name">neu软件2021级</div>
+              <div class="role_tag">捐助者</div>
               <div style="width: 200px"></div>
               <div class="record_time">19:20</div>
             </div>
@@ -74,6 +81,12 @@
 </template>
 
 <style scoped>
+.role_tag {
+  white-space: nowrap;
+  margin: 13px 0px 0px 10px;
+  font-size: 13px;
+  font-weight: bold;
+}
 .no_disturb_icon{
   width: 27px;
   height: 27px;
