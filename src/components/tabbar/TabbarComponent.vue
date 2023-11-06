@@ -28,6 +28,11 @@ const items = {
     icon: 'chat-o',
     to: '/chat'
   },
+  find: {
+    name: '发现',
+    icon: 'search',
+    to: '/find'
+  },
   my: {
     name: '我的',
     icon: 'home-o',
@@ -37,15 +42,15 @@ const items = {
 
 const tabbarItems = computed<TabbarItem[]>(() => {
   switch (user?.role) {
-    case "VOLUNTEER":
+    case Role.Volunteer:
       // 志愿者
-      return [items.dynamic, items.chat, items.my]
-    case "CHILD":
+      return [items.chat, items.dynamic, items.my]
+    case Role.Child:
       // 孩子
-      return [items.dynamic, items.chat, items.study, items.my]
+      return [items.chat, items.dynamic, items.study, items.my]
     default:
       // 捐助者
-      return [items.dynamic, items.chat, items.my]
+      return [items.chat, items.dynamic, items.find, items.my]
   }
 })
 </script>
