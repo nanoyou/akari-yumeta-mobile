@@ -28,6 +28,11 @@ const items = {
     icon: 'chat-o',
     to: '/chat'
   },
+  find: {
+    name: '发现',
+    icon: 'search',
+    to: '/find'
+  },
   my: {
     name: '我的',
     icon: 'home-o',
@@ -45,7 +50,7 @@ const tabbarItems = computed<TabbarItem[]>(() => {
       return [items.chat, items.dynamic, items.study, items.my]
     default:
       // 捐助者
-      return [items.chat, items.dynamic, items.my]
+      return [items.chat, items.dynamic, items.find, items.my]
   }
 })
 </script>

@@ -6,21 +6,19 @@ import { showNotify } from 'vant'
 import { Role, type Result } from '@/api/entity'
 import { useUserStore } from '@/stores'
 
-const message = ref('')
 const username = ref('')
 const nickname = ref('')
-const role = ref([])
+const role = ref('')
 const password = ref('')
 const password_second = ref('')
 const status = ref('login')
-const show = ref(false)
 const userStore = useUserStore()
 
 const switch_register = () => {
   username.value = ''
   password.value = ''
   nickname.value = ''
-  role.value = []
+  role.value = ''
   password_second.value = ''
   status.value = 'register'
 }
@@ -32,23 +30,34 @@ const switch_login = () => {
 }
 const submit = async () => {
   if (status.value === 'register') {
-    if (password.value != password_second.value) {
-      showNotify('两次输入密码不一致')
+    if (
+      username.value === '' ||
+      nickname.value === '' ||
+      password.value === '' ||
+      password_second.value === '' ||
+      role.value.length === 0
+    ) {
+      showNotify('请填写完整信息！')
       return
     }
-    const res = await register({
-      username: username.value,
-      nickname: nickname.value,
-      password: password.value,
-      role: role.value[0],
-      gender: 'SECRET'
-    })
-    console.log(res)
-    if (res.code) {
-      showNotify(res.message)
-    } else {
+    if (password.value != password_second.value) {
+      showNotify('两次输入密码不一致！')
+      return
+    }
+
+    try {
+      const res = await register({
+        username: username.value,
+        nickname: nickname.value,
+        password: password.value,
+        role: role.value,
+        gender: 'SECRET'
+      })
+      console.log(res)
       showNotify({ type: 'success', message: '注册成功' })
-      router.push('/login')
+      switch_login()
+    } catch (e) {
+      showNotify((e as Result<any>).message)
     }
   } else {
     try {
@@ -58,10 +67,9 @@ const submit = async () => {
       })
 
       console.log(user, '登录成功')
-
       console.log(user.role)
 
-      // 聊天界面三个角色共有，进入相同页面
+      // 登录后统一跳转至聊天界面
       router.push('/chat')
 
       userStore.setUserDTO(user)
@@ -71,12 +79,7 @@ const submit = async () => {
         message: '登录成功'
       })
     } catch (e) {
-      message.value = (e as Result<any>).message
-
-      show.value = true
-      setTimeout(() => {
-        show.value = false
-      }, 2000)
+      showNotify((e as Result<any>).message)
     }
   }
 }
@@ -93,14 +96,16 @@ const submit = async () => {
           plain
           @click="switch_login"
           type="primary"
-          class="login_button"
+          :class="status === 'login' ? 'login_button_active' : 'login_button'"
           text="登录"
         />
         <van-action-bar-button
           plain
           @click="switch_register"
           type="primary"
-          class="register_button"
+          :class="
+            status === 'register' ? 'register_button_active' : 'register_button'
+          "
           text="注册"
         />
       </div>
@@ -144,16 +149,16 @@ const submit = async () => {
       type="password"
       placeholder="请再次输入密码"
     />
-    <van-checkbox-group
+
+    <van-radio-group
       class="checkbox_group"
       v-model="role"
-      :max="1"
       direction="horizontal"
     >
-      <van-checkbox name="VOLUNTEER">志愿者</van-checkbox>
-      <van-checkbox name="CHILD">儿童</van-checkbox>
-      <van-checkbox name="SPONSOR">捐助者</van-checkbox>
-    </van-checkbox-group>
+      <van-radio name="VOLUNTEER">志愿者</van-radio>
+      <van-radio name="CHILD">儿童</van-radio>
+      <van-radio name="SPONSOR">捐助者</van-radio>
+    </van-radio-group>
   </van-cell-group>
 
   <div style="display: flex; justify-content: center">
@@ -172,7 +177,7 @@ const submit = async () => {
 
 <style scoped>
 .logo {
-  width: 40%;
+  width: 25%;
 }
 .img_container {
   margin-top: 30px;
@@ -190,8 +195,16 @@ const submit = async () => {
 .login_button {
   border-radius: 20px 0px 0px 20px;
 }
+.login_button_active {
+  border-radius: 20px 0px 0px 20px;
+  background-color: #cecece;
+}
 .register_button {
   border-radius: 0px 20px 20px 0px;
+}
+.register_button_active {
+  border-radius: 0px 20px 20px 0px;
+  background-color: #cecece;
 }
 .submit_button {
   border-radius: 20px 20px 20px 20px;

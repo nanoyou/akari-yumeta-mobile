@@ -1,6 +1,6 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
-import type { LoginUserDTO, Result, User } from './entity'
+import type { LoginUserDTO, Result, Task, User } from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
 
@@ -43,6 +43,22 @@ instance.interceptors.response.use(
 export default instance
 // export { baseURL }
 
+export const getMyTask = async () =>
+  (await instance.get<Task[]>('/my/task')).data
+
+export const getMyInfo = async () => (await instance.get<User>('/my/info')).data
+
+export const getAllTask = async () => (await instance.get<Task[]>('/task')).data
+
+export const getTaskDetail = async (taskID: string) =>
+  (await instance.get<Task>('/task/' + taskID)).data
+
+export const getTaskDynamic = async (taskID: string) =>
+  (await instance.get<Task>('/task/' + taskID + '/dynamic')).data
+
+export const startTask = async (taskID: string) =>
+  (await instance.post<Result<any>>('/task/' + taskID + '/open')).data
+
 export const login = async (data: { username: string; password: string }) =>
   (await instance.post<LoginUserDTO>('/login', data)).data
 
@@ -58,3 +74,12 @@ export const getUserList = async () => (await instance.get<null>('/user')).data
 
 export const getFolloweeList = async () =>
   (await instance.get<null>('/my/follow')).data
+export const postTask = async (data: {
+  taskName: string
+  startTime: string
+  endTime: string
+  description: string
+  category: string
+  bonus: number
+  videoURL: string
+}) => (await instance.post<Task>('/task', data)).data

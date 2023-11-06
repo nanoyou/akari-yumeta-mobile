@@ -21,43 +21,26 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/chat/ChatPage.vue'),
     meta: {
       showTabBar: true,
-      showTopBar: true,
+      showTopBar: false,
       title: '聊天'
     }
   },
   {
-    path: '/donate/find',
-    name: 'donate_find',
-    component: () => import('@/views/donate/donate-find/find.vue'),
+    path: '/dynamic',
+    name: 'dynamic',
+    component: () => import('@/views/dynamic/CheckDynamicPage.vue'),
     meta: {
       title: '动态',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: [
-        {
-          name: '首页',
-          icon: 'chat-o',
-          to: '/donate/home'
-        },
-        {
-          name: '发现',
-          icon: 'search',
-          to: '/donate/find'
-        },
-        {
-          name: '我的',
-          icon: 'user-o',
-          to: '/donate/mine'
-        }
-      ]
+      showTopBar: false
     }
   },
   {
     path: '/my',
     name: 'my',
-    component: () => import('@/views/my/MyPage.vue'),
+    component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
-      title: '我的',
+      title: '个人中心',
       showTabBar: true,
       showTopBar: false
     }
@@ -65,11 +48,32 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/study',
     name: 'study',
-    component: () => import('@/views/study/StudyPage.vue'),
+    component: () => import('@/views/study/ChildStudyPage.vue'),
     meta: {
       title: '学习',
       showTabBar: true,
       showTopBar: false
+    }
+  },
+  {
+    path: '/postDynamic',
+    name: 'post_dynamic',
+    component: () => import('@/views/dynamic/PostDynamicPage.vue'),
+    meta: {
+      title: '发布动态',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/study/taskDetail/:taskId',
+    name: 'study_taskDetail',
+    component: () => import('@/views/study/ChildTaskPage.vue'),
+    props: true,
+    meta: {
+      title: '课程详情',
+      showTabBar: false,
+      showTopBar: true
     }
   },
   {
@@ -79,15 +83,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       showTabBar: false,
       showTopBar: false
-    }
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: () => import('@/views/TestPage.vue'),
-    meta: {
-      showTabBar: false,
-      showTopBar: true
     }
   }
 ]

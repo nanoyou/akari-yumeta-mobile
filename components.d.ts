@@ -7,9 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    DynamicCard: typeof import('./src/components/dynamic/DynamicCard.vue')['default']
+    LinkCard: typeof import('./src/components/dynamic/LinkCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TabbarComponent: typeof import('./src/components/tabbar/TabbarComponent.vue')['default']
+    UserCard: typeof import('./src/components/UserCard.vue')['default']
     VanActionBarButton: typeof import('vant/es')['ActionBarButton']
     VanButton: typeof import('vant/es')['Button']
     VanCard: typeof import('vant/es')['Card']
@@ -17,16 +20,15 @@ declare module 'vue' {
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanCheckbox: typeof import('vant/es')['Checkbox']
     VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
-    VanDoctorCard: typeof import('vant/es')['DoctorCard']
     VanDropdownItem: typeof import('vant/es')['DropdownItem']
     VanDropdownMenu: typeof import('vant/es')['DropdownMenu']
-    VanDropdpwnItem: typeof import('vant/es')['DropdpwnItem']
     VanField: typeof import('vant/es')['Field']
     VanIcon: typeof import('vant/es')['Icon']
     VanImage: typeof import('vant/es')['Image']
     VanList: typeof import('vant/es')['List']
     VanNavBar: typeof import('vant/es')['NavBar']
-    VanNotify: typeof import('vant/es')['Notify']
+    VanRadio: typeof import('vant/es')['Radio']
+    VanRadioGroup: typeof import('vant/es')['RadioGroup']
     VanSearch: typeof import('vant/es')['Search']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
@@ -36,7 +38,6 @@ declare module 'vue' {
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
     VanTag: typeof import('vant/es')['Tag']
-    VantList: typeof import('vant/es')['tList']
-    VantTag: typeof import('vant/es')['tTag']
+    VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
   }
 }
