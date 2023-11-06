@@ -17,10 +17,6 @@ if (userID) {
   axios
     .get(`https://mock.apifox.com/m1/3503500-0-default/donate/${userID}/info`, {
       //改为自己的接口地址即可，现在是apifox的mock地址
-      method: 'get',
-      params: {
-        userID: userID
-      }
     })
     .then((result) => {
       console.log('数据：', result)
