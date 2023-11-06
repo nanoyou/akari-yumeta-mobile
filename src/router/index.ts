@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { createRouter, createWebHistory } from 'vue-router'
 const childTabbarItems = [
   {
@@ -21,8 +22,8 @@ const childTabbarItems = [
     to: '/child/my'
   }
 ]
-
-import { type RouteRecordRaw } from 'vue-router'
+=======
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 declare module 'vue-router' {
   interface RouteMeta {
     showTabBar: boolean
@@ -30,6 +31,7 @@ declare module 'vue-router' {
     title?: string
   }
 }
+>>>>>>> origin/main
 
 const routes: RouteRecordRaw[] = [
   {
@@ -89,6 +91,7 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+<<<<<<< HEAD
     path: '/testCard0', //有用，别删
     name: 'donate@1231313',
     component: () => import('@/views/donate/donate_my/donateHistoryCard0.vue'),
@@ -113,15 +116,14 @@ const routes: RouteRecordRaw[] = [
     meta: {
       showTabBar: false,
       showTopBar: false
-    }
-  },
-  {
+=======
     path: '/test',
     name: 'test',
     component: () => import('@/views/TestPage.vue'),
     meta: {
       showTabBar: false,
       showTopBar: true
+>>>>>>> origin/main
     }
   }
 ]
