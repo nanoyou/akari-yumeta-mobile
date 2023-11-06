@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ChatDialogBar: typeof import('./src/components/tabbar/ChatDialogBar.vue')['default']
     DynamicCard: typeof import('./src/components/dynamic/DynamicCard.vue')['default']
     LinkCard: typeof import('./src/components/dynamic/LinkCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

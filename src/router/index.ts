@@ -26,6 +26,16 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/chat/dialog',
+    name: 'chat_dialog',
+    component: () => import('@/views/chat/ChatDialog.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false,
+      title: '聊天'
+    }
+  },
+  {
     path: '/dynamic',
     name: 'dynamic',
     component: () => import('@/views/dynamic/CheckDynamicPage.vue'),

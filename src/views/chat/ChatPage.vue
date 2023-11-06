@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import router from "@/router";
 
 const search_value = ref('')
+const to_my = () => {
+  router.push("/my")
+}
+
+const show_chat = () => {
+  router.push("/chat/dialog")
+}
 </script>
 
 <template>
   <div class="head_container">
     <div class="user_info_container">
-      <img class="user_photo" src="/imgs/xiaoyi.png" alt="" />
+      <img @click="to_my" class="user_photo" src="/imgs/xiaoyi.png" alt="" />
       <div>
         <div class="user_name">小益</div>
         <div class="flex_container">
@@ -32,7 +40,7 @@ const search_value = ref('')
 
     <div class="chat_records_container">
       <div v-for="i in 2">
-        <div class="chat_record_container_important">
+        <div @click="show_chat" class="chat_record_container_important">
           <img class="search_record_photo" src="/imgs/teacher1.jpg" alt="" />
           <div class="record_right">
             <div class="record_first_line">
@@ -51,7 +59,7 @@ const search_value = ref('')
         </div>
       </div>
       <div v-for="i in 10">
-        <div class="chat_record_container">
+        <div @click="show_chat" class="chat_record_container">
           <img class="search_record_photo" src="/imgs/teacher1.jpg" alt="" />
           <div class="record_right">
             <div class="record_first_line">
