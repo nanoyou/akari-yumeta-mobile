@@ -2,6 +2,7 @@
 import { useUserStore } from '../../../stores/modules/user'
 import { ref } from 'vue'
 import axios from 'axios'
+import { Tab, Tabs } from 'vant'
 
 const userStore = useUserStore()
 userStore.setID('12313131313') //根据实际情况替换即可
@@ -35,16 +36,10 @@ if (userID) {
 </script>
 <!-- 模板部分略去 -->
 <template>
-  <div>
-    <!-- <van-person-card
-      title="标题"
-      sub-title="信息 信息"
-      tag="待审核"
-      tag-type="warning"
-      corner="15:30"
-      :content="['辅助性文字', '辅助性文字']"
-    /> -->
-    这是捐助历史详细列表界面
-  </div>
+  <div>这是捐助历史详细列表界面</div>
+  <van-tabs>
+    <van-tab title="资金">内容 1</van-tab>
+    <van-tab title="物品">内容 2</van-tab>
+  </van-tabs>
 </template>
 <style></style>
