@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { getMyTask, postTask, getAllTask, startTask } from '@/api'
 import { ref, onMounted } from 'vue'
-import { Task, Category, Status } from '@/api/entity'
+import { type Task, Category, Status } from '@/api/entity'
 import { showNotify } from 'vant'
 import router from '@/router'
+import { getCategoryStr, getStatusStr } from '@/util/TranslateUtil'
 
 const images = [
   '/imgs/lesson1.png',
@@ -39,11 +40,11 @@ onMounted(async () => {
   })
 })
 
-const check_task = (task_id) => {
+const check_task = (task_id: string) => {
   router.push('/study/taskDetail/' + task_id)
 }
 
-const start_task = (task_id) => {
+const start_task = (task_id: string) => {
   try {
     startTask(task_id).then((res) => {
       if (res !== null) {
@@ -98,20 +99,20 @@ const select_tag = (index: number) => {
   <div>
     <van-tabs v-model:active="active">
       <van-tab title="所有课程">
-        <div v-for="(task, index) in allTasks" :key="task.id">
+        <div v-for="task in allTasks" :key="task.id">
           <van-card
             :tag="'积分：' + task.bonus"
             :desc="task.description"
             :title="task.taskName"
-            :thumb="`../../../../public/imgs/task${
-              Math.floor(Math.random() * 6) + 1
-            }.png`"
+            :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
           >
             <template #tags>
               <van-tag plain type="primary">{{
-                Category[task.category]
+                getCategoryStr(task.category)
               }}</van-tag>
-              <van-tag plain type="primary">{{ Status[task.status] }}</van-tag>
+              <van-tag plain type="primary">{{
+                getStatusStr(task.status)
+              }}</van-tag>
             </template>
 
             <template #footer>
@@ -136,20 +137,18 @@ const select_tag = (index: number) => {
         </div>
       </van-tab>
       <van-tab title="我的学习">
-        <div v-for="(task, index) in myTasks">
+        <div v-for="task in myTasks" :key="task.id">
           <van-card
             :tag="'积分：' + task.bonus"
             :desc="task.description"
             :title="task.taskName"
-            :thumb="`../../../../public/imgs/task${
-              Math.floor(Math.random() * 6) + 1
-            }.png`"
+            :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
           >
             <template #tags>
+              <van-tag plain type="primary">{{}}</van-tag>
               <van-tag plain type="primary">{{
-                Category[task.category]
+                getStatusStr(task.status)
               }}</van-tag>
-              <van-tag plain type="primary">{{ Status[task.status] }}</van-tag>
             </template>
 
             <template #footer>
@@ -191,9 +190,8 @@ const select_tag = (index: number) => {
 .task-category {
   font-size: 16px; /* Custom font size for the title */
   font-weight: bold; /* Make the title bold */
-  margin-bottom: 16px; /* Add some spacing below the title */
   color: #333; /* Custom text color for the title */
-  margin: 10px 0 10px 10px;
+  margin: 16px 0 10px 10px;
 }
 
 .tag-container {

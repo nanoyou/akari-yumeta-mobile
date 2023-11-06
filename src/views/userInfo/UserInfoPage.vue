@@ -273,6 +273,8 @@ color: #BDBDBD;
 .function_button {
   margin-top: 10px;
   width: 80%;
+  border-radius: 20px;
+
 }
 .more_icon {
   margin-top: 10px;

@@ -9,19 +9,19 @@
     <van-tab title="课程详细">
       <div v-if="taskDetail !== null">
         <div class="task-details">
-          <div class="class_name">{{ taskDetail.taskName }}</div>
-          <div class="class_description">{{ taskDetail.description }}</div>
+          <div class="class_name">{{ taskDetail?.taskName }}</div>
+          <div class="class_description">{{ taskDetail?.description }}</div>
         </div>
 
         <div class="class_detail">
           <div class="class_detail_items">
             <div class="class_detail_items_word">积分</div>
-            <div class="class_detail_items_number">{{ taskDetail.bonus }}</div>
+            <div class="class_detail_items_number">{{ taskDetail?.bonus }}</div>
           </div>
           <div style="width: 30px"></div>
           <div class="class_detail_items">
             <div class="class_detail_items_word">类别</div>
-            <div class="class_detail_items_number">{{ Category[taskDetail.category] }}</div>
+            <div class="class_detail_items_number">{{ getCategoryStr(taskDetail?.category) }}</div>
           </div>
         </div>
       </div>
@@ -136,11 +136,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted  } from 'vue'
+import { getCategoryStr, getStatusStr } from "@/util/TranslateUtil"
 import { defineProps } from 'vue';
 import {getTaskDetail, getTaskDynamic} from "@/api";
-import {Category, Status, Task} from "@/api/entity";
+import {Category, Status, type Task} from "@/api/entity";
+
+
 const { taskId } = defineProps(['taskId']);
-const taskDetail = ref<Task>(null);
+const taskDetail = ref<Task>();
 const active = ref('')
 
 
