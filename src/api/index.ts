@@ -1,15 +1,16 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
-import type {
-  DonateGoods,
-  DonateHistoryDTO,
-  DonateMoney,
-  GoodsInfo,
-  LoginUserDTO,
-  Result,
-  Task,
-  User,
-  UserDTO
+import {
+  type DynamicDTO,
+  type DonateGoods,
+  type DonateHistoryDTO,
+  type DonateMoney,
+  type GoodsInfo,
+  type LoginUserDTO,
+  type Result,
+  type Task,
+  type User,
+  type UserDTO
 } from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
@@ -115,3 +116,19 @@ export const getDonateHistory = async (userID: string) =>
 
 export const getGoodsInfo = async (goodsID: string) =>
   (await instance.get<GoodsInfo>(`/donate/goods/${goodsID}`)).data
+
+export const postDynamic = async (data: { content: string; taskID?: string }) =>
+  (await instance.post<Comment>('/dynamic', data)).data
+
+export const getMyDynamic = async () =>
+  (await instance.get<DynamicDTO>('/my/dynamic')).data
+
+export const getDynamic = async (dynamicID: string) =>
+  (await instance.get<DynamicDTO>(`/dynamic/${dynamicID}`)).data
+
+export const replyCommentOrDynamic = async (
+  commentID: string,
+  content: string
+) =>
+  (await instance.post<DynamicDTO>(`/comment/${commentID}/reply`, { content }))
+    .data
