@@ -110,6 +110,7 @@ const text = "看完了，制作水平很高，有些改编合理目到位，情
   color: #f55b54;
   margin-right: 8px;
 }
+
 .like_button2 {
   color: #606d91;
   margin-right: 8px;
