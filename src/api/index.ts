@@ -53,3 +53,8 @@ export const register = async (data: {
   password: string
   gender: string
 }) => (await instance.post<User>('/register', data)).data
+
+export const getUserList = async () => (await instance.get<null>('/user')).data
+
+export const getFolloweeList = async () =>
+  (await instance.get<null>('/my/follow')).data

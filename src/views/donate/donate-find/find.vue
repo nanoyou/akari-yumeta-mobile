@@ -1,9 +1,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { getUserList, getFolloweeList } from '@/api'
 import type { User } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
+import { useUserStore } from '@/stores'
 import userCard from './user-card.vue'
-import { Tag } from 'vant'
+const userStore = useUserStore()
+// 获取所有用户
+async function getAllUser() {
+  const res = await getUserList()
+  console.log(res)
+  return res
+}
+// 获取关注列表
+async function getFollowees() {
+  console.log('aaa')
+  const res = await getFolloweeList()
+  console.log(res)
+  return res
+}
+
 const choice = ref(true)
 const sortOrder = ref({
   value: 0,
@@ -35,7 +51,10 @@ const xiaoyi: User = {
   tags: ['hh', 'heihei', 'yy', 'ss']
 }
 const children = ref([xiaoyi])
-const isFollowed = ref(true)
+const isFollowed = ref(false)
+function follow(userID: string) {
+  console.log('click follow' + userID)
+}
 </script>
 
 <template>
@@ -89,7 +108,7 @@ const isFollowed = ref(true)
                 :key="child.id"
                 :user="xiaoyi"
                 :is-followed="isFollowed"
-                @follow="!isFollowed"
+                @follow="follow"
               />
             </van-list>
           </div>
@@ -100,6 +119,7 @@ const isFollowed = ref(true)
           <span class="search-bar">
             <van-search placeholder="请输入搜索关键词" />
           </span>
+          <div class=""
         </div>
       </van-tab>
     </van-tabs>
