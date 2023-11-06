@@ -83,7 +83,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/chat',
     name: 'chat',
-    component: () => import('@/views/chat/ChildChatPage.vue'),
+    component: () => import('@/views/chat/ChatPage.vue'),
     meta: {
       showTabBar: true,
       showTopBar: false,

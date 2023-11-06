@@ -24,6 +24,5 @@ const link_word = "C语言是古老而长青的编程语言，它具备了现代
 .link_word {
   font-size: small;
   margin: 8px 5px 0px 10px;
-  font-weight: ;
 }
 </style>
