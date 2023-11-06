@@ -4,7 +4,7 @@ import { ref, onMounted } from 'vue'
 import { type Task, Category, Status } from '@/api/entity'
 import { showNotify } from 'vant'
 import router from '@/router'
-import { getCategoryStr, getStatusStr } from '@/util/TranslateUtil'
+import { getCategoryStr, getStatusStr } from '@/util/translate'
 
 const images = [
   '/imgs/lesson1.png',
@@ -45,14 +45,12 @@ const check_task = (task_id: string) => {
 }
 
 const start_task = (task_id: string) => {
-  try {
-    startTask(task_id).then((res) => {
-      if (res !== null) {
-        showNotify({ type: 'success', message: '开启成功' })
-      }
-      console.log(res)
-    })
-  } catch (e) {}
+  startTask(task_id).then((res) => {
+    if (res !== null) {
+      showNotify({ type: 'success', message: '开启成功' })
+    }
+    console.log(res)
+  })
 }
 
 const submit = async () => {
@@ -242,3 +240,4 @@ const select_tag = (index: number) => {
   background-color: #2980b9;
 }
 </style>
+@/util/translateUtil @/util/translate

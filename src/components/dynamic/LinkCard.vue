@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const link_word = "C语言是古老而长青的编程语言，它具备了现代程序设计的基础..."
+const link_word = 'C语言是古老而长青的编程语言，它具备了现代程序设计的基础...'
 </script>
 
 <template>
   <div class="like_card">
-    <img class="link_img" src="/imgs/lesson4.png">
-    <div class="link_word"> {{ link_word }}</div>
+    <img class="link_img" src="/imgs/lesson4.png" />
+    <div class="link_word">{{ link_word }}</div>
   </div>
 </template>
 
@@ -24,6 +24,5 @@ const link_word = "C语言是古老而长青的编程语言，它具备了现代
 .link_word {
   font-size: small;
   margin: 8px 5px 0px 10px;
-  font-weight: ;
 }
 </style>

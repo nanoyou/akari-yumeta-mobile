@@ -50,13 +50,13 @@ export const getMyInfo = async () => (await instance.get<User>('/my/info')).data
 
 export const getAllTask = async () => (await instance.get<Task[]>('/task')).data
 
-export const getTaskDetail = async (taskID) =>
+export const getTaskDetail = async (taskID: string) =>
   (await instance.get<Task>('/task/' + taskID)).data
 
-export const getTaskDynamic = async (taskID) =>
+export const getTaskDynamic = async (taskID: string) =>
   (await instance.get<Task>('/task/' + taskID + '/dynamic')).data
 
-export const startTask = async (taskID) =>
+export const startTask = async (taskID: string) =>
   (await instance.post<Result<any>>('/task/' + taskID + '/open')).data
 
 export const login = async (data: { username: string; password: string }) =>

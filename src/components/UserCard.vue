@@ -34,11 +34,11 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { Gender, type User } from '@/api/entity'
+import { Gender, type UserDTO } from '@/api/entity'
 export default defineComponent({
   props: {
     user: {
-      type: Object as () => User, // 设置类型为User接口类型
+      type: Object as () => UserDTO, // 设置类型为User接口类型
       required: true // 设置为必须传入的属性
     },
     isFollowed: { type: Boolean, required: true } // 是否关注

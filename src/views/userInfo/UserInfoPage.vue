@@ -1,30 +1,39 @@
 <script setup lang="ts">
-import router from "@/router";
-import {ref, onMounted} from "vue";
-import {getMyInfo} from "@/api";
-import type {User, Role} from "@/api/entity";
+import router from '@/router'
+import { ref, onMounted } from 'vue'
+import { getMyInfo } from '@/api'
+import type { User, Role } from '@/api/entity'
 
 const back = () => {
   router.push('/login')
 }
-const tags = ref(['喜欢唱', '喜欢跳', '喜欢rap', 'music', '喜欢唱', '喜欢跳', '喜欢rap', 'music'])
-let show_tags = ref(tags.value.slice(0, 3));
+const tags = ref([
+  '喜欢唱',
+  '喜欢跳',
+  '喜欢rap',
+  'music',
+  '喜欢唱',
+  '喜欢跳',
+  '喜欢rap',
+  'music'
+])
+let show_tags = ref(tags.value.slice(0, 3))
 let is_show = ref(false)
-let user_info = ref<User | null>(null);
+let user_info = ref<User | null>(null)
 
 const images = [
   '/imgs/lesson1.png',
   'imgs/lesson2.png',
   '/imgs/lesson3.png',
-  '/imgs/lesson4.png',
-];
+  '/imgs/lesson4.png'
+]
 
 onMounted(async () => {
   getMyInfo().then((result) => {
-    user_info.value = result;
-    console.log(user_info.value);
+    user_info.value = result
+    console.log(user_info.value)
   })
-});
+})
 
 const show_more = () => {
   show_tags.value = tags.value
@@ -37,7 +46,7 @@ const show_more = () => {
   <div class="user_info_container">
     <div class="head_container">
       <div class="flex_container">
-        <img class="head_photo" src="/imgs/xiaoyi.png" alt="">
+        <img class="head_photo" src="/imgs/xiaoyi.png" alt="" />
       </div>
       <div class="flex_container">
         <div class="username">
@@ -51,14 +60,11 @@ const show_more = () => {
         </van-swipe-item>
       </van-swipe>
 
-
-
-
       <div class="tag_container">
-        <div class="flex_container" v-for="tag in show_tags">
+        <div class="flex_container" v-for="tag in show_tags" :key="tag">
           <div class="tag_item">{{ tag }}</div>
         </div>
-        <div v-if="!is_show" class="tag_item_more" @click="show_more"> > </div>
+        <div v-if="!is_show" class="tag_item_more" @click="show_more">></div>
       </div>
     </div>
 
@@ -67,12 +73,12 @@ const show_more = () => {
         <div class="number_info">0</div>
         <div class="word_info">关注</div>
       </div>
-      <img class="space_line" src="/imgs/space_line.png" alt="">
+      <img class="space_line" src="/imgs/space_line.png" alt="" />
       <div class="word_container">
         <div class="number_info">1</div>
         <div class="word_info">被关注</div>
       </div>
-      <img class="space_line" src="/imgs/space_line.png" alt="">
+      <img class="space_line" src="/imgs/space_line.png" alt="" />
 
       <div class="word_container">
         <div class="number_info">5</div>
@@ -81,58 +87,55 @@ const show_more = () => {
     </div>
 
     <div class="user_detail_container">
-      <van-cell-group  inset>
-<!--        <van-field label="昵称" :model-value="user_info?.nickname" readonly />-->
-<!--        <div class="user_detail_space"></div>-->
-<!--        <van-field label="角色" :model-value="user_info?.role" readonly />-->
-<!--        <div class="user_detail_space"></div>-->
-<!--        <van-field label="性别" :model-value="user_info?.gender" readonly />-->
-<!--        <div class="user_detail_space"></div>-->
+      <van-cell-group inset>
+        <!--        <van-field label="昵称" :model-value="user_info?.nickname" readonly />-->
+        <!--        <div class="user_detail_space"></div>-->
+        <!--        <van-field label="角色" :model-value="user_info?.role" readonly />-->
+        <!--        <div class="user_detail_space"></div>-->
+        <!--        <van-field label="性别" :model-value="user_info?.gender" readonly />-->
+        <!--        <div class="user_detail_space"></div>-->
         <van-field
-            :model-value="user_info?.introduction"
-            rows="3"
-            autosize
-            label="个人介绍"
-            type="textarea"
-            maxlength="50"
-            placeholder="请输入留言"
-            show-word-limit
+          :model-value="user_info?.introduction"
+          rows="3"
+          autosize
+          label="个人介绍"
+          type="textarea"
+          maxlength="50"
+          placeholder="请输入留言"
+          show-word-limit
         />
       </van-cell-group>
     </div>
 
+    <div class="button_container">
+      <van-button class="function_button" type="primary" @click="back"
+        >退出登录</van-button
+      >
+    </div>
 
-      <div class="button_container">
-          <van-button class="function_button" type="primary" @click="back">退出登录</van-button>
-      </div>
+    <!--    <div class="button_group_container">-->
+    <!--      <div class="function_div">-->
+    <!--        <div class="left_items">-->
+    <!--            <van-icon class="chat_icon" size="30" name="chat-o" />-->
+    <!--            <span>聊天</span>-->
+    <!--        </div>-->
+    <!--        <img src="/imgs/more_icon.png" class="more_icon">-->
+    <!--      </div>-->
 
-<!--    <div class="button_group_container">-->
-<!--      <div class="function_div">-->
-<!--        <div class="left_items">-->
-<!--            <van-icon class="chat_icon" size="30" name="chat-o" />-->
-<!--            <span>聊天</span>-->
-<!--        </div>-->
-<!--        <img src="/imgs/more_icon.png" class="more_icon">-->
-<!--      </div>-->
-
-<!--      <div class="function_div">-->
-<!--        <div class="left_items">-->
-<!--          <van-icon class="donate_icon" size="30" name="gold-coin-o"></van-icon>-->
-<!--          <span>捐助</span>-->
-<!--        </div>-->
-<!--        <img src="/imgs/more_icon.png" class="more_icon">-->
-<!--      </div>-->
-<!--    </div>-->
-
-
+    <!--      <div class="function_div">-->
+    <!--        <div class="left_items">-->
+    <!--          <van-icon class="donate_icon" size="30" name="gold-coin-o"></van-icon>-->
+    <!--          <span>捐助</span>-->
+    <!--        </div>-->
+    <!--        <img src="/imgs/more_icon.png" class="more_icon">-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
-
-
 </template>
 
 <style scoped>
 .user_info_container {
-  background-color: #EDEDED;
+  background-color: #ededed;
   height: 100vh;
 }
 .head_container {
@@ -161,11 +164,11 @@ const show_more = () => {
 }
 .chat_icon {
   margin: 0px 13px 0px 10px;
-  color: #2EA86B;
+  color: #2ea86b;
 }
 .donate_icon {
   margin: 0px 13px 0px 10px;
-  color: #F2C629;
+  color: #f2c629;
 }
 .button_container {
   justify-content: center;
@@ -185,7 +188,7 @@ const show_more = () => {
 }
 .user_detail_space {
   height: 1px;
-  background-color: #EDEDED;
+  background-color: #ededed;
 }
 .tag_container {
   display: flex;
@@ -208,7 +211,7 @@ const show_more = () => {
   display: flex;
   justify-content: center;
   height: 80px;
-  text-align:center;
+  text-align: center;
   background-color: white;
 }
 .user_detail_container {
@@ -221,7 +224,7 @@ const show_more = () => {
   margin-top: 20px;
 }
 .word_info {
-color: #BDBDBD;
+  color: #bdbdbd;
 }
 .number_info {
   font-weight: bold;
@@ -274,7 +277,6 @@ color: #BDBDBD;
   margin-top: 10px;
   width: 80%;
   border-radius: 20px;
-
 }
 .more_icon {
   margin-top: 10px;
