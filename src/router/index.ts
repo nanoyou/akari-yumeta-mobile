@@ -84,6 +84,24 @@ const routes: RouteRecordRaw[] = [
       showTabBar: false,
       showTopBar: false
     }
+  },
+  {
+    path: '/testmy',
+    name: 'testmy',
+    component: () => import('@/views/donate/donate_my/My.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/testDonateHistory',
+    name: 'testDonateHistory',
+    component: () => import('@/views/donate/donate_my/DonateHistory.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: true
+    }
   }
 ]
 

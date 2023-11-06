@@ -20,7 +20,7 @@ console.log(userID)
 
 // 如果用户已登录
 if (userID.value) {
-  console.log('用户已登录')
+  console.log('用户已登录' + userID.value)
   // 调用fetchData函数获取数据
   fetchData(userID)
 } else {
@@ -105,7 +105,7 @@ function formatAmount(amount) {
 </script>
 
 <template>
-  <van-tabs>
+  <van-tabs sticky offset-top="46px">
     <van-tab title="资金">
       <div v-if="isMoneyDataLoaded && resultData">
         <van-card

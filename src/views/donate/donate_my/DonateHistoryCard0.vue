@@ -1,23 +1,25 @@
 <script setup lang="ts">
 import { useUserStore } from '../../../stores/modules/user'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios'
 import { getCurrentInstance } from 'vue'
 
 const userStore = useUserStore()
-userStore.setID('12313131313')
-let userID = userStore.ID
+const userID = computed(() => userStore.user?.id)
 let resultData = ref(null) // 使用 ref 创建响应式的 resultData
 const instance = getCurrentInstance()
 console.log(userID) // 打印UserID
 
-if (userID) {
+if (userID.value) {
   console.log('用户已登录')
 
   axios
-    .get(`https://mock.apifox.com/m1/3503500-0-default/donate/${userID}/info`, {
-      //改为自己的接口地址即可，现在是apifox的mock地址
-    })
+    .get(
+      `https://mock.apifox.com/m1/3503500-0-default/donate/${userID.value}/info`,
+      {
+        //改为自己的接口地址即可，现在是apifox的mock地址
+      }
+    )
     .then((result) => {
       console.log('数据：', result)
       console.log('真正的数据：', result.data.data)
@@ -94,8 +96,15 @@ const handleButtonClick = () => {
         align-items: center;
       "
     >
-      <van-button type="primary" round center @click="handleButtonClick">
-        查看详细
+      <van-button
+        type="primary"
+        size="small"
+        :plain="true"
+        round
+        center
+        @click="handleButtonClick"
+      >
+        查看详细>
       </van-button>
     </div>
   </div>
@@ -107,7 +116,8 @@ const handleButtonClick = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px; /* 可根据需要调整边距 */
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .row {
