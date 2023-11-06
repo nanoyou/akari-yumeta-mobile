@@ -1,7 +1,6 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
-import type { LoginUserDTO, Result, User } from './entity'
-import type {Result, Task, User} from './entity'
+import type { LoginUserDTO, Result, User, Task } from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
 
@@ -75,7 +74,6 @@ export const register = async (data: {
 
 export const postTask = async (data: {
     taskName: string
-    taskUploaderID: string
     startTime: string
     endTime: string
     description: string

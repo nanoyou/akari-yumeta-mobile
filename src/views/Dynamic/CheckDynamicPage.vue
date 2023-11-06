@@ -16,7 +16,7 @@ const postDynamic = () => {
     </div>
     <div class="user">
       <span>小益</span>
-      <img src="../../../public/imgs/xiaoyi.png" height="80" width="80" />
+      <img src="/imgs/xiaoyi.png" height="80" width="80" />
     </div>
   </div>
   <DynamicCard></DynamicCard>
@@ -39,7 +39,7 @@ const postDynamic = () => {
   margin-bottom: 20px;
   height: 240px;
   background-size: cover;
-  background-image: url("../../../public/imgs/task6.png");
+  background-image: url("/imgs/task6.png");
 }
 .user{
   position: absolute;

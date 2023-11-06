@@ -12,56 +12,61 @@ export interface User {
   /**
    * 头像链接
    */
-  avatarURL?: string
+  avatarURL?: string;
   /**
    * 性别
    */
-  gender: Gender
+  gender: Gender;
   /**
    * UUID
    */
-  id: string
+  id: string;
   /**
    * 个人介绍
    */
-  introduction?: string
+  introduction?: string;
   /**
    * 昵称
    */
-  nickname: string
+  nickname: string;
+  /**
+   * 密码
+   */
+  password: string;
   /**
    * 角色
    */
-  role: string
+  role: Role;
   /**
    * 使用时长，APP使用时长统计，单位为秒
    */
-  usageDuration: number
+  usageDuration: number;
   /**
    * 用户名
    */
-  username: string
-  [property: string]: any
+  username: string;
+  [property: string]: any;
 }
 
 /**
  * 性别
  */
 export enum Gender {
-  Female = 'FEMALE',
-  Male = 'MALE',
-  Secret = 'SECRET'
+  Female = "FEMALE",
+  Male = "MALE",
+  Secret = "SECRET",
 }
 
 /**
  * 角色
  */
 export enum Role {
-  'ADMIN' = '管理员',
-  'CHILD' = '儿童',
-  'SPONSOR' = '捐助者',
-  'VOLUNTEER' = '志愿者'
+  Admin = "ADMIN",
+  Child = "CHILD",
+  Sponsor = "SPONSOR",
+  Volunteer = "VOLUNTEER",
 }
+
 
 /**
  * Task
@@ -87,7 +92,7 @@ export interface Task {
    * 任务结束时间
    */
   endTime: string;
-  id:      string;
+  id: string;
   /**
    * 任务开始时间
    */
@@ -111,24 +116,25 @@ export interface Task {
  * 任务类别
  */
 export enum Category {
-  'AGRICULTURE' = "农业",
-  "ANIMAL_HUSBANDRY" = "牧业",
-  "HISTORY" = "历史",
-  "HYGIENE" = "卫生",
-  "LANGUAGE" = "语言",
-  "POLITICS" = "政治",
-  "SCIENCE" = "科学",
-  "SOCIETY" = "社会",
+  Agriculture = "AGRICULTURE",
+  AnimalHusbandry = "ANIMAL_HUSBANDRY",
+  History = "HISTORY",
+  Hygiene = "HYGIENE",
+  Language = "LANGUAGE",
+  Politics = "POLITICS",
+  Science = "SCIENCE",
+  Society = "SOCIETY",
 }
 
 /**
  * 任务状态，详见枚举
  */
 export enum Status {
-  "FINISHED" = "已结束",
-  "IN_PROGRESS" = "进行中",
-  "NOT_STARTED" = "未开始",
+  Finished = "FINISHED",
+  InProgress = "IN_PROGRESS",
+  NotStarted = "NOT_STARTED",
 }
+
 
 /**
  * LoginUserDTO
