@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-<<<<<<< HEAD:src/views/donate/donate-find/find.vue
 import { getUserList, getFolloweeList } from '@/api'
 import type { User } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
@@ -21,11 +20,6 @@ async function getFollowees() {
   return res
 }
 
-=======
-import { User } from '@/api/entity'
-import { Role, Gender } from '@/api/entity'
-import userCard from '@/components/UserCard.vue'
->>>>>>> 4ec1749a779b588482a76dc8596f2347fd59d87f:src/views/find/Find.vue
 const choice = ref(true)
 const sortOrder = ref({
   value: 0,

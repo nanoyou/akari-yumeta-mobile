@@ -84,6 +84,16 @@ const routes: RouteRecordRaw[] = [
       showTabBar: false,
       showTopBar: false
     }
+  },
+  {
+    path: '/find',
+    name: 'post_dynamic',
+    component: () => import('@/views/find/FindPage.vue'),
+    meta: {
+      title: '发现',
+      showTabBar: false,
+      showTopBar: true
+    }
   }
 ]
 
