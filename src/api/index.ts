@@ -1,6 +1,6 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
-import type { LoginUserDTO, Result, User } from './entity'
+import type { Result, User } from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
 
@@ -13,7 +13,7 @@ instance.interceptors.request.use(
   (config) => {
     const userStore = useUserStore()
     if (userStore.token) {
-      config.headers.set('Akari-Yumeta-Token', userStore.token)
+      config.headers.Authorization = userStore.token
     }
     return config
   },
@@ -44,7 +44,7 @@ export default instance
 // export { baseURL }
 
 export const login = async (data: { username: string; password: string }) =>
-  (await instance.post<LoginUserDTO>('/login', data)).data
+  (await instance.post<User>('/login', data)).data
 
 export const register = async (data: {
   username: string
