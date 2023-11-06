@@ -117,7 +117,7 @@ function formatAmount(amount) {
           :price="formatAmount(item.amount)"
           :desc="item.userData.introduction"
           :title="item.userData.username"
-          thumb="https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg"
+          :thumb="item.userData.avatarURL"
         />
       </div>
       <div v-else class="loading-container">
@@ -136,7 +136,7 @@ function formatAmount(amount) {
           :price="formatAmount(item.goodsData.unitPrice)"
           :desc="item.goodsData.description"
           :title="item.goodsData.name"
-          thumb="https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg"
+          :thumb="item.goodsData.imageURL"
         >
           <template #footer>
             <span :style="{ fontWeight: 'bold', fontSize: '20px' }">
