@@ -37,50 +37,98 @@ const routes: RouteRecordRaw[] = [
     children: []
   },
   {
-    path: '/chat',
-    name: 'chat',
-    component: () => import('@/views/chat/ChatPage.vue'),
+    path: '/sponsor',
+    name: 'sponsor',
+    component: () => import('@/views/sponsor/SponsorHomePage.vue'),
     meta: {
       showTabBar: true,
       showTopBar: true,
-      title: '聊天'
+      title: '捐助者',
+      tabbarItems: [
+        {
+          name: '首页',
+          icon: 'home-o',
+          to: '/sponsor'
+        },
+        {
+          name: '退出登录 ',
+          icon: 'close',
+          to: '/login'
+        }
+      ]
+    }
+  },
+  {
+    path: '/volunteer',
+    name: 'volunteer',
+    component: () => import('@/views/volunteer/VolunteerHomePage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: true,
+      title: '志愿者',
+      tabbarItems: [
+        {
+          name: '首页',
+          icon: 'home-o',
+          to: '/volunteer'
+        },
+        {
+          name: '退出登录 ',
+          icon: 'close',
+          to: '/login'
+        }
+      ]
+    }
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: () => import('@/views/chat/ChildChatPage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: false,
+      title: '聊天',
+      tabbarItems: childTabbarItems
     }
   },
   {
     path: '/dynamic',
     name: 'dynamic',
-    component: () => import('@/views/dynamic/DynamicPage.vue'),
+    component: () => import('@/views/Dynamic/CheckDynamicPage.vue'),
     meta: {
       title: '动态',
       showTabBar: true,
-      showTopBar: false
+      showTopBar: false,
+      tabbarItems: childTabbarItems
     }
   },
   {
     path: '/my',
     name: 'my',
-    component: () => import('@/views/my/MyPage.vue'),
+    component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
-      title: '我的',
+      title: '个人中心',
       showTabBar: true,
-      showTopBar: false
+      showTopBar: false,
+      tabbarItems: childTabbarItems
     }
   },
   {
     path: '/study',
     name: 'study',
-    component: () => import('@/views/study/StudyPage.vue'),
+    component: () => import('@/views/study/ChildStudyPage.vue'),
     meta: {
       title: '学习',
       showTabBar: true,
-      showTopBar: false
+      showTopBar: false,
       // tabbarItems: childTabbarItems
+      tabbarItems: childTabbarItems
     }
   },
   {
     path: '/postDynamic',
     name: 'post_dynamic',
-    component: () => import('@/views/child/find/PostDynamicPage.vue'),
+    component: () => import('@/views/Dynamic/PostDynamicPage.vue'),
     meta: {
       title: '发布动态',
       showTabBar: false,
@@ -88,9 +136,9 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/child/study/taskDetail/:taskId',
-    name: 'child_study_taskDetail',
-    component: () => import('@/views/child/study/ChildTaskPage.vue'),
+    path: '/study/taskDetail/:taskId',
+    name: 'study_taskDetail',
+    component: () => import('@/views/study/ChildTaskPage.vue'),
     props: true,
     meta: {
       title: '课程详情',
@@ -115,15 +163,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       showTabBar: false,
       showTopBar: false
-    }
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: () => import('@/views/TestPage.vue'),
-    meta: {
-      showTabBar: false,
-      showTopBar: true
     }
   }
 ]

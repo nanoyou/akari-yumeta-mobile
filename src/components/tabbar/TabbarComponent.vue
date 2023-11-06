@@ -37,15 +37,15 @@ const items = {
 
 const tabbarItems = computed<TabbarItem[]>(() => {
   switch (user?.role) {
-    case Role.Volunteer:
+    case "VOLUNTEER":
       // 志愿者
-      return [items.chat, items.dynamic, items.my]
-    case Role.Child:
+      return [items.dynamic, items.chat, items.my]
+    case "CHILD":
       // 孩子
-      return [items.chat, items.dynamic, items.study, items.my]
+      return [items.dynamic, items.chat, items.study, items.my]
     default:
       // 捐助者
-      return [items.chat, items.dynamic, items.my]
+      return [items.dynamic, items.chat, items.my]
   }
 })
 </script>

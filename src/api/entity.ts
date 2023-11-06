@@ -32,7 +32,7 @@ export interface User {
   /**
    * 角色
    */
-  role: Role
+  role: string
   /**
    * 使用时长，APP使用时长统计，单位为秒
    */
@@ -157,7 +157,7 @@ export interface LoginUserDTO {
   /**
    * 角色
    */
-  role: Role
+  role: string
   /**
    * 标签数组
    */
