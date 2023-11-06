@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import  DynamicCard  from '../../../components/child/DynamicCard.vue'
+import  DynamicCard  from '../../components/child/DynamicCard.vue'
 import router from "@/router";
 const postDynamic = () => {
   router.push('/postDynamic')
@@ -16,7 +16,7 @@ const postDynamic = () => {
     </div>
     <div class="user">
       <span>小益</span>
-      <img src="../../../../public/imgs/xiaoyi.png" height="80" width="80" />
+      <img src="../../../public/imgs/xiaoyi.png" height="80" width="80" />
     </div>
   </div>
   <DynamicCard></DynamicCard>
@@ -39,7 +39,7 @@ const postDynamic = () => {
   margin-bottom: 20px;
   height: 240px;
   background-size: cover;
-  background-image: url("../../../../public/imgs/task6.png");
+  background-image: url("../../../public/imgs/task6.png");
 }
 .user{
   position: absolute;

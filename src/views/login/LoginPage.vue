@@ -8,18 +8,17 @@ import { useUserStore } from '@/stores'
 
 const username = ref('')
 const nickname = ref('')
-const role = ref([])
+const role = ref('')
 const password = ref('')
 const password_second = ref('')
 const status = ref('login')
-const show = ref(false)
 const userStore = useUserStore()
 
 const switch_register = () => {
   username.value = ''
   password.value = ''
   nickname.value = ''
-  role.value = []
+  role.value = ''
   password_second.value = ''
   status.value = 'register'
 }
@@ -45,7 +44,7 @@ const submit = async () => {
         username: username.value,
         nickname: nickname.value,
         password: password.value,
-        role: role.value[0],
+        role: role.value,
         gender: 'SECRET'
       })
       console.log(res)
@@ -67,11 +66,11 @@ const submit = async () => {
       console.log(user, '登录成功')
       console.log(user.role)
 
-      if (user.role.toString() === "Volunteer") {
+      if (user.role === "VOLUNTEER") {
         router.push('/volunteer')
-      } else if (user.role.toString() === "Child") {
+      } else if (user.role === "CHILD") {
         router.push('/child/find')
-      } else if (user.role.toString() === "Sponsor") {
+      } else if (user.role === "SPONSOR") {
         router.push('/sponsor')
       }
 

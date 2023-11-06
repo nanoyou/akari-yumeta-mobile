@@ -83,7 +83,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/child/chat',
     name: 'child_chat',
-    component: () => import('@/views/child/chat/ChildChatPage.vue'),
+    component: () => import('@/views/chat/ChildChatPage.vue'),
     meta: {
       showTabBar: true,
       showTopBar: false,
@@ -94,7 +94,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/child/find',
     name: 'child_find',
-    component: () => import('@/views/child/find/ChildFindPage.vue'),
+    component: () => import('@/views/Dynamic/CheckDynamicPage.vue'),
     meta: {
       title: '动态',
       showTabBar: true,
@@ -105,7 +105,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/child/my',
     name: 'child_my',
-    component: () => import('@/views/child/my/ChildMyPage.vue'),
+    component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
       title: '个人中心',
       showTabBar: true,
@@ -116,7 +116,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/child/study',
     name: 'child_study',
-    component: () => import('@/views/child/study/ChildStudyPage.vue'),
+    component: () => import('@/views/study/ChildStudyPage.vue'),
     meta: {
       title: '学习',
       showTabBar: true,
@@ -128,7 +128,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/postDynamic',
     name: 'post_dynamic',
-    component: () => import('@/views/child/find/PostDynamicPage.vue'),
+    component: () => import('@/views/Dynamic/PostDynamicPage.vue'),
     meta: {
       title: '发布动态',
       showTabBar: false,
@@ -138,7 +138,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/child/study/taskDetail/:taskId',
     name: 'child_study_taskDetail',
-    component: () => import('@/views/child/study/ChildTaskPage.vue'),
+    component: () => import('@/views/study/ChildTaskPage.vue'),
     props: true,
     meta: {
       title: '课程详情',
