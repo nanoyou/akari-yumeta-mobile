@@ -30,7 +30,13 @@ const switch_login = () => {
 }
 const submit = async () => {
   if (status.value === 'register') {
-    if(username.value === '' || nickname.value === '' || password.value === '' || password_second.value === '' || role.value.length === 0) {
+    if (
+      username.value === '' ||
+      nickname.value === '' ||
+      password.value === '' ||
+      password_second.value === '' ||
+      role.value.length === 0
+    ) {
       showNotify('请填写完整信息！')
       return
     }
@@ -53,9 +59,6 @@ const submit = async () => {
     } catch (e) {
       showNotify((e as Result<any>).message)
     }
-
-
-
   } else {
     try {
       const user = await login({
@@ -66,14 +69,15 @@ const submit = async () => {
       console.log(user, '登录成功')
       console.log(user.role)
 
-      if (user.role === "VOLUNTEER") {
+      if (user.role === 'VOLUNTEER') {
         router.push('/dynamic')
-      } else if (user.role === "CHILD") {
+      } else if (user.role === 'CHILD') {
         router.push('/dynamic')
-      } else if (user.role === "SPONSOR") {
+      } else if (user.role === 'SPONSOR') {
         router.push('/dynamic')
       }
 
+      userStore.user
       userStore.setUserDTO(user)
       console.log(user, '登录成功')
       showNotify({
@@ -105,7 +109,9 @@ const submit = async () => {
           plain
           @click="switch_register"
           type="primary"
-          :class="status === 'register' ? 'register_button_active' : 'register_button'"
+          :class="
+            status === 'register' ? 'register_button_active' : 'register_button'
+          "
           text="注册"
         />
       </div>
@@ -150,7 +156,11 @@ const submit = async () => {
       placeholder="请再次输入密码"
     />
 
-    <van-radio-group class="checkbox_group" v-model="role" direction="horizontal">
+    <van-radio-group
+      class="checkbox_group"
+      v-model="role"
+      direction="horizontal"
+    >
       <van-radio name="VOLUNTEER">志愿者</van-radio>
       <van-radio name="CHILD">儿童</van-radio>
       <van-radio name="SPONSOR">捐助者</van-radio>
