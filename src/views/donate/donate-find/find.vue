@@ -50,6 +50,36 @@ const xiaoyi: User = {
   username: '小益',
   tags: ['hh', 'heihei', 'yy', 'ss']
 }
+const goods = [
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  },
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  },
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  },
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  }
+]
 const children = ref([xiaoyi])
 const isFollowed = ref(false)
 function follow(userID: string) {
@@ -119,7 +149,16 @@ function follow(userID: string) {
           <span class="search-bar">
             <van-search placeholder="请输入搜索关键词" />
           </span>
-          <div class=""
+          <div class="show_cards">
+            <van-card
+              v-for="good in goods"
+              :key="good.id"
+              :desc="good.description"
+              :price="good.unitPrice"
+              :thumb="good.imageURL"
+              :title="good.name"
+            />
+          </div>
         </div>
       </van-tab>
     </van-tabs>
