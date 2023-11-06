@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { LoginUserDTO, User } from '@/api/entity'
 
 // 使用pinia库定义一个名为useUserStore的状态管理器
 export const useUserStore = defineStore(

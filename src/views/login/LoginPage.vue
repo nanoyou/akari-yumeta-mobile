@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import { login, register } from '@/api'
 import { showNotify } from 'vant'
 import { Role, type Result } from '@/api/entity'
+import { useUserStore } from '@/stores'
 
 const message = ref('')
 const username = ref('')
@@ -13,6 +14,7 @@ const password = ref('')
 const password_second = ref('')
 const status = ref('login')
 const show = ref(false)
+const userStore = useUserStore()
 
 const switch_register = () => {
   username.value = ''
@@ -59,15 +61,10 @@ const submit = async () => {
 
       console.log(user.role)
 
+      // 聊天界面三个角色共有，进入相同页面
+      router.push('/chat')
 
-      if (user.role === Role.Volunteer) {
-        router.push('/volunteer')
-      } else if (user.role === Role.Child) {
-        router.push('/child/find')
-      } else if (user.role === Role.Sponsor) {
-        router.push('/sponsor')
-      }
-
+      userStore.setUserDTO(user)
       console.log(user, '登录成功')
       showNotify({
         type: 'success',
@@ -87,7 +84,7 @@ const submit = async () => {
 
 <template>
   <div class="img_container">
-    <van-image src="../../../public/imgs/xiaoyi.png" class="logo"></van-image>
+    <van-image src="/imgs/xiaoyi.png" class="logo"></van-image>
   </div>
   <div style="display: flex; justify-content: center">
     <div style="width: 50%">
