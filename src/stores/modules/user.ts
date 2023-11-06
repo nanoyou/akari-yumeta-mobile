@@ -12,7 +12,11 @@ export const useUserStore = defineStore(
       token.value = u.token
       console.log(token.value)
     }
-    return { token, user, setUserDTO }
+    const logout = () => {
+      user.value = undefined
+      token.value = ''
+    }
+    return { token, user, setUserDTO, logout }
   },
   {
     persist: true
