@@ -69,15 +69,9 @@ const submit = async () => {
       console.log(user, '登录成功')
       console.log(user.role)
 
-      if (user.role === 'VOLUNTEER') {
-        router.push('/dynamic')
-      } else if (user.role === 'CHILD') {
-        router.push('/dynamic')
-      } else if (user.role === 'SPONSOR') {
-        router.push('/dynamic')
-      }
+      // 登录后统一跳转至聊天界面
+      router.push('/chat')
 
-      userStore.user
       userStore.setUserDTO(user)
       console.log(user, '登录成功')
       showNotify({
