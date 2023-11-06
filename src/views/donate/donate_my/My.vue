@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import donateHistory from '@/views/donate/donate_my/donateHistoryCard0.vue'
+import DonateHistory from '@/views/donate/donate_my/DonateHistoryCard0.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const handleNavigateToDetails = () => {
@@ -11,7 +11,7 @@ const handleNavigateToDetails = () => {
 
 <template>
   <h1>Mine</h1>
-  <donateHistory @navigate="handleNavigateToDetails" />
+  <DonateHistory @navigate="handleNavigateToDetails" />
   <!-- 引入组件 -->
 </template>
 

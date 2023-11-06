@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // 导入用户store和响应式函数
-import { useUserStore } from '../../../stores/modules/user'
-import { ref } from 'vue'
+import { useUserStore } from '@/stores'
+import { ref, computed } from 'vue'
 // 导入axios库
 import axios from 'axios'
 // 导入vant库的Card组件
@@ -9,10 +9,8 @@ import { Card } from 'vant'
 
 // 使用useUserStore函数获取用户store实例
 const userStore = useUserStore()
-// 设置用户ID
-userStore.setID('12313131313') // 根据实际情况替换即可
 // 获取用户ID和结果数据的响应式变量
-let userID = userStore.ID
+const userID = computed(() => userStore.user?.id)
 let resultData = ref(null) // 使用 ref 创建响应式的 resultData
 // 响应式变量用于记录是否加载完资金数据和物品数据
 let isMoneyDataLoaded = ref(false)
@@ -21,7 +19,7 @@ let isGoodsDataLoaded = ref(false)
 console.log(userID)
 
 // 如果用户已登录
-if (userID) {
+if (userID.value) {
   console.log('用户已登录')
   // 调用fetchData函数获取数据
   fetchData(userID)

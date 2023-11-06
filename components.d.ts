@@ -7,22 +7,25 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    DynamicCard: typeof import('./src/components/dynamic/DynamicCard.vue')['default']
+    LinkCard: typeof import('./src/components/dynamic/LinkCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TabbarComponent: typeof import('./src/components/tabbar/TabbarComponent.vue')['default']
+    UserCard: typeof import('./src/components/UserCard.vue')['default']
     VanActionBarButton: typeof import('vant/es')['ActionBarButton']
     VanButton: typeof import('vant/es')['Button']
-    VanCard: typeof import('vant/es')['Card']
     VanCellGroup: typeof import('vant/es')['CellGroup']
-    VanCheckbox: typeof import('vant/es')['Checkbox']
-    VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
     VanField: typeof import('vant/es')['Field']
+    VanIcon: typeof import('vant/es')['Icon']
     VanImage: typeof import('vant/es')['Image']
-    VanLoading: typeof import('vant/es')['Loading']
     VanNavBar: typeof import('vant/es')['NavBar']
-    VanTab: typeof import('vant/es')['Tab']
+    VanRadio: typeof import('vant/es')['Radio']
+    VanRadioGroup: typeof import('vant/es')['RadioGroup']
+    VanSwipe: typeof import('vant/es')['Swipe']
+    VanSwipeItem: typeof import('vant/es')['SwipeItem']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
-    VanTabs: typeof import('vant/es')['Tabs']
+    VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
   }
 }

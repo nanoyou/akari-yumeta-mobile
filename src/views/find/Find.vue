@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { User } from '@/api/entity'
+import { User } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
-import userCard from './user-card.vue'
-import { Tag } from 'vant'
+import userCard from '@/components/UserCard.vue'
 const choice = ref(true)
 const sortOrder = ref({
   value: 0,

@@ -1,128 +1,77 @@
-import { createRouter, createWebHistory } from 'vue-router'
-const childTabbarItems = [
-  {
-    name: '动态',
-    icon: 'star-o',
-    to: '/child/find'
-  },
-  {
-    name: '学习',
-    icon: 'records-o',
-    to: '/child/study'
-  },
-  {
-    name: '聊天',
-    icon: 'chat-o',
-    to: '/child/chat'
-  },
-  {
-    name: '我的',
-    icon: 'home-o',
-    to: '/child/my'
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+declare module 'vue-router' {
+  interface RouteMeta {
+    showTabBar: boolean
+    showTopBar: boolean
+    title?: string
   }
-]
+}
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'layout',
     redirect: '/login',
-    component: () => import('@/views/layout/LayoutContainer.vue')
+    component: () => import('@/views/layout/LayoutContainer.vue'),
+    children: []
   },
   {
-    path: '/sponsor',
-    name: 'sponsor',
-    component: () => import('@/views/sponsor/SponsorHomePage.vue'),
-    meta: {
-      showTabBar: true,
-      showTopBar: true,
-      title: '捐助者',
-      tabbarItems: [
-        {
-          name: '首页',
-          icon: 'home-o',
-          to: '/sponsor'
-        },
-        {
-          name: '退出登录 ',
-          icon: 'close',
-          to: '/login'
-        }
-      ]
-    }
-  },
-  {
-    path: '/volunteer',
-    name: 'volunteer',
-    component: () => import('@/views/volunteer/VolunteerHomePage.vue'),
-    meta: {
-      showTabBar: true,
-      showTopBar: true,
-      title: '志愿者',
-      tabbarItems: [
-        {
-          name: '首页',
-          icon: 'home-o',
-          to: '/volunteer'
-        },
-        {
-          name: '退出登录 ',
-          icon: 'close',
-          to: '/login'
-        }
-      ]
-    }
-  },
-  {
-    path: '/child/chat',
-    name: 'child_chat',
-    component: () => import('@/views/child/chat/ChildChatPage.vue'),
+    path: '/chat',
+    name: 'chat',
+    component: () => import('@/views/chat/ChatPage.vue'),
     meta: {
       showTabBar: true,
       showTopBar: false,
-      title: '聊天',
-      tabbarItems: childTabbarItems
+      title: '聊天'
     }
   },
   {
-    path: '/child/find',
-    name: 'child_find',
-    component: () => import('@/views/child/find/ChildFindPage.vue'),
+    path: '/dynamic',
+    name: 'dynamic',
+    component: () => import('@/views/dynamic/CheckDynamicPage.vue'),
     meta: {
       title: '动态',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: childTabbarItems
+      showTopBar: false
     }
   },
   {
-    path: '/child/my',
-    name: 'child_my',
-    component: () => import('@/views/child/my/ChildMyPage.vue'),
+    path: '/my',
+    name: 'my',
+    component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
       title: '个人中心',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: childTabbarItems
+      showTopBar: false
     }
   },
   {
-    path: '/child/study',
-    name: 'child_study',
-    component: () => import('@/views/child/study/ChildStudyPage.vue'),
+    path: '/study',
+    name: 'study',
+    component: () => import('@/views/study/ChildStudyPage.vue'),
     meta: {
       title: '学习',
       showTabBar: true,
-      showTopBar: false,
-      tabbarItems: childTabbarItems
+      showTopBar: false
     }
   },
   {
-    path: '/register',
-    name: 'register',
-    component: () => import('@/views/register/RegisterPage.vue'),
+    path: '/postDynamic',
+    name: 'post_dynamic',
+    component: () => import('@/views/dynamic/PostDynamicPage.vue'),
     meta: {
-      title: '注册',
+      title: '发布动态',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/study/taskDetail/:taskId',
+    name: 'study_taskDetail',
+    component: () => import('@/views/study/ChildTaskPage.vue'),
+    props: true,
+    meta: {
+      title: '课程详情',
       showTabBar: false,
       showTopBar: true
     }
@@ -131,33 +80,6 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/LoginPage.vue'),
-    meta: {
-      showTabBar: false,
-      showTopBar: false
-    }
-  },
-  {
-    path: '/testCard0', //有用，别删
-    name: 'donate@1231313',
-    component: () => import('@/views/donate/donate_my/donateHistoryCard0.vue'),
-    meta: {
-      showTabBar: false,
-      showTopBar: false
-    }
-  },
-  {
-    path: '/testMy', //有用，别删
-    name: 'donate@5243241',
-    component: () => import('@/views/donate/donate_my/my.vue'),
-    meta: {
-      showTabBar: false,
-      showTopBar: false
-    }
-  },
-  {
-    path: '/testDonateHistory',
-    name: 'donate@45353',
-    component: () => import('@/views/donate/donate_my/DonateHistory.vue'),
     meta: {
       showTabBar: false,
       showTopBar: false
