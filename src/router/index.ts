@@ -87,7 +87,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/find',
-    name: 'post_dynamic',
+    name: 'find',
     component: () => import('@/views/find/FindPage.vue'),
     meta: {
       title: '发现',
