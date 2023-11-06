@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import  DynamicCard  from '../../components/child/DynamicCard.vue'
+import  DynamicCard  from '@/components/dynamic/DynamicCard.vue'
 import router from "@/router";
 const postDynamic = () => {
   router.push('/postDynamic')

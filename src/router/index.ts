@@ -10,22 +10,22 @@ const childTabbarItems = [
   {
     name: '动态',
     icon: 'star-o',
-    to: '/child/find'
+    to: '/dynamic/find'
   },
   {
     name: '学习',
     icon: 'records-o',
-    to: '/child/study'
+    to: '/dynamic/study'
   },
   {
   name: '聊天',
   icon: 'chat-o',
-  to: '/child/chat'
+  to: '/dynamic/chat'
   },
   {
     name: '我的',
     icon: 'home-o',
-    to: '/child/my'
+    to: '/dynamic/my'
   }]
 
 const routes: RouteRecordRaw[] = [

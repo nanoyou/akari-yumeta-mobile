@@ -7,7 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    DynamicCard: typeof import('./src/components/child/DynamicCard.vue')['default']
+    DynamicCard: typeof import('./src/components/dynamic/DynamicCard.vue')['default']
+    LinkCard: typeof import('./src/components/dynamic/LinkCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TabbarComponent: typeof import('./src/components/tabbar/TabbarComponent.vue')['default']
@@ -29,5 +30,6 @@ declare module 'vue' {
     VanTabs: typeof import('vant/es')['Tabs']
     VanTag: typeof import('vant/es')['Tag']
     VanTextEllipsis: typeof import('vant/es')['TextEllipsis']
+    VanUploader: typeof import('vant/es')['Uploader']
   }
 }

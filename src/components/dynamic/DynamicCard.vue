@@ -15,30 +15,12 @@
       />
 
       <div class="comment_photo_container">
-        <img
+        <img v-for="i in 6"
             class="comment_photo"
             src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
         />
-        <img
-            class="comment_photo"
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        />
-        <img
-            class="comment_photo"
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        />
-        <img
-            class="comment_photo"
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        />
-        <img
-            class="comment_photo"
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        />
-        <img
-            class="comment_photo"
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        />
+        <LinkCard></LinkCard>
+
         <div class="button_group">
           <van-icon class="like_button" size="20" name="like"></van-icon>
           <van-icon class="comment_button" size="20" name="comment-o"></van-icon>
@@ -79,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import LinkCard from "@/components/dynamic/LinkCard.vue";
+
 const title = "My Component";
 const content = "This is my custom component!";
 

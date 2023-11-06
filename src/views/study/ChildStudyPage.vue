@@ -6,11 +6,12 @@ import {showNotify} from "vant";
 import router from "@/router";
 
 const images = [
-  '../../../../public/imgs/lesson1.png',
-  '../../../../public/imgs/lesson2.png',
-  '../../../../public/imgs/lesson3.png',
-  '../../../../public/imgs/lesson4.png',
+  '/imgs/lesson1.png',
+  'imgs/lesson2.png',
+  '/imgs/lesson3.png',
+  '/imgs/lesson4.png',
 ];
+
 const TaskCategory = ['农业', '牧业', '语言', '科学', '卫生', '社会', '历史', '政治']
 const active = ref('')
 const allTasks = ref<Task[]>([]);
@@ -32,7 +33,7 @@ onMounted(async () => {
 });
 
 const check_task = (task_id) => {
-  router.push('/child/study/taskDetail/' + task_id)
+  router.push('/study/taskDetail/' + task_id)
 }
 
 const start_task = (task_id) => {
@@ -51,14 +52,13 @@ const start_task = (task_id) => {
 
 const submit = async () => {
   const res = await postTask({
-    taskName: "课程222",
-    taskUploaderID: "string",
+    taskName: "食品安全",
     startTime: "1111-11-11 11:11:11",
     endTime: "2222-11-11 11:11:11",
-    description: "asdasd",
+    description: "浙江大学、北京大学、中国农业大学等13校/跨校共建",
     category: "HYGIENE",
     bonus: 10,
-    videoURL: "string"
+    videoURL: "https://www.icourse163.org/"
   })
   console.log(res)
 }
@@ -82,13 +82,13 @@ const select_tag = (index: number) => {
     </div>
     <div style="display: flex;justify-content: center">
       <div class="tag-container">
-        <van-tag
+        <div
             v-for="(category, index) in TaskCategory"
             :key="index"
             @click="select_tag(index)"
             :class="is_select[index] === 1 ? 'custom_tag_active' : 'custom_tag'">
           {{ category }}
-        </van-tag>
+        </div>
       </div>
     </div>
 
@@ -185,7 +185,9 @@ const select_tag = (index: number) => {
 }
 .custom_tag {
   flex: 1;
-  max-width: calc(25% - 10px);
+  width: 50px;
+  height: 13px;
+  line-height: 13px;
   background-color: white;
   color: #3498db;
   border: 1px solid #2980b9;
@@ -197,11 +199,10 @@ const select_tag = (index: number) => {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   font-weight: bold;
-  text-transform: uppercase;
 }
 .custom_tag_active {
   flex: 1;
-  max-width: calc(25% - 10px);
+  width: 50px;
   background-color: #3498db;
   color: #fff;
   border: 1px solid #2980b9;

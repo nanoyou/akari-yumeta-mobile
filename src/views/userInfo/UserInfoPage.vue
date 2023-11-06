@@ -13,10 +13,10 @@ let is_show = ref(false)
 let user_info = ref<User | null>(null);
 
 const images = [
-  '../../../../public/imgs/lesson1.png',
-  '../../../../public/imgs/lesson2.png',
-  '../../../../public/imgs/lesson3.png',
-  '../../../../public/imgs/lesson4.png',
+  '/imgs/lesson1.png',
+  'imgs/lesson2.png',
+  '/imgs/lesson3.png',
+  '/imgs/lesson4.png',
 ];
 
 onMounted(async () => {
@@ -82,12 +82,12 @@ const show_more = () => {
 
     <div class="user_detail_container">
       <van-cell-group  inset>
-        <van-field label="昵称" :model-value="user_info?.nickname" readonly />
-        <div class="user_detail_space"></div>
-        <van-field label="角色" :model-value="user_info?.role" readonly />
-        <div class="user_detail_space"></div>
-        <van-field label="性别" :model-value="user_info?.gender" readonly />
-        <div class="user_detail_space"></div>
+<!--        <van-field label="昵称" :model-value="user_info?.nickname" readonly />-->
+<!--        <div class="user_detail_space"></div>-->
+<!--        <van-field label="角色" :model-value="user_info?.role" readonly />-->
+<!--        <div class="user_detail_space"></div>-->
+<!--        <van-field label="性别" :model-value="user_info?.gender" readonly />-->
+<!--        <div class="user_detail_space"></div>-->
         <van-field
             :model-value="user_info?.introduction"
             rows="3"
@@ -102,29 +102,29 @@ const show_more = () => {
     </div>
 
 
-    <!--  <div class="button_container">-->
-    <!--    <van-button class="function_button" type="primary" @click="back">退出登录</van-button>-->
-    <!--  </div>-->
-
-    <div class="button_group_container">
-      <div class="function_div">
-        <div class="left_items">
-            <van-icon class="chat_icon" size="30" name="chat-o" />
-            <span>聊天</span>
-        </div>
-        <img src="/imgs/more_icon.png" class="more_icon">
+      <div class="button_container">
+          <van-button class="function_button" type="primary" @click="back">退出登录</van-button>
       </div>
 
-      <div class="function_div">
-        <div class="left_items">
-          <van-icon class="donate_icon" size="30" name="gold-coin-o"></van-icon>
-          <span>捐助</span>
-        </div>
-        <img src="/imgs/more_icon.png" class="more_icon">
-      </div>
+<!--    <div class="button_group_container">-->
+<!--      <div class="function_div">-->
+<!--        <div class="left_items">-->
+<!--            <van-icon class="chat_icon" size="30" name="chat-o" />-->
+<!--            <span>聊天</span>-->
+<!--        </div>-->
+<!--        <img src="/imgs/more_icon.png" class="more_icon">-->
+<!--      </div>-->
+
+<!--      <div class="function_div">-->
+<!--        <div class="left_items">-->
+<!--          <van-icon class="donate_icon" size="30" name="gold-coin-o"></van-icon>-->
+<!--          <span>捐助</span>-->
+<!--        </div>-->
+<!--        <img src="/imgs/more_icon.png" class="more_icon">-->
+<!--      </div>-->
+<!--    </div>-->
 
 
-    </div>
   </div>
 
 
@@ -166,6 +166,11 @@ const show_more = () => {
 .donate_icon {
   margin: 0px 13px 0px 10px;
   color: #F2C629;
+}
+.button_container {
+  justify-content: center;
+  display: flex;
+  margin-top: 30px;
 }
 .flex_container {
   display: flex;
