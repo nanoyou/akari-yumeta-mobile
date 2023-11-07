@@ -87,10 +87,30 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/find',
-    name: 'post_dynamic',
+    name: 'find',
     component: () => import('@/views/find/FindPage.vue'),
     meta: {
       title: '发现',
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/money',
+    name: 'money',
+    component: () => import('@/views/find/DonateMoney.vue'),
+    meta: {
+      title: '资助儿童',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/goods',
+    name: 'goods',
+    component: () => import('@/views/find/DonateGoods.vue'),
+    meta: {
+      title: '捐赠物资',
       showTabBar: false,
       showTopBar: true
     }

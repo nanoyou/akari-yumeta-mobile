@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { getUserList, getFolloweeList } from '@/api'
-import type { User } from '@/api/entity'
+import type { UserDTO } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
 import { useUserStore } from '@/stores'
-import userCard from './user-card.vue'
+import userCard from '@/components/UserCard.vue'
 const userStore = useUserStore()
 // 获取所有用户
 async function getAllUser() {
@@ -39,7 +39,7 @@ const checkedFollower = ref(false)
 //   { text: '重病', value: '重病' },
 //   { text: '遭遇重大灾难', value: '遭遇重大灾难' }
 // ])
-const xiaoyi: User = {
+const xiaoyi: UserDTO = {
   avatarURL: '../../public/imgs/xiaoyi.png',
   gender: Gender.Secret,
   id: '123456789',
