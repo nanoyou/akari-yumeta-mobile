@@ -36,11 +36,29 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/my',
-    name: 'my',
+    path: '/my_old',
+    name: 'my_old',
     component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
       title: '个人中心',
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/my',
+    name: 'my',
+    component: () => import('@/views/userInfo/MyPage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/user/:userID',
+    name: 'userinfo',
+    component: () => import('@/views/userInfo/UserInfo.vue'),
+    meta: {
       showTabBar: true,
       showTopBar: false
     }
