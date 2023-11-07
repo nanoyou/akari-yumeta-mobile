@@ -33,12 +33,12 @@ const props = defineProps<{
       <!-- <div class="gender">{{ getGenderStr(user.gender) }}</div> -->
       <div class="gender">
         <van-icon
-          size="24px"
+          size="20px"
           v-if="user.gender == Gender.Male"
           name="/icon/gender-male.svg"
         />
         <van-icon
-          size="24px"
+          size="20px"
           v-else-if="user.gender == Gender.Female"
           name="/icon/gender-female.svg"
         />
@@ -63,9 +63,8 @@ const props = defineProps<{
 <style scoped>
 .common-card {
   width: 100%;
-  height: 80px;
+  height: 110px;
   display: flex;
-  padding: 15px;
   background-color: white;
 }
 .content {
@@ -102,7 +101,11 @@ const props = defineProps<{
 .extra {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: flex-end;
+  margin: 15px;
+}
+.avatar {
+  margin: 15px;
 }
 </style>
