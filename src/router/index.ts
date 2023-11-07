@@ -59,6 +59,7 @@ const routes: RouteRecordRaw[] = [
     name: 'userinfo',
     component: () => import('@/views/userInfo/UserInfo.vue'),
     meta: {
+      title: '个人主页',
       showTabBar: true,
       showTopBar: false
     }

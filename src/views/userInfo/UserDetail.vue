@@ -3,6 +3,7 @@ import { getUserInfo } from '@/api'
 import { type UserDTO } from '@/api/entity'
 import { ref } from 'vue'
 import { watch } from 'vue'
+import CommonCard from '@/components/user/CommonCard.vue'
 const props = defineProps<{
   userID: string
   perspective: 'me' | 'others'
@@ -13,10 +14,14 @@ const user = ref<UserDTO>()
 </script>
 
 <template>
-  <div>
-    {{ user?.username }}
+  <div class="info-page">
+    <CommonCard :user="user" />
   </div>
-  <div>视角: {{ props.perspective }}</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.info-page {
+  display: flex;
+  margin: 10px;
+}
+</style>
