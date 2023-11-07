@@ -45,6 +45,11 @@ instance.interceptors.response.use(
         res.data = res.data.data
         return Promise.resolve(res)
       } else {
+        // 如果需要登录，则跳转登录页面
+        if (res.data.code == 2) {
+          // 不知道为什么这里用 router.push 会出问题
+          window.location.href = '/login'
+        }
         return Promise.reject(res.data)
       }
     }
