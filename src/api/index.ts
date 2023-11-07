@@ -1,6 +1,16 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
-import type { LoginUserDTO, Result, Task, User } from './entity'
+import type {
+  DonateGoods,
+  DonateHistoryDTO,
+  DonateMoney,
+  GoodsInfo,
+  LoginUserDTO,
+  Result,
+  Task,
+  User,
+  UserDTO
+} from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
 
@@ -57,7 +67,7 @@ export const getTaskDynamic = async (taskID: string) =>
   (await instance.get<Task>('/task/' + taskID + '/dynamic')).data
 
 export const startTask = async (taskID: string) =>
-  (await instance.post<Result<any>>('/task/' + taskID + '/open')).data
+  (await instance.post<Task>('/task/' + taskID + '/open')).data
 
 export const login = async (data: { username: string; password: string }) =>
   (await instance.post<LoginUserDTO>('/login', data)).data
@@ -70,10 +80,11 @@ export const register = async (data: {
   gender: string
 }) => (await instance.post<User>('/register', data)).data
 
-export const getUserList = async () => (await instance.get<null>('/user')).data
+export const getUserList = async () =>
+  (await instance.get<UserDTO>('/user')).data
 
 export const getFolloweeList = async () =>
-  (await instance.get<null>('/my/follow')).data
+  (await instance.get<UserDTO[]>('/my/follow')).data
 export const postTask = async (data: {
   taskName: string
   startTime: string
@@ -83,3 +94,24 @@ export const postTask = async (data: {
   bonus: number
   videoURL: string
 }) => (await instance.post<Task>('/task', data)).data
+
+export const getDonateGoods = async () =>
+  (await instance.get<GoodsInfo>('/donate/goods')).data
+
+export const donateMoney = async (data: {
+  doneeID: string
+  amount: number
+  wishes: string
+}) => (await instance.post<DonateMoney>('/donate/money', data)).data
+
+export const donateGoods = async (data: {
+  goodsID: string
+  amount: number
+  wishes: string
+}) => (await instance.post<DonateGoods>('/donate/goods', data)).data
+
+export const getDonateHistory = async (userID: string) =>
+  (await instance.get<DonateHistoryDTO[]>(`/donate/${userID}/info`)).data
+
+export const getGoodsInfo = async (goodsID: string) =>
+  (await instance.get<GoodsInfo>(`/donate/goods/${goodsID}`)).data
