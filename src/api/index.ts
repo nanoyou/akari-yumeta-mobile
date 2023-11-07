@@ -10,7 +10,13 @@ import {
   type Result,
   type Task,
   type User,
-  type UserDTO
+  type UserDTO,
+  type TaskRecord,
+  type ChatDTO,
+  type Message,
+  MessageType,
+  type Subscription,
+  Gender
 } from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
@@ -68,7 +74,13 @@ export const getTaskDynamic = async (taskID: string) =>
   (await instance.get<Task>('/task/' + taskID + '/dynamic')).data
 
 export const startTask = async (taskID: string) =>
-  (await instance.post<Task>('/task/' + taskID + '/open')).data
+  (await instance.post<TaskRecord>('/task/' + taskID + '/open')).data
+
+export const finishTask = async (taskID: string) =>
+  (await instance.post<TaskRecord>(`/task/${taskID}/finish`)).data
+
+export const getUserScore = async (userID: string) =>
+  (await instance.get<{ score: number }>(`/user/${userID}/score`)).data.score
 
 export const login = async (data: { username: string; password: string }) =>
   (await instance.post<LoginUserDTO>('/login', data)).data
@@ -86,6 +98,32 @@ export const getUserList = async () =>
 
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data
+
+/**
+ * 是否已关注某人
+ * @param userID 要查询的被关注人
+ * @returns 是否关注
+ */
+export const isFollowed = async (userID: string) =>
+  (await instance.get<{ followed: boolean }>(`/my/follow/${userID}`)).data
+    .followed
+
+/**
+ * 关注某人
+ * @param userID 被关注人 ID
+ * @returns 关注信息
+ */
+export const follow = async (userID: string) =>
+  (await instance.post<Subscription>(`/my/follow/${userID}`)).data
+
+export const modifyMyInfo = async (data: {
+  nickname?: string
+  gender?: Gender
+  introduction?: string
+  avatarURL?: string
+  tags?: string[]
+}) => (await instance.patch(`/my/info`, data)).data
+
 export const postTask = async (data: {
   taskName: string
   startTime: string
@@ -132,3 +170,29 @@ export const replyCommentOrDynamic = async (
 ) =>
   (await instance.post<DynamicDTO>(`/comment/${commentID}/reply`, { content }))
     .data
+
+export const myChatList = async () =>
+  (await instance.get<ChatDTO>('/my/chat')).data
+
+/**
+ * 查看和某人的历史记录
+ * @param userID 聊天对象
+ * @returns 消息列表
+ */
+export const getChatMessages = async (userID: string) =>
+  (await instance.get<Message[]>(`/chat/message/${userID}`)).data
+
+export const sendMessage = async (
+  userID: string,
+  content: string,
+  type: MessageType = MessageType.Text
+) =>
+  (
+    await instance.post<Message[]>(`/chat/message/${userID}`, {
+      content,
+      type
+    })
+  ).data
+
+export const markRead = async (messageID: string) =>
+  (await instance.post<Message>(`/chat/message/${messageID}`)).data

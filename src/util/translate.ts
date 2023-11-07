@@ -1,4 +1,4 @@
-import { Category, Gender, Role, Status } from '@/api/entity'
+import { Category, Gender, Role, TaskStatus } from '@/api/entity'
 
 export const getRoleStr = (role: Role): string => {
   switch (role) {
@@ -24,13 +24,13 @@ export const getGenderStr = (gender: Gender): string => {
   }
 }
 
-export const getStatusStr = (status: Status): string => {
+export const getStatusStr = (status: TaskStatus): string => {
   switch (status) {
-    case Status.Finished:
+    case TaskStatus.Finished:
       return '已完成'
-    case Status.InProgress:
+    case TaskStatus.InProgress:
       return '进行中'
-    case Status.NotStarted:
+    case TaskStatus.NotStarted:
       return '未开始'
   }
 }
