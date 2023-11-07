@@ -15,13 +15,12 @@ const user = ref<UserDTO>()
 
 <template>
   <div class="info-page">
-    <CommonCard :user="user" />
+    <CommonCard :user="user!" />
   </div>
 </template>
 
 <style scoped>
 .info-page {
   display: flex;
-  margin: 10px;
 }
 </style>
