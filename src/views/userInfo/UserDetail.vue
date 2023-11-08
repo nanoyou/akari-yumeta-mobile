@@ -7,6 +7,8 @@ import pinia, { useUserStore, useBarStore } from '@/stores'
 import { onMounted } from 'vue'
 import router from '@/router'
 import { onUnmounted } from 'vue'
+import { onBeforeMount } from 'vue'
+import { computed } from 'vue'
 const props = defineProps<{
   userID: string
   perspective: 'me' | 'others'
@@ -16,15 +18,30 @@ const user = ref<UserDTO>()
 ;(async () => (user.value = await getUserInfo(props.userID)))()
 
 const userStore = useUserStore()
+const barStore = useBarStore()
 
 const logout = () => {
   userStore.logout()
   window.location.href = '/login'
 }
+onBeforeMount(() => {
+  if (props.perspective === 'others') {
+    barStore.setShowTopBar(true)
+  }
+})
+onUnmounted(() => {
+  if (props.perspective === 'others') {
+    barStore.unsetShowTopBar()
+  }
+})
+
+const navBarClass = computed(() =>
+  props.perspective === 'me' ? '' : 'with-nav-bar'
+)
 </script>
 
 <template>
-  <div class="info-page">
+  <div class="info-page" :class="navBarClass">
     <CommonCard :user="user!" />
 
     <van-cell title="个人介绍" :label="user?.introduction"></van-cell>
@@ -58,7 +75,9 @@ const logout = () => {
 .info-page {
   display: flex;
   width: 100%;
-
   flex-direction: column;
+}
+.info-page.with-nav-bar {
+  margin-top: 46px;
 }
 </style>
