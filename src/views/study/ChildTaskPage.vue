@@ -127,7 +127,7 @@
 import {onMounted, ref} from 'vue'
 import {getCategoryStr} from '@/util/translate'
 import {getTaskDetail, getTaskDynamic, getUserInfo, sendTaskComment} from '@/api'
-import {type commentInfo, TaskCourseDTO} from '@/api/entity'
+import {type commentInfo, type TaskCourseDTO} from '@/api/entity'
 import router from "@/router";
 
 const { taskId } = defineProps(['taskId'])
