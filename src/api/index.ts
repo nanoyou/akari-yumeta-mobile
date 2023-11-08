@@ -114,8 +114,7 @@ export const getFolloweeList = async () =>
  * @returns 是否关注
  */
 export const isFollowed = async (userID: string) =>
-  (await instance.get<{ followed: boolean }>(`/my/follow/${userID}`)).data
-    .followed
+  (await instance.get<boolean>(`/my/follow/${userID}`)).data
 
 /**
  * 关注某人

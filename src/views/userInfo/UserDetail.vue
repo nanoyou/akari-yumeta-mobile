@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { getUserInfo } from '@/api'
-import { type UserDTO } from '@/api/entity'
+import { Role, type UserDTO } from '@/api/entity'
 import { ref } from 'vue'
-import { watch } from 'vue'
 import CommonCard from '@/components/user/CommonCard.vue'
-import { useUserStore } from '@/stores'
+import pinia, { useUserStore, useBarStore } from '@/stores'
+import { onMounted } from 'vue'
 import router from '@/router'
+import { onUnmounted } from 'vue'
 const props = defineProps<{
   userID: string
   perspective: 'me' | 'others'
@@ -49,6 +50,7 @@ const logout = () => {
         </template>
       </van-cell>
     </van-cell-group>
+    <ActionBar :user="user" :perspective="perspective" />
   </div>
 </template>
 
