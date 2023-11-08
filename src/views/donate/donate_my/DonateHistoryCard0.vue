@@ -3,10 +3,11 @@ import { useUserStore } from '../../../stores/modules/user'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { getCurrentInstance } from 'vue'
+import type { DonateHistoryDTO } from '@/api/entity/donate'
 
 const userStore = useUserStore()
 const userID = computed(() => userStore.user?.id)
-let resultData = ref(null) // 使用 ref 创建响应式的 resultData
+let resultData = ref(null as unknown as DonateHistoryDTO) // 使用 ref 创建响应式的 resultData
 const instance = getCurrentInstance()
 console.log(userID) // 打印UserID
 
@@ -29,7 +30,19 @@ if (userID.value) {
       console.log(err)
     })
 } else {
-  console.log('用户未登录')
+  console.log('用户未登录，使用测试ID')
+  axios
+    .get(`https://mock.apifox.com/m1/3503500-0-default/donate/{test}/info`, {
+      //改为自己的接口地址即可，现在是apifox的mock地址
+    })
+    .then((result) => {
+      console.log('数据：', result)
+      console.log('真正的数据：', result.data.data)
+      resultData.value = result.data.data // 将数据赋值给 resultData
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 const handleButtonClick = () => {

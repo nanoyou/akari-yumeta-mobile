@@ -6,12 +6,13 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 // 导入vant库的Card组件
 import { Card } from 'vant'
+import type { DonateHistoryDTO } from '@/api/entity'
 
 // 使用useUserStore函数获取用户store实例
 const userStore = useUserStore()
 // 获取用户ID和结果数据的响应式变量
 const userID = computed(() => userStore.user?.id)
-let resultData = ref(null) // 使用 ref 创建响应式的 resultData
+let resultData = ref(null as unknown as DonateHistoryDTO) // 使用 ref 创建响应式的 resultData
 // 响应式变量用于记录是否加载完资金数据和物品数据
 let isMoneyDataLoaded = ref(false)
 let isGoodsDataLoaded = ref(false)
@@ -24,7 +25,10 @@ if (userID.value) {
   // 调用fetchData函数获取数据
   fetchData(userID)
 } else {
-  console.log('用户未登录')
+  console.log('用户未登录，使用测试ID')
+
+  // 调用fetchData函数获取数据
+  fetchData(userID)
 }
 
 // 异步函数，用于获取数据

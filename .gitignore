@@ -29,3 +29,4 @@ coverage
 *.sw?
 
 /components.d.ts
+components.d.ts

@@ -131,6 +131,16 @@ const routes: RouteRecordRaw[] = [
       showTabBar: false,
       showTopBar: true
     }
+  },
+  {
+    path: '/testChart',
+    name: 'testChart',
+    component: () => import('@/views/donate/donate_my/DonateChart.vue'),
+    meta: {
+      title: '发现',
+      showTabBar: false,
+      showTopBar: false
+    }
   }
 ]
 
