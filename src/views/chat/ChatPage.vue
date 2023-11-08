@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import router from "@/router";
+import router from '@/router'
 
 const search_value = ref('')
 const to_my = () => {
-  router.push("/my")
+  router.push('/my')
 }
 
 const show_chat = () => {
-  router.push("/chat/dialog")
+  router.push('/chat/dialog')
 }
 </script>
 
@@ -39,7 +39,7 @@ const show_chat = () => {
     </div>
 
     <div class="chat_records_container">
-      <div v-for="i in 2">
+      <div v-for="i in 2" :key="i">
         <div @click="show_chat" class="chat_record_container_important">
           <img class="search_record_photo" src="/imgs/teacher1.jpg" alt="" />
           <div class="record_right">
@@ -63,7 +63,7 @@ const show_chat = () => {
           </div>
         </div>
       </div>
-      <div v-for="i in 3">
+      <div v-for="i in 3" :key="i">
         <div @click="show_chat" class="chat_record_container">
           <img class="search_record_photo" src="/imgs/teacher1.jpg" alt="" />
           <div class="record_right">
@@ -86,7 +86,7 @@ const show_chat = () => {
           </div>
         </div>
       </div>
-      <div v-for="i in 2">
+      <div v-for="i in 2" :key="i">
         <div @click="show_chat" class="chat_record_container">
           <img class="search_record_photo" src="/imgs/teacher1.jpg" alt="" />
           <div class="record_right">
@@ -104,7 +104,7 @@ const show_chat = () => {
             <div class="record_first_line">
               <div class="record_content">戴口(辅导员):(电脑附件)</div>
               <div style="width: 200px"></div>
-<!--              <div class="record_number">8</div>-->
+              <!--              <div class="record_number">8</div>-->
               <div class="add_concern_container">
                 <div class="add_concern">
                   <div>+</div>
@@ -120,29 +120,28 @@ const show_chat = () => {
     </div>
   </div>
 </template>
-
 <style scoped>
 .add_concern {
   height: 15px;
   line-height: 15px;
   white-space: nowrap;
   display: flex;
-  padding: 5px
+  padding: 5px;
 }
 .role_tag_container {
   margin: 8px 0px 0px 8px;
-  color: #007FFF;
+  color: #007fff;
   font-size: 11px;
-  border: 1px solid #007FFF;
+  border: 1px solid #007fff;
   height: 25px;
   border-radius: 7px;
 }
 .add_concern_container {
   margin-top: 8px;
-  color: #007FFF;
+  color: #007fff;
   font-size: 13px;
   font-weight: bold;
-  border: 2px solid #007FFF;
+  border: 2px solid #007fff;
   height: 25px;
   border-radius: 7px;
 }

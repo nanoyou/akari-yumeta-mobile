@@ -46,11 +46,30 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/my',
-    name: 'my',
+    path: '/my_old',
+    name: 'my_old',
     component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
       title: '个人中心',
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/my',
+    name: 'my',
+    component: () => import('@/views/userInfo/MyPage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/user/:userID',
+    name: 'userinfo',
+    component: () => import('@/views/userInfo/UserInfo.vue'),
+    meta: {
+      title: '个人主页',
       showTabBar: true,
       showTopBar: false
     }
@@ -112,6 +131,26 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/find/FindPage.vue'),
     meta: {
       title: '发现',
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/money',
+    name: 'money',
+    component: () => import('@/views/find/DonateMoney.vue'),
+    meta: {
+      title: '资助儿童',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/goods',
+    name: 'goods',
+    component: () => import('@/views/find/DonateGoods.vue'),
+    meta: {
+      title: '捐赠物资',
       showTabBar: false,
       showTopBar: true
     }

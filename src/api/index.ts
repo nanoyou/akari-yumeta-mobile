@@ -1,7 +1,7 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
-import type {
-  commentContent, Datum,
+import {
+  type commentContent,
   type DynamicDTO,
   type DonateGoods,
   type DonateHistoryDTO,
@@ -17,12 +17,13 @@ import type {
   type Message,
   MessageType,
   type Subscription,
-  Gender, TaskCourseDTO, CommentDetail
+  Gender,
+  type TaskCourseDTO,
+  Role
 } from './entity'
 
 // const baseURL = 'http://172.16.5.39:8080'
 const baseURL = 'http://127.0.0.1:8080'
-
 
 const instance = axios.create({
   baseURL,
@@ -48,6 +49,11 @@ instance.interceptors.response.use(
         res.data = res.data.data
         return Promise.resolve(res)
       } else {
+        // 如果需要登录，则跳转登录页面
+        if (res.data.code == 2) {
+          // 不知道为什么这里用 router.push 会出问题
+          window.location.href = '/login'
+        }
         return Promise.reject(res.data)
       }
     }
@@ -66,7 +72,11 @@ export default instance
 export const getMyTask = async () =>
   (await instance.get<Task[]>('/my/task')).data
 
-export const getMyInfo = async () => (await instance.get<User>('/my/info')).data
+export const getMyInfo = async () =>
+  (await instance.get<UserDTO>('/my/info')).data
+
+export const getUserInfo = async (userID: string) =>
+  (await instance.get<UserDTO>(`/user/${userID}/info`)).data
 
 export const getAllTask = async () => (await instance.get<Task[]>('/task')).data
 
@@ -74,10 +84,10 @@ export const getTaskDetail = async (taskID: string) =>
   (await instance.get<TaskCourseDTO>('/task/' + taskID)).data
 
 export const getDynamicDetail = async (DynamicId: string) =>
-    (await instance.get<DynamicDTO>('/dynamic/' + DynamicId)).data
+  (await instance.get<DynamicDTO>('/dynamic/' + DynamicId)).data
 
 export const getTaskDynamic = async (taskID: string) =>
-  (await instance.get<Datum[]>('/task/' + taskID + '/dynamic')).data
+  (await instance.get<DynamicDTO[]>('/task/' + taskID + '/dynamic')).data
 
 export const startTask = async (taskID: string) =>
   (await instance.post<TaskRecord>('/task/' + taskID + '/open')).data
@@ -99,11 +109,8 @@ export const register = async (data: {
   gender: string
 }) => (await instance.post<User>('/register', data)).data
 
-export const getUserList = async () =>
-  (await instance.get<UserDTO>('/user')).data
-
-export const getUserInfo = async (userId: string) =>
-    (await instance.get<UserDTO>('/user/' + userId + "/info")).data
+export const getUserList = async (role: Role) =>
+  (await instance.get<UserDTO[]>(`/user?role=${role}`)).data
 
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data
@@ -114,8 +121,7 @@ export const getFolloweeList = async () =>
  * @returns 是否关注
  */
 export const isFollowed = async (userID: string) =>
-  (await instance.get<{ followed: boolean }>(`/my/follow/${userID}`)).data
-    .followed
+  (await instance.get<boolean>(`/my/follow/${userID}`)).data
 
 /**
  * 关注某人
@@ -168,10 +174,12 @@ export const getGoodsInfo = async (goodsID: string) =>
 export const sendTaskComment = async (data: {
   content: string
   taskID: string | null
-})=> (await instance.post<Comment>(`/dynamic`, data)).data
+}) => (await instance.post<Comment>(`/dynamic`, data)).data
 
-export const getUsers = async ()=> (await instance.post<Comment>(`/user`)).data
-
+export const getUsers = async () => (await instance.post<Comment>(`/user`)).data
+export const getGoodsList = async (description: string) =>
+  (await instance.get<GoodsInfo[]>(`/donate/goods?description=${description}`))
+    .data
 
 export const postDynamic = async (data: { content: string; taskID?: string }) =>
   (await instance.post<Comment>('/dynamic', data)).data
