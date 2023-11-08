@@ -24,7 +24,7 @@ if (userID.value) {
     .then((result) => {
       console.log('数据：', result)
       console.log('真正的数据：', result.data.data)
-      resultData.value = result.data.data // 将数据赋值给 resultData
+      resultData.value = result.data.data[0] // 将数据赋值给 resultData
     })
     .catch((err) => {
       console.log(err)
@@ -38,7 +38,7 @@ if (userID.value) {
     .then((result) => {
       console.log('数据：', result)
       console.log('真正的数据：', result.data.data)
-      resultData.value = result.data.data // 将数据赋值给 resultData
+      resultData.value = result.data.data[0] // 将数据赋值给 resultData
     })
     .catch((err) => {
       console.log(err)
@@ -76,7 +76,7 @@ const handleButtonClick = () => {
           <van-loading />
         </div>
         <div class="paragraph bold-text" v-else>
-          <div class="red-text">{{ resultData[0].totalMoney }}</div>
+          <div class="red-text">{{ resultData.totalMoney }}</div>
           <div>元</div>
         </div>
       </div>
@@ -85,7 +85,7 @@ const handleButtonClick = () => {
           <van-loading />
         </div>
         <div class="paragraph bold-text" v-else>
-          <div class="red-text">{{ resultData[0].goods.length }}</div>
+          <div class="red-text">{{ resultData.goods.length }}</div>
           <div>次</div>
         </div>
       </div>
@@ -95,7 +95,7 @@ const handleButtonClick = () => {
         </div>
         <div class="paragraph bold-text" v-else>
           <!-- 中间右侧段落内容 -->
-          <div class="red-text">{{ resultData[0].money.length }}</div>
+          <div class="red-text">{{ resultData.money.length }}</div>
           <div>次</div>
         </div>
       </div>

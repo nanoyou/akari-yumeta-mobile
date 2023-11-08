@@ -9,22 +9,133 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import * as echarts from 'echarts'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
-
+import { useUserStore } from '../../../stores/modules/user'
+import { ref, computed } from 'vue'
+import axios from 'axios'
+import type { DonateHistoryDTO } from '@/api/entity'
 export default {
   mounted() {
+    const currentMonthIndex = new Date().getMonth()
+    const chartContentWidth = ((currentMonthIndex + 1) * 100) / 3 + '%' // 计算宽度
+    this.$refs.chart.style.width = chartContentWidth // 设置宽度
     this.initChart()
     this.scrollToCurrentMonth()
     this.optimizeScrolling()
+    const userStore = useUserStore()
+    const userID = computed(() => userStore.user?.id)
+    const resultData: Ref<DonateHistoryDTO> = ref<DonateHistoryDTO>({}) // 使用 ref 创建响应式的 resultData
+    console.log(userID) // 打印UserID
+    const monthlyDonation: number[] = new Array(12).fill(0)
+    if (userID.value) {
+      console.log('用户已登录')
+
+      axios
+        .get(
+          `https://mock.apifox.com/m1/3503500-0-default/donate/${userID.value}/info`,
+          {
+            //改为自己的接口地址即可，现在是apifox的mock地址
+          }
+        )
+        .then((result) => {
+          console.log('数据：', result)
+          console.log('真正的数据：', result.data.data)
+          resultData.value = result.data.data[0] // 将数据赋值给 resultData
+
+          // 遍历捐助物品的数据
+          resultData.value.goods.forEach((donation) => {
+            const createdTime = new Date(donation.createdTime)
+            const year = createdTime.getFullYear()
+            const month = createdTime.getMonth()
+
+            // 只处理今年的数据
+            if (!(year === new Date().getFullYear())) {
+              //记得把！删掉哦
+              // 累加对应月份的捐助金额
+              monthlyDonation[month] += donation.totalMoney
+            }
+          })
+
+          // 遍历捐助资金的数据
+          resultData.value.money.forEach((donation) => {
+            const createdTime = new Date(donation.createdTime)
+            const year = createdTime.getFullYear()
+            const month = createdTime.getMonth()
+
+            // 只处理今年的数据
+            if (year === new Date().getFullYear()) {
+              // 累加对应月份的捐助金额
+              monthlyDonation[month] += donation.amount
+            }
+          })
+
+          console.log(monthlyDonation)
+          const option = this.chart.getOption()
+          option.series[0].data = monthlyDonation
+          this.chart.setOption(option)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      console.log('用户未登录，使用测试ID')
+      axios
+        .get(
+          `https://mock.apifox.com/m1/3503500-0-default/donate/{test}/info`,
+          {
+            //改为自己的接口地址即可，现在是apifox的mock地址
+          }
+        )
+        .then((result) => {
+          console.log('数据：', result)
+          console.log('真正的数据：', result.data.data)
+          resultData.value = result.data.data[0] // 将数据赋值给 resultData
+
+          // 遍历捐助物品的数据
+          resultData.value.goods.forEach((donation) => {
+            const createdTime = new Date(donation.createdTime)
+            const year = createdTime.getFullYear()
+            const month = createdTime.getMonth()
+
+            // 只处理今年的数据
+            if (year === new Date().getFullYear()) {
+              // 累加对应月份的捐助金额
+              monthlyDonation[month] += donation.totalMoney
+            }
+          })
+
+          // 遍历捐助资金的数据
+          resultData.value.money.forEach((donation) => {
+            const createdTime = new Date(donation.createdTime)
+            const year = createdTime.getFullYear()
+            const month = createdTime.getMonth()
+
+            // 只处理今年的数据
+            if (year === new Date().getFullYear()) {
+              // 累加对应月份的捐助金额
+              monthlyDonation[month] += donation.amount
+            }
+          })
+
+          console.log(monthlyDonation)
+          const option = this.chart.getOption()
+          option.series[0].data = monthlyDonation
+          this.chart.setOption(option)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
+    // 遍历捐助物品的数据
   },
   methods: {
     initChart() {
       this.chart = echarts.init(this.$refs.chart)
-
       const currentMonthIndex = new Date().getMonth()
       const months = [
         '一月',
@@ -45,8 +156,8 @@ export default {
       const option = {
         grid: {
           top: 25,
-          left: 0,
-          right: 0,
+          left: 10,
+          right: 10,
           bottom: 20
         },
         xAxis: {
@@ -63,11 +174,13 @@ export default {
         },
         series: [
           {
+            barCategoryGap: '20%',
             name: 'Sales',
             type: 'bar',
-            data: [
-              100, 200, 150, 300, 250, 180, 220, 480, 300, 250, 500, 150
-            ].slice(0, currentMonthIndex + 1), // 仅保留当前月份之前的数据
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].slice(
+              0,
+              currentMonthIndex + 1
+            ), // 仅保留当前月份之前的数据
             label: {
               show: true,
               position: 'top',
@@ -153,12 +266,10 @@ export default {
 }
 
 .chartContent {
-  width: 400%; /* 设置为显示12个月份的宽度 */
   height: 100%;
 }
 
 .chart {
-  width: 100%;
   height: 100%;
 }
 </style>
