@@ -1,8 +1,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { User } from '@/api/entity'
+import { getUserList, getFolloweeList } from '@/api'
+import type { UserDTO } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
+import { useUserStore } from '@/stores'
 import userCard from '@/components/UserCard.vue'
+const userStore = useUserStore()
+// 获取所有用户
+async function getAllUser() {
+  const res = await getUserList()
+  console.log(res)
+  return res
+}
+// 获取关注列表
+async function getFollowees() {
+  console.log('aaa')
+  const res = await getFolloweeList()
+  console.log(res)
+  return res
+}
+
 const choice = ref(true)
 const sortOrder = ref({
   value: 0,
@@ -22,7 +39,7 @@ const checkedFollower = ref(false)
 //   { text: '重病', value: '重病' },
 //   { text: '遭遇重大灾难', value: '遭遇重大灾难' }
 // ])
-const xiaoyi: User = {
+const xiaoyi: UserDTO = {
   avatarURL: '../../public/imgs/xiaoyi.png',
   gender: Gender.Secret,
   id: '123456789',
@@ -33,8 +50,41 @@ const xiaoyi: User = {
   username: '小益',
   tags: ['hh', 'heihei', 'yy', 'ss']
 }
+const goods = [
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  },
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  },
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  },
+  {
+    id: 'hh',
+    name: '书包',
+    unitPrice: 50,
+    description: 'afawfawefw',
+    imageURL: '../../public/imgs/xiaoyi.png'
+  }
+]
 const children = ref([xiaoyi])
-const isFollowed = ref(true)
+const isFollowed = ref(false)
+function follow(userID: string) {
+  console.log('click follow' + userID)
+}
 </script>
 
 <template>
@@ -88,7 +138,7 @@ const isFollowed = ref(true)
                 :key="child.id"
                 :user="xiaoyi"
                 :is-followed="isFollowed"
-                @follow="!isFollowed"
+                @follow="follow"
               />
             </van-list>
           </div>
@@ -99,6 +149,16 @@ const isFollowed = ref(true)
           <span class="search-bar">
             <van-search placeholder="请输入搜索关键词" />
           </span>
+          <div class="show_cards">
+            <van-card
+              v-for="good in goods"
+              :key="good.id"
+              :desc="good.description"
+              :price="good.unitPrice"
+              :thumb="good.imageURL"
+              :title="good.name"
+            />
+          </div>
         </div>
       </van-tab>
     </van-tabs>

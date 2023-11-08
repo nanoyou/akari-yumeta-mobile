@@ -36,11 +36,30 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/my',
-    name: 'my',
+    path: '/my_old',
+    name: 'my_old',
     component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
       title: '个人中心',
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/my',
+    name: 'my',
+    component: () => import('@/views/userInfo/MyPage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/user/:userID',
+    name: 'userinfo',
+    component: () => import('@/views/userInfo/UserInfo.vue'),
+    meta: {
+      title: '个人主页',
       showTabBar: true,
       showTopBar: false
     }
@@ -99,6 +118,16 @@ const routes: RouteRecordRaw[] = [
     name: 'testDonateHistory',
     component: () => import('@/views/donate/donate_my/DonateHistory.vue'),
     meta: {
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/find',
+    name: 'find',
+    component: () => import('@/views/find/FindPage.vue'),
+    meta: {
+      title: '发现',
       showTabBar: false,
       showTopBar: true
     }
