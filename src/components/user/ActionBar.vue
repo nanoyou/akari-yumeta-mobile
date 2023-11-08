@@ -7,6 +7,7 @@ import { isFollowed } from '@/api'
 import { computed } from 'vue'
 import { follow } from '@/api'
 import { showNotify } from 'vant'
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{
   user: UserDTO
@@ -50,6 +51,8 @@ const clickLike = () => {
     message: '点赞成功'
   })
 }
+
+const router = useRouter()
 </script>
 
 <template>
@@ -86,7 +89,11 @@ const clickLike = () => {
       color="#ff5000"
       @click="clickLike"
     />
-    <van-action-bar-button type="danger" text="发消息" />
+    <van-action-bar-button
+      type="danger"
+      text="发消息"
+      @click="router.push(`/chat/dialog/${user.id}`)"
+    />
   </van-action-bar>
 </template>
 
