@@ -30,7 +30,7 @@ export interface Task {
   /**
    * 任务状态，详见枚举
    */
-  status: Status
+  status: TaskStatus
   /**
    * 任务名称
    */
@@ -58,8 +58,41 @@ export enum Category {
 /**
  * 任务状态，详见枚举
  */
-export enum Status {
+export enum TaskStatus {
   Finished = 'FINISHED',
   InProgress = 'IN_PROGRESS',
   NotStarted = 'NOT_STARTED'
+}
+/**
+ * TaskRecord
+ */
+export interface TaskRecord {
+  /**
+   * 受困儿童的ID
+   */
+  childID: string
+  /**
+   * 任务结束时间，指的受困儿童看完这个视频的时间
+   */
+  endTime?: string
+  /**
+   * 任务开启时间，指的受困儿童点开这个任务的时间
+   */
+  startTime: string
+  /**
+   * 任务状态，详见枚举
+   */
+  status: TaskRecordStatus
+  /**
+   * 关联的Task的ID
+   */
+  taskID: string
+}
+
+/**
+ * 任务状态，详见枚举
+ */
+export enum TaskRecordStatus {
+  Completed = 'COMPLETED',
+  Uncompleted = 'UNCOMPLETED'
 }
