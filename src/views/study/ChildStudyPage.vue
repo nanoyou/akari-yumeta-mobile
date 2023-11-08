@@ -61,7 +61,8 @@ const submit = async () => {
     description: '浙江大学、北京大学、中国农业大学等13校/跨校共建',
     category: 'HYGIENE',
     bonus: 10,
-    videoURL: 'https://www.icourse163.org/'
+    videoDuration: 13,
+    videoURL: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
   })
   console.log(res)
 }
@@ -216,6 +217,7 @@ const select_tag = (index: number) => {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   font-weight: bold;
+  white-space: nowrap;
 }
 .custom_tag_active {
   flex: 1;
@@ -234,6 +236,8 @@ const select_tag = (index: number) => {
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
+  white-space: nowrap;
+
 }
 
 .custom_tag_acitve:hover {

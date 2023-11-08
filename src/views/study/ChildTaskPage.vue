@@ -66,101 +66,122 @@
       </div>
     </van-tab>
     <van-tab title="学习讨论区">
-      <div class="comment_card">
-        <div class="flex_container">
-          <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
-          <div class="teacher_info">
-            <div class="teacher_name">
-              <div class="teacher_name2">楼程富</div>
-              <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />
-            </div>
-            <div class="teacher_tags2">
-              <div class="teacher_tags">浙江大学</div>
-              <div class="teacher_tags">04月14日</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="comment_word">请简述细菌污染食品的途径有哪些?</div>
-        <div class="comment_card_foot">
-          <div>3,187回答</div>
-          <div style="width: 50px"></div>
-          <div>310围观</div>
-          <div style="width: 50px"></div>
-          <div>已围观</div>
-        </div>
-      </div>
-      <img class="line" src="/imgs/line.png" alt="" />
-      <div class="comment_card">
-        <div class="flex_container">
-          <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
-          <div class="teacher_info">
-            <div class="teacher_name">
-              <div class="teacher_name2">楼程富</div>
-              <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />
-            </div>
-            <div class="teacher_tags2">
-              <div class="teacher_tags">浙江大学</div>
-              <div class="teacher_tags">04月14日</div>
+      <div v-for="comment in comments_info">
+        <div class="comment_card">
+          <div class="flex_container">
+            <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
+            <div class="teacher_info">
+              <div class="teacher_name">
+                <div class="teacher_name2">{{ comment.name }}</div>
+<!--                <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />-->
+              </div>
+              <div class="teacher_tags2">
+                <div class="teacher_tags">{{ comment.introduction }}</div>
+                <div class="teacher_tags">{{ comment.time }}</div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="comment_word">
-          简述注水肉的鉴别方法，简述注水肉的鉴别方法
-        </div>
-        <div class="comment_card_foot">
-          <div>3,187回答</div>
-          <div style="width: 50px"></div>
-          <div>310围观</div>
-          <div style="width: 50px"></div>
-          <div>已围观</div>
-        </div>
-      </div>
-      <img class="line" src="/imgs/line.png" alt="" />
-      <div class="comment_card">
-        <div class="flex_container">
-          <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
-          <div class="teacher_info">
-            <div class="teacher_name">
-              <div class="teacher_name2">楼程富</div>
-              <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />
-            </div>
-            <div class="teacher_tags2">
-              <div class="teacher_tags">浙江大学</div>
-              <div class="teacher_tags">04月14日</div>
-            </div>
+          <div class="comment_word">{{ comment.content }}</div>
+          <div class="comment_card_foot">
+            <div>{{ comment.answers }}回答</div>
+            <div style="width: 50px"></div>
+            <div>{{ comment.likes }}点赞</div>
+<!--            <div style="width: 50px"></div>-->
+<!--            <div>已围观</div>-->
           </div>
         </div>
-
-        <div class="comment_word">
-          食品添加剂可以随便添加到食品中吗?
-          请详细说明，食品添加剂可以随便添加到食品中吗?请详细说明
-        </div>
-        <div class="comment_card_foot">
-          <div>3,187回答</div>
-          <div style="width: 50px"></div>
-          <div>310围观</div>
-          <div style="width: 50px"></div>
-          <div>已围观</div>
-        </div>
+        <img class="line" src="/imgs/line.png" alt="" />
       </div>
-      <img class="line" src="/imgs/line.png" alt="" />
+
+
     </van-tab>
   </van-tabs>
+
+  <van-popup v-model:show="showInput"
+      position="bottom"
+      class="input_container">
+    <div class="input_title">提问</div>
+    <van-cell-group inset>
+      <van-field
+          v-model="comment_input_words"
+          rows="7"
+          autosize
+          type="textarea"
+          maxlength="1000"
+          style="z-index: 99999"
+          placeholder="写下你的问题，以问号结尾"
+          show-word-limit
+      />
+      <div @click="send_comment" :class="comment_input_words === '' ? 'send_button' : 'send_button_active'">立即发布</div>
+    </van-cell-group>
+
+  </van-popup>
+
+  <div @click="showPopup" class="comment_button">
+    <van-icon size="30" class="edit_icon" name="edit"></van-icon>
+  </div>
+
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { getCategoryStr, getStatusStr } from '@/util/translate'
-import { defineProps } from 'vue'
-import { getTaskDetail, getTaskDynamic } from '@/api'
-import { Category, Status, type Task } from '@/api/entity'
+import {onMounted, ref} from 'vue'
+import {getCategoryStr} from '@/util/translate'
+import {getTaskDetail, getTaskDynamic, getUserInfo, sendTaskComment} from '@/api'
+import {type commentInfo, type Task} from '@/api/entity'
 
 const { taskId } = defineProps(['taskId'])
 const taskDetail = ref<Task>()
 const active = ref('')
+const showInput = ref(false);
+const comment_input_words = ref('')
+let comments_info: commentInfo[] = [];
 
+
+onMounted(async () => {
+  const comments = await getTaskDynamic(taskId);
+
+  const userPromises = comments.map(async (comment) => {
+    const user = await getUserInfo(comment.commenterID);
+
+    const time = comment.createTime.slice(5,7) + "月" + comment.createTime.slice(8,10) + "日"
+    // const date = new Date(comment.createTime);
+    // const time = date.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
+
+    const data = JSON.parse(comment.content);
+    const content = data.text;
+    return {
+      name: user.username,
+      introduction: user.introduction,
+      role: user.role,
+      time: time,
+      likes: comment.likes,
+      content: content,
+      answers: comment.children.length
+    };
+  });
+
+  comments_info = await Promise.all(userPromises);
+
+  console.log(comments_info);
+});
+
+const showPopup = () => {
+  showInput.value = true;
+};
+
+const send_comment = async () => {
+  const res = await sendTaskComment({
+    content: JSON.stringify({
+      text: comment_input_words.value,
+      photos: null
+    }),
+    taskID: taskId
+  })
+  comment_input_words.value = ""
+  showInput.value = false
+  console.log(res)
+}
 onMounted(async () => {
   try {
     const result = await getTaskDetail(taskId)
@@ -173,6 +194,41 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.send_button {
+  display: flex;
+  justify-content: right;
+  color: #C9C9C9;
+}
+.send_button_active {
+  display: flex;
+  justify-content: right;
+  color: #4E83D1;
+}
+.input_title {
+  margin: 18px;
+}
+.input_container {
+  height: 40%;
+  border-radius: 20px 20px 0px 0px;
+}
+.edit_icon {
+  color: white;
+  margin-top: 7px;
+}
+.comment_button {
+  position: fixed;
+  top: 600px;
+  left: 300px;
+  background-color: #3F85FE;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  line-height: 60px;
+}
+
 .line {
   width: 350px;
 }
@@ -183,7 +239,7 @@ onMounted(async () => {
   font-size: 12px;
 }
 .comment_word {
-  margin: 10px 10px 0px 25px;
+  margin: 5px 10px 20px 25px;
 }
 .teacher_name {
   display: flex;

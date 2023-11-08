@@ -1,6 +1,7 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
 import type {
+  commentContent, Datum,
   DonateGoods,
   DonateHistoryDTO,
   DonateMoney,
@@ -64,7 +65,7 @@ export const getTaskDetail = async (taskID: string) =>
   (await instance.get<Task>('/task/' + taskID)).data
 
 export const getTaskDynamic = async (taskID: string) =>
-  (await instance.get<Task>('/task/' + taskID + '/dynamic')).data
+  (await instance.get<Datum[]>('/task/' + taskID + '/dynamic')).data
 
 export const startTask = async (taskID: string) =>
   (await instance.post<Task>('/task/' + taskID + '/open')).data
@@ -83,6 +84,9 @@ export const register = async (data: {
 export const getUserList = async () =>
   (await instance.get<UserDTO>('/user')).data
 
+export const getUserInfo = async (userId: string) =>
+    (await instance.get<UserDTO>('/user/' + userId + "/info")).data
+
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data
 export const postTask = async (data: {
@@ -92,6 +96,7 @@ export const postTask = async (data: {
   description: string
   category: string
   bonus: number
+  videoDuration: number
   videoURL: string
 }) => (await instance.post<Task>('/task', data)).data
 
@@ -115,3 +120,11 @@ export const getDonateHistory = async (userID: string) =>
 
 export const getGoodsInfo = async (goodsID: string) =>
   (await instance.get<GoodsInfo>(`/donate/goods/${goodsID}`)).data
+
+export const sendTaskComment = async (data: {
+  content: string
+  taskID: string | null
+})=> (await instance.post<Comment>(`/dynamic`, data)).data
+
+export const getUsers = async ()=> (await instance.post<Comment>(`/user`)).data
+

@@ -45,6 +45,11 @@ const show_chat = () => {
           <div class="record_right">
             <div class="record_first_line">
               <div class="record_name">neu软件2021级</div>
+              <div class="role_tag_container">
+                <div class="add_concern">
+                  <div>捐助者</div>
+                </div>
+              </div>
               <div style="width: 200px"></div>
               <div class="record_time">19:20</div>
             </div>
@@ -58,12 +63,17 @@ const show_chat = () => {
           </div>
         </div>
       </div>
-      <div v-for="i in 10">
+      <div v-for="i in 3">
         <div @click="show_chat" class="chat_record_container">
           <img class="search_record_photo" src="/imgs/teacher1.jpg" alt="" />
           <div class="record_right">
             <div class="record_first_line">
               <div class="record_name">neu软件2021级</div>
+              <div class="role_tag_container">
+                <div class="add_concern">
+                  <div>捐助者</div>
+                </div>
+              </div>
               <div style="width: 200px"></div>
               <div class="record_time">19:20</div>
             </div>
@@ -76,12 +86,66 @@ const show_chat = () => {
           </div>
         </div>
       </div>
+      <div v-for="i in 2">
+        <div @click="show_chat" class="chat_record_container">
+          <img class="search_record_photo" src="/imgs/teacher1.jpg" alt="" />
+          <div class="record_right">
+            <div class="record_first_line">
+              <div class="record_name">neu软件2021级</div>
+              <div class="role_tag_container">
+                <div class="add_concern">
+                  <div>捐助者</div>
+                </div>
+              </div>
+              <div style="width: 200px"></div>
+              <div class="record_time">19:20</div>
+            </div>
+
+            <div class="record_first_line">
+              <div class="record_content">戴口(辅导员):(电脑附件)</div>
+              <div style="width: 200px"></div>
+<!--              <div class="record_number">8</div>-->
+              <div class="add_concern_container">
+                <div class="add_concern">
+                  <div>+</div>
+                  <div>关注</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div style="height: 100px"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.add_concern {
+  height: 15px;
+  line-height: 15px;
+  white-space: nowrap;
+  display: flex;
+  padding: 5px
+}
+.role_tag_container {
+  margin: 8px 0px 0px 8px;
+  color: #007FFF;
+  font-size: 11px;
+  border: 1px solid #007FFF;
+  height: 25px;
+  border-radius: 7px;
+}
+.add_concern_container {
+  margin-top: 8px;
+  color: #007FFF;
+  font-size: 13px;
+  font-weight: bold;
+  border: 2px solid #007FFF;
+  height: 25px;
+  border-radius: 7px;
+}
 .no_disturb_icon {
   width: 27px;
   height: 27px;
