@@ -1,9 +1,9 @@
 <template>
   <div class="video_page">
     <div class="video_container">
-      <video
+      <video v-if="taskDetail !== null"
         controls
-        src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+        :src="taskDetail?.videoURL"
       ></video>
     </div>
   </div>
@@ -66,8 +66,8 @@
       </div>
     </van-tab>
     <van-tab title="学习讨论区">
-      <div v-for="comment in comments_info">
-        <div class="comment_card">
+      <div v-if="comments_info.length !== 0" v-for="comment in comments_info">
+        <div @click="check_dynamic(comment.id)" class="comment_card">
           <div class="flex_container">
             <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
             <div class="teacher_info">
@@ -93,7 +93,7 @@
         </div>
         <img class="line" src="/imgs/line.png" alt="" />
       </div>
-
+      <div v-else class="no_comments">暂无讨论</div>
 
     </van-tab>
   </van-tabs>
@@ -128,10 +128,11 @@
 import {onMounted, ref} from 'vue'
 import {getCategoryStr} from '@/util/translate'
 import {getTaskDetail, getTaskDynamic, getUserInfo, sendTaskComment} from '@/api'
-import {type commentInfo, type Task} from '@/api/entity'
+import {type commentInfo, TaskCourseDTO} from '@/api/entity'
+import router from "@/router";
 
 const { taskId } = defineProps(['taskId'])
-const taskDetail = ref<Task>()
+const taskDetail = ref<TaskCourseDTO>()
 const active = ref('')
 const showInput = ref(false);
 const comment_input_words = ref('')
@@ -139,32 +140,42 @@ let comments_info: commentInfo[] = [];
 
 
 onMounted(async () => {
-  const comments = await getTaskDynamic(taskId);
+  try {
+    const result = await getTaskDetail(taskId)
+    taskDetail.value = result
+    console.log(result)
+  } catch (error) {
+    console.error('Error fetching task detail:', error)
+  }
 
-  const userPromises = comments.map(async (comment) => {
-    const user = await getUserInfo(comment.commenterID);
+    const comments = await getTaskDynamic(taskId);
 
-    const time = comment.createTime.slice(5,7) + "月" + comment.createTime.slice(8,10) + "日"
-    // const date = new Date(comment.createTime);
-    // const time = date.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
+    const userPromises = comments.map(async (comment) => {
+      const user = await getUserInfo(comment.commenterID);
+      const time = comment.createTime.slice(5,7) + "月" + comment.createTime.slice(8,10) + "日"
 
-    const data = JSON.parse(comment.content);
-    const content = data.text;
-    return {
-      name: user.username,
-      introduction: user.introduction,
-      role: user.role,
-      time: time,
-      likes: comment.likes,
-      content: content,
-      answers: comment.children.length
-    };
+      const data = JSON.parse(comment.content);
+      const content = data.text;
+      return {
+        id: comment.id,
+        name: user.username,
+        introduction: user.introduction,
+        role: user.role,
+        time: time,
+        likes: comment.likes,
+        content: content,
+        answers: comment.children.length
+      };
   });
 
   comments_info = await Promise.all(userPromises);
 
   console.log(comments_info);
 });
+
+const check_dynamic = (dynamic_id: string) => {
+  router.push("/study/dynamicDetail/" + dynamic_id)
+}
 
 const showPopup = () => {
   showInput.value = true;
@@ -182,18 +193,15 @@ const send_comment = async () => {
   showInput.value = false
   console.log(res)
 }
-onMounted(async () => {
-  try {
-    const result = await getTaskDetail(taskId)
-    taskDetail.value = result
-    console.log(result)
-  } catch (error) {
-    console.error('Error fetching task detail:', error)
-  }
-})
+
 </script>
 
 <style scoped>
+.no_comments{
+  margin: 30px;
+  font-size: large;
+  font-weight: bold;
+}
 .send_button {
   display: flex;
   justify-content: right;
@@ -340,4 +348,3 @@ video {
   border-radius: 8px;
 }
 </style>
-@/util/translateUtil@/util/translate

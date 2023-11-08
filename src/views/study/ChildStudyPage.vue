@@ -55,14 +55,14 @@ const start_task = (task_id: string) => {
 
 const submit = async () => {
   const res = await postTask({
-    taskName: '食品安全',
+    taskName: '软件项目管理',
     startTime: '1111-11-11 11:11:11',
     endTime: '2222-11-11 11:11:11',
     description: '浙江大学、北京大学、中国农业大学等13校/跨校共建',
     category: 'HYGIENE',
     bonus: 10,
     videoDuration: 13,
-    videoURL: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
+    videoURL: 'http://vjs.zencdn.net/v/oceans.mp4'
   })
   console.log(res)
 }

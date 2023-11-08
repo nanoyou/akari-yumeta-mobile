@@ -2,25 +2,27 @@ import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
 import type {
   commentContent, Datum,
-    type DynamicDTO,
-    type DonateGoods,
-    type DonateHistoryDTO,
-    type DonateMoney,
-    type GoodsInfo,
-    type LoginUserDTO,
-    type Result,
-    type Task,
-    type User,
-    type UserDTO,
-    type TaskRecord,
-    type ChatDTO,
-    type Message,
-    MessageType,
-    type Subscription,
-    Gender
+  type DynamicDTO,
+  type DonateGoods,
+  type DonateHistoryDTO,
+  type DonateMoney,
+  type GoodsInfo,
+  type LoginUserDTO,
+  type Result,
+  type Task,
+  type User,
+  type UserDTO,
+  type TaskRecord,
+  type ChatDTO,
+  type Message,
+  MessageType,
+  type Subscription,
+  Gender, TaskCourseDTO
 } from './entity'
 
+// const baseURL = 'http://172.16.5.39:8080'
 const baseURL = 'http://127.0.0.1:8080'
+
 
 const instance = axios.create({
   baseURL,
@@ -69,7 +71,10 @@ export const getMyInfo = async () => (await instance.get<User>('/my/info')).data
 export const getAllTask = async () => (await instance.get<Task[]>('/task')).data
 
 export const getTaskDetail = async (taskID: string) =>
-  (await instance.get<Task>('/task/' + taskID)).data
+  (await instance.get<TaskCourseDTO>('/task/' + taskID)).data
+
+export const getDynamicDetail = async (DynamicId: string) =>
+    (await instance.get<DynamicDTO>('/dynamic/' + DynamicId)).data
 
 export const getTaskDynamic = async (taskID: string) =>
   (await instance.get<Datum[]>('/task/' + taskID + '/dynamic')).data

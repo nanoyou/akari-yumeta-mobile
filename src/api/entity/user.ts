@@ -212,6 +212,7 @@ export interface commentInfo {
   time: string,
   likes: number,
   content: string,
-  answers: number
+  answers: number | [],
+  commentNum: number
 }
 

@@ -87,6 +87,17 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/study/dynamicDetail/:dynamicId',
+    name: 'study_dynamicDetail',
+    component: () => import('@/views/study/DynamicDetailPage.vue'),
+    props: true,
+    meta: {
+      title: '动态详情',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/LoginPage.vue'),
