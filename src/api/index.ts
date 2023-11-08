@@ -16,7 +16,8 @@ import {
   type Message,
   MessageType,
   type Subscription,
-  Gender
+  Gender,
+  Role
 } from './entity'
 
 const baseURL = 'http://127.0.0.1:8080'
@@ -93,8 +94,8 @@ export const register = async (data: {
   gender: string
 }) => (await instance.post<User>('/register', data)).data
 
-export const getUserList = async () =>
-  (await instance.get<UserDTO>('/user')).data
+export const getUserList = async (role: Role) =>
+  (await instance.get<UserDTO[]>(`/user?role=${role}`)).data
 
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data
@@ -106,7 +107,6 @@ export const getFolloweeList = async () =>
  */
 export const isFollowed = async (userID: string) =>
   (await instance.get<{ followed: boolean }>(`/my/follow/${userID}`)).data
-    .followed
 
 /**
  * 关注某人
@@ -154,6 +154,10 @@ export const getDonateHistory = async (userID: string) =>
 
 export const getGoodsInfo = async (goodsID: string) =>
   (await instance.get<GoodsInfo>(`/donate/goods/${goodsID}`)).data
+
+export const getGoodsList = async (description: string) =>
+  (await instance.get<GoodsInfo[]>(`/donate/goods?description=${description}`))
+    .data
 
 export const postDynamic = async (data: { content: string; taskID?: string }) =>
   (await instance.post<Comment>('/dynamic', data)).data

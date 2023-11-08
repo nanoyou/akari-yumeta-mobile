@@ -1,12 +1,71 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { ConfigProviderThemeVars } from 'vant'
-const money = ref()
+import { donateMoney } from '@/api'
+import { ConfigProviderThemeVars, showDialog, showConfirmDialog } from 'vant'
+import { useUserStore } from '@/stores'
+
+const userStore = useUserStore()
+let moneyStr = ref<string>()
+let money = ref<number>()
 const message = ref()
 const themeVars: ConfigProviderThemeVars = {
   cellGroupBackground: '#fff',
   cellBackground: '#f2f3f5',
   cellBorderColor: '#323233'
+}
+function checkMoney(moneyString: string | undefined) {
+  if (typeof moneyString === 'string') {
+    // 移除可能的千位分隔符
+    moneyString = moneyString.replace(',', '')
+
+    // 校验是否为数字
+    if (!/^\d+(\.\d+)?$/.test(moneyString)) {
+      showDialog({ message: '请输入正确的钱数' })
+    }
+
+    // 转换为数字类型
+    money.value = Math.floor(parseFloat(moneyString) * 100)
+    moneyStr.value = parseFloat(moneyString).toFixed(2)
+  } else {
+    showDialog({ message: '请输入钱数' })
+  }
+}
+
+async function submitDonateInfo() {
+  showConfirmDialog({
+    message: '确定捐助吗？'
+  })
+    .then(async () => {
+      // on confirm 确定捐助
+      if (money.value) {
+        if (message.value !== '') {
+          const res = await donateMoney({
+            doneeID: userStore.user?.id,
+            amount: money.value,
+            wishes: message.value
+          })
+        } else {
+          showConfirmDialog({
+            message: '确定不给孩子们说些什么吗？'
+          })
+            .then(async () => {
+              const res = await donateMoney({
+                doneeID: userStore.user?.id,
+                amount: money.value,
+                wishes: message.value
+              })
+            })
+            .catch(() => {
+              // on cancel 取消
+            })
+        }
+      } else {
+        showDialog({ message: '请输入钱数' })
+      }
+    })
+    .catch(() => {
+      // on cancel
+    })
 }
 </script>
 
@@ -15,7 +74,12 @@ const themeVars: ConfigProviderThemeVars = {
     <van-config-provider :theme-vars="themeVars" class="input">
       <van-cell-group inset>
         <van-cell>
-          <van-field v-model="money" label="金额" placeholder="¥0.00" />
+          <van-field
+            v-model="moneyStr"
+            label="金额"
+            placeholder="¥0.00"
+            @blur="checkMoney(moneyStr)"
+          />
         </van-cell>
         <van-cell>
           <van-field
@@ -30,13 +94,14 @@ const themeVars: ConfigProviderThemeVars = {
         </van-cell>
       </van-cell-group>
     </van-config-provider>
-    <span class="money">¥{{ money }}</span>
+    <span class="money">¥{{ moneyStr }}</span>
     <van-button
       type="primary"
       round
       size="large"
       color="linear-gradient(to right, #ff6034, #ee0a24)"
       class="submit"
+      @click="submitDonateInfo"
       >捐助</van-button
     >
   </body>
