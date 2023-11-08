@@ -121,7 +121,6 @@
   <div @click="showPopup" class="comment_button">
     <van-icon size="30" class="edit_icon" name="edit"></van-icon>
   </div>
-
 </template>
 
 <script setup lang="ts">
