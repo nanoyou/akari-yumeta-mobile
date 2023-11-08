@@ -25,6 +25,8 @@ const logout = () => {
 <template>
   <div class="info-page">
     <CommonCard :user="user!" />
+
+    <van-cell title="个人介绍" :label="user?.introduction"></van-cell>
     <van-cell-group>
       <van-cell
         v-if="perspective == 'me'"

@@ -66,6 +66,7 @@ const props = defineProps<{
   height: 110px;
   display: flex;
   background-color: white;
+  margin-bottom: 1px;
 }
 .content {
   flex: 1;
