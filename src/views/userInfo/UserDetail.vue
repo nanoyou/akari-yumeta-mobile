@@ -43,7 +43,7 @@ const navBarClass = computed(() =>
 
 <template>
   <div class="info-page" :class="navBarClass">
-    <CommonCard :user="user!" />
+    <CommonCard :user="user" />
 
     <van-cell title="个人介绍" :label="user?.introduction"></van-cell>
     <van-cell-group>
