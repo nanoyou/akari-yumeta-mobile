@@ -142,3 +142,47 @@ export interface UserDTO {
    */
   username: string
 }
+
+/**
+ * 数据，每个请求自己定义
+ *
+ * Comment
+ */
+export interface Comment {
+  /**
+   * 发评论的人的ID
+   */
+  commenterID: string
+  /**
+   * 以Markdown格式存储的评论
+   */
+  content: string
+  /**
+   * 评论发表时间
+   */
+  createTime: string
+  /**
+   * Markdown评论
+   */
+  id: string
+  /**
+   * 父评论ID，被回复评论的ID，为空则为动态节点（根节点）
+   */
+  replyTo: string
+}
+
+export interface commentContent {
+  text: string
+  photos: string[] | null
+}
+
+export interface commentInfo {
+  name: string
+  introduction: string | undefined
+  role: Role
+  time: string
+  likes: number
+  content: string
+  answers: number | []
+  commentNum: number
+}

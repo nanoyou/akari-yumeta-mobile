@@ -26,6 +26,16 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/chat/dialog',
+    name: 'chat_dialog',
+    component: () => import('@/views/chat/ChatDialog.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false,
+      title: '聊天'
+    }
+  },
+  {
     path: '/dynamic',
     name: 'dynamic',
     component: () => import('@/views/dynamic/CheckDynamicPage.vue'),
@@ -91,6 +101,17 @@ const routes: RouteRecordRaw[] = [
     props: true,
     meta: {
       title: '课程详情',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/study/dynamicDetail/:dynamicId',
+    name: 'study_dynamicDetail',
+    component: () => import('@/views/study/DynamicDetailPage.vue'),
+    props: true,
+    meta: {
+      title: '动态详情',
       showTabBar: false,
       showTopBar: true
     }

@@ -27,7 +27,7 @@ const postDynamic = () => {
   <DynamicCard></DynamicCard>
   <DynamicCard></DynamicCard>
   <DynamicCard></DynamicCard>
-  <div style="height: 130px"></div>
+  <div style="height: 50px"></div>
 </template>
 
 <style scoped>

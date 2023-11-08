@@ -1,6 +1,7 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
 import {
+  type commentContent,
   type DynamicDTO,
   type DonateGoods,
   type DonateHistoryDTO,
@@ -16,9 +17,11 @@ import {
   type Message,
   MessageType,
   type Subscription,
-  Gender
+  Gender,
+  type TaskCourseDTO
 } from './entity'
 
+// const baseURL = 'http://172.16.5.39:8080'
 const baseURL = 'http://127.0.0.1:8080'
 
 const instance = axios.create({
@@ -77,10 +80,13 @@ export const getUserInfo = async (userID: string) =>
 export const getAllTask = async () => (await instance.get<Task[]>('/task')).data
 
 export const getTaskDetail = async (taskID: string) =>
-  (await instance.get<Task>('/task/' + taskID)).data
+  (await instance.get<TaskCourseDTO>('/task/' + taskID)).data
+
+export const getDynamicDetail = async (DynamicId: string) =>
+  (await instance.get<DynamicDTO>('/dynamic/' + DynamicId)).data
 
 export const getTaskDynamic = async (taskID: string) =>
-  (await instance.get<Task>('/task/' + taskID + '/dynamic')).data
+  (await instance.get<DynamicDTO[]>('/task/' + taskID + '/dynamic')).data
 
 export const startTask = async (taskID: string) =>
   (await instance.post<TaskRecord>('/task/' + taskID + '/open')).data
@@ -139,6 +145,7 @@ export const postTask = async (data: {
   description: string
   category: string
   bonus: number
+  videoDuration: number
   videoURL: string
 }) => (await instance.post<Task>('/task', data)).data
 
@@ -162,6 +169,13 @@ export const getDonateHistory = async (userID: string) =>
 
 export const getGoodsInfo = async (goodsID: string) =>
   (await instance.get<GoodsInfo>(`/donate/goods/${goodsID}`)).data
+
+export const sendTaskComment = async (data: {
+  content: string
+  taskID: string | null
+}) => (await instance.post<Comment>(`/dynamic`, data)).data
+
+export const getUsers = async () => (await instance.post<Comment>(`/user`)).data
 
 export const postDynamic = async (data: { content: string; taskID?: string }) =>
   (await instance.post<Comment>('/dynamic', data)).data
