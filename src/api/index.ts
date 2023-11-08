@@ -18,7 +18,8 @@ import {
   MessageType,
   type Subscription,
   Gender,
-  type TaskCourseDTO
+  type TaskCourseDTO,
+  Role
 } from './entity'
 
 // const baseURL = 'http://172.16.5.39:8080'
@@ -108,8 +109,8 @@ export const register = async (data: {
   gender: string
 }) => (await instance.post<User>('/register', data)).data
 
-export const getUserList = async () =>
-  (await instance.get<UserDTO>('/user')).data
+export const getUserList = async (role: Role) =>
+  (await instance.get<UserDTO[]>(`/user?role=${role}`)).data
 
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data
@@ -176,6 +177,9 @@ export const sendTaskComment = async (data: {
 }) => (await instance.post<Comment>(`/dynamic`, data)).data
 
 export const getUsers = async () => (await instance.post<Comment>(`/user`)).data
+export const getGoodsList = async (description: string) =>
+  (await instance.get<GoodsInfo[]>(`/donate/goods?description=${description}`))
+    .data
 
 export const postDynamic = async (data: { content: string; taskID?: string }) =>
   (await instance.post<Comment>('/dynamic', data)).data
