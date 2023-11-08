@@ -5,6 +5,8 @@ import { useBarStore, useUserStore } from '@/stores'
 import { ref, onBeforeMount, onUnmounted } from 'vue'
 import { isFollowed } from '@/api'
 import { computed } from 'vue'
+import { follow } from '@/api'
+import { showNotify } from 'vant'
 
 const props = defineProps<{
   user: UserDTO
@@ -15,6 +17,7 @@ const userStore = useUserStore()
 const userLoggedIn = computed(() => userStore.user)
 
 const subscribed = ref(false)
+const liked = ref(false)
 const barStore = useBarStore()
 onBeforeMount(() => {
   if (props.perspective == 'others') {
@@ -30,6 +33,23 @@ onUnmounted(() => {
     barStore.unsetShowTabBar()
   }
 })
+
+const clickFollow = async () => {
+  try {
+    await follow(props.user.id)
+    subscribed.value = true
+  } catch (e) {
+    console.log('关注失败', e)
+  }
+}
+
+const clickLike = () => {
+  liked.value = true
+  showNotify({
+    type: 'success',
+    message: '点赞成功'
+  })
+}
 </script>
 
 <template>
@@ -43,11 +63,29 @@ onUnmounted(() => {
     <van-action-bar-icon
       v-if="subscribed"
       icon="star"
-      color="#ff5000"
       text="已关注"
+      color="#ffc71d"
     />
-    <van-action-bar-icon v-else icon="star-o" text="关注" />
-    <van-action-bar-icon icon="good-job-o" text="点赞" />
+    <van-action-bar-icon
+      v-else
+      icon="star-o"
+      text="关注"
+      color="#ffc71d"
+      @click="clickFollow"
+    />
+    <van-action-bar-icon
+      color="#ff5000"
+      v-if="liked"
+      icon="good-job"
+      text="点赞"
+    />
+    <van-action-bar-icon
+      v-else
+      icon="good-job-o"
+      text="点赞"
+      color="#ff5000"
+      @click="clickLike"
+    />
     <van-action-bar-button type="danger" text="发消息" />
   </van-action-bar>
 </template>

@@ -9,6 +9,7 @@ import router from '@/router'
 import { onUnmounted } from 'vue'
 import { onBeforeMount } from 'vue'
 import { computed } from 'vue'
+import ActionBar from '@/components/user/ActionBar.vue'
 const props = defineProps<{
   userID: string
   perspective: 'me' | 'others'
@@ -67,7 +68,7 @@ const navBarClass = computed(() =>
         </template>
       </van-cell>
     </van-cell-group>
-    <ActionBar :user="user" :perspective="perspective" />
+    <ActionBar :user="user!" :perspective="perspective" />
   </div>
 </template>
 
