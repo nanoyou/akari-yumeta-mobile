@@ -129,7 +129,7 @@ const text =
   font-size: 15px;
 }
 .comment_photo {
-  width: 85px;
+  width: 90px;
   height: 85px;
   margin-left: 5px;
 }

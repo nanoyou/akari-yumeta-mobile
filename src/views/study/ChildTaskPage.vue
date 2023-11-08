@@ -84,7 +84,7 @@
 
           <div class="comment_word">{{ comment.content }}</div>
           <div class="comment_card_foot">
-            <div>{{ comment.answers }}回答</div>
+            <div>{{ comment.commentNum }}回答</div>
             <div style="width: 50px"></div>
             <div>{{ comment.likes }}点赞</div>
 <!--            <div style="width: 50px"></div>-->
@@ -124,21 +124,22 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
+import {onMounted, Ref, ref} from 'vue'
 import {getCategoryStr} from '@/util/translate'
 import {getTaskDetail, getTaskDynamic, getUserInfo, sendTaskComment} from '@/api'
-import {type commentInfo, type TaskCourseDTO} from '@/api/entity'
+import {type commentInfo, subCommentInfo, type TaskCourseDTO} from '@/api/entity'
 import router from "@/router";
+import {showNotify} from "vant";
 
 const { taskId } = defineProps(['taskId'])
 const taskDetail = ref<TaskCourseDTO>()
 const active = ref('')
 const showInput = ref(false);
 const comment_input_words = ref('')
-let comments_info: commentInfo[] = [];
+const comments_info: Ref<commentInfo[]> = ref([]);
 
 
-onMounted(async () => {
+const load_data = async () => {
   try {
     const result = await getTaskDetail(taskId)
     taskDetail.value = result
@@ -147,29 +148,33 @@ onMounted(async () => {
     console.error('Error fetching task detail:', error)
   }
 
-    const comments = await getTaskDynamic(taskId);
+  const comments = await getTaskDynamic(taskId);
+  const userPromises = comments.map(async (comment) => {
+    const user = await getUserInfo(comment.commenterID);
+    const time = comment.createTime.slice(5, 7) + "月" + comment.createTime.slice(8, 10) + "日"
 
-    const userPromises = comments.map(async (comment) => {
-      const user = await getUserInfo(comment.commenterID);
-      const time = comment.createTime.slice(5,7) + "月" + comment.createTime.slice(8,10) + "日"
-
-      const data = JSON.parse(comment.content);
-      const content = data.text;
-      return {
-        id: comment.id,
-        name: user.username,
-        introduction: user.introduction,
-        role: user.role,
-        time: time,
-        likes: comment.likes,
-        content: content,
-        answers: comment.children.length
-      };
+    const data = JSON.parse(comment.content);
+    const content = data.text;
+    return {
+      id: comment.id,
+      name: user.username,
+      introduction: user.introduction,
+      role: user.role,
+      time: time,
+      likes: comment.likes,
+      content: content,
+      answers: comment.children,
+      commentNum: comment.children.length
+    };
   });
 
-  comments_info = await Promise.all(userPromises);
+  comments_info.value = await Promise.all(userPromises);
 
-  console.log(comments_info);
+  console.log(comments_info.value);
+}
+
+onMounted(async () => {
+  await load_data()
 });
 
 const check_dynamic = (dynamic_id: string) => {
@@ -189,7 +194,9 @@ const send_comment = async () => {
     taskID: taskId
   })
   comment_input_words.value = ""
+  showNotify({ type: 'success', message: '提问成功' })
   showInput.value = false
+  await load_data()
   console.log(res)
 }
 

@@ -17,7 +17,7 @@ import type {
   type Message,
   MessageType,
   type Subscription,
-  Gender, TaskCourseDTO
+  Gender, TaskCourseDTO, CommentDetail
 } from './entity'
 
 // const baseURL = 'http://172.16.5.39:8080'
@@ -214,3 +214,12 @@ export const sendMessage = async (
 
 export const markRead = async (messageID: string) =>
   (await instance.post<Message>(`/chat/message/${messageID}`)).data
+
+export const sendDynamicComment = async (
+    commentID: string,
+    content: string
+)=> (await instance.post<CommentDetail>(`/comment/` + commentID + `/reply`, {
+  content
+})).data
+
+export const getAllDynamic = async () => (await instance.get<DynamicDTO[]>(`/my/dynamic`)).data
