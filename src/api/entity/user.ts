@@ -1,3 +1,5 @@
+import type {DynamicDTO} from "@/api/entity/dynamic";
+
 /**
  * User
  */
@@ -177,12 +179,13 @@ export interface commentContent {
 }
 
 export interface commentInfo {
-  name: string
-  introduction: string | undefined
-  role: Role
-  time: string
-  likes: number
-  content: string
-  answers: number | []
-  commentNum: number
+    id: string,
+    name: string,
+    introduction: string | undefined,
+    role: Role,
+    time: string,
+    likes: number,
+    content: string,
+    answers: number | DynamicDTO[],
+    commentNum: number
 }

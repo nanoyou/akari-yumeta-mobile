@@ -15,11 +15,11 @@ export default defineConfig({
       resolvers: [VantResolver()]
     })
   ],
-  // server:{
-  //   host:'0.0.0.0',
-  //   port: 9003,
-  //   https: false,
-  // },
+  server:{
+    host:'0.0.0.0',
+    port: 9003,
+    https: false,
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

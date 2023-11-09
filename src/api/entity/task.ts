@@ -152,3 +152,11 @@ export interface TaskCourseDTO {
    */
   watchedCount: number
 }
+
+export interface subCommentInfo {
+  username: string,
+  content: string,
+  createTime: string,
+  likes: number,
+  id: string
+}

@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <van-tabs v-model:active="active">
+  <van-tabs style="background-color: white" v-model:active="active">
     <van-tab title="课程详细">
       <div v-if="taskDetail !== null">
         <div class="task-details">
@@ -66,29 +66,32 @@
       </div>
     </van-tab>
     <van-tab title="学习讨论区">
-      <div v-if="comments_info.length !== 0" v-for="comment in comments_info">
-        <div @click="check_dynamic(comment.id)" class="comment_card">
-          <div class="flex_container">
-            <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
-            <div class="teacher_info">
-              <div class="teacher_name">
-                <div class="teacher_name2">{{ comment.name }}</div>
-<!--                <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />-->
-              </div>
-              <div class="teacher_tags2">
-                <div class="teacher_tags">{{ comment.introduction }}</div>
-                <div class="teacher_tags">{{ comment.time }}</div>
+      <div class="comments_container" v-if="comments_info.length !== 0" v-for="comment in comments_info">
+        <div class="comment_card">
+          <div @click="check_dynamic(comment.id)">
+            <div class="flex_container">
+              <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
+              <div class="teacher_info">
+                <div class="teacher_name">
+                  <div class="teacher_name2">{{ comment.name }}</div>
+                  <!--                <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />-->
+                </div>
+                <div class="teacher_tags2">
+                  <div class="teacher_tags">{{ comment.introduction }}</div>
+                  <div class="teacher_tags">{{ comment.time }}</div>
+                </div>
               </div>
             </div>
+            <div class="comment_word">{{ comment.content }}</div>
           </div>
 
-          <div class="comment_word">{{ comment.content }}</div>
           <div class="comment_card_foot">
-            <div>{{ comment.answers }}回答</div>
+            <div>{{ comment.commentNum }}回答</div>
             <div style="width: 50px"></div>
-            <div>{{ comment.likes }}点赞</div>
-<!--            <div style="width: 50px"></div>-->
-<!--            <div>已围观</div>-->
+            <div>
+              {{ comment.likes }}
+              <van-icon @click="like_comment(comment.id)" size="20" name="good-job-o"></van-icon>
+            </div>
           </div>
         </div>
         <img class="line" src="/imgs/line.png" alt="" />
@@ -124,21 +127,26 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
+import {onMounted, type Ref, ref} from 'vue'
 import {getCategoryStr} from '@/util/translate'
-import {getTaskDetail, getTaskDynamic, getUserInfo, sendTaskComment} from '@/api'
+import {getTaskDetail, getTaskDynamic, getUserInfo, likeComment, sendTaskComment} from '@/api'
 import {type commentInfo, type TaskCourseDTO} from '@/api/entity'
 import router from "@/router";
+import {showNotify} from "vant";
 
 const { taskId } = defineProps(['taskId'])
 const taskDetail = ref<TaskCourseDTO>()
 const active = ref('')
 const showInput = ref(false);
 const comment_input_words = ref('')
-let comments_info: commentInfo[] = [];
+const comments_info: Ref<commentInfo[]> = ref([]);
 
+const like_comment = async (commentId: string) => {
+   await likeComment(commentId)
+   await load_data()
+}
 
-onMounted(async () => {
+const load_data = async () => {
   try {
     const result = await getTaskDetail(taskId)
     taskDetail.value = result
@@ -147,29 +155,33 @@ onMounted(async () => {
     console.error('Error fetching task detail:', error)
   }
 
-    const comments = await getTaskDynamic(taskId);
+  const comments = await getTaskDynamic(taskId);
+  const userPromises = comments.map(async (comment) => {
+    const user = await getUserInfo(comment.commenterID);
+    const time = comment.createTime.slice(5, 7) + "月" + comment.createTime.slice(8, 10) + "日"
 
-    const userPromises = comments.map(async (comment) => {
-      const user = await getUserInfo(comment.commenterID);
-      const time = comment.createTime.slice(5,7) + "月" + comment.createTime.slice(8,10) + "日"
-
-      const data = JSON.parse(comment.content);
-      const content = data.text;
-      return {
-        id: comment.id,
-        name: user.username,
-        introduction: user.introduction,
-        role: user.role,
-        time: time,
-        likes: comment.likes,
-        content: content,
-        answers: comment.children.length
-      };
+    const data = JSON.parse(comment.content);
+    const content = data.text;
+    return {
+      id: comment.id,
+      name: user.username,
+      introduction: user.introduction,
+      role: user.role,
+      time: time,
+      likes: comment.likes,
+      content: content,
+      answers: comment.children,
+      commentNum: comment.children.length
+    };
   });
 
-  comments_info = await Promise.all(userPromises);
+  comments_info.value = await Promise.all(userPromises);
 
-  console.log(comments_info);
+  console.log(comments_info.value);
+}
+
+onMounted(async () => {
+  await load_data()
 });
 
 const check_dynamic = (dynamic_id: string) => {
@@ -189,13 +201,21 @@ const send_comment = async () => {
     taskID: taskId
   })
   comment_input_words.value = ""
+  showNotify({ type: 'success', message: '提问成功' })
   showInput.value = false
+  await load_data()
   console.log(res)
 }
 
 </script>
 
 <style scoped>
+.like_button {
+
+}
+.comments_container {
+  background-color: white;
+}
 .no_comments{
   margin: 30px;
   font-size: large;
