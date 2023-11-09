@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Gender, Role, type UserDTO } from '@/api/entity'
 import { getGenderStr } from '@/util/translate'
+import RoleTag from '../RoleTag.vue'
 
 const props = defineProps<{
   user?: UserDTO
@@ -45,19 +46,7 @@ const props = defineProps<{
         <div v-else style="opacity: 0">占位</div>
       </div>
       <div class="role">
-        <van-tag
-          size="medium"
-          type="primary"
-          v-if="user?.role == Role.Volunteer"
-          >志愿者</van-tag
-        >
-        <van-tag
-          size="medium"
-          type="warning"
-          v-else-if="user?.role == Role.Child"
-          >儿童</van-tag
-        >
-        <van-tag size="medium" type="success" v-else>捐助者</van-tag>
+        <RoleTag :role="user?.role" />
       </div>
     </div>
   </div>
