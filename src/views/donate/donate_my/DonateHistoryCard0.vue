@@ -57,7 +57,7 @@ const handleButtonClick = () => {
 </script>
 <!-- 模板部分略去 -->
 <template>
-  <div class="card-component" style="background-color: #fdedec">
+  <div class="card-component" style="background-color: transparent">
     <!-- 模板内容 -->
     <div class="row" style="height: 20%">
       <div class="col">
@@ -70,14 +70,13 @@ const handleButtonClick = () => {
         <div class="paragraph">捐助资金次数</div>
       </div>
     </div>
-    <div class="row" style="height: 40%">
+    <div class="row" style="height: 35%">
       <div class="col">
         <div class="loading-wrapper" v-if="!resultData">
           <van-loading />
         </div>
         <div class="paragraph bold-text" v-else>
           <div class="red-text">{{ resultData.totalMoney }}</div>
-          <div>元</div>
         </div>
       </div>
       <div class="col">
@@ -86,7 +85,6 @@ const handleButtonClick = () => {
         </div>
         <div class="paragraph bold-text" v-else>
           <div class="red-text">{{ resultData.goods.length }}</div>
-          <div>次</div>
         </div>
       </div>
       <div class="col">
@@ -96,14 +94,24 @@ const handleButtonClick = () => {
         <div class="paragraph bold-text" v-else>
           <!-- 中间右侧段落内容 -->
           <div class="red-text">{{ resultData.money.length }}</div>
-          <div>次</div>
         </div>
+      </div>
+    </div>
+    <div class="row" style="height: 25%; justify-content: flex-end">
+      <div class="col">
+        <div class="paragraph2" style="text-align: left">元</div>
+      </div>
+      <div class="col">
+        <div class="paragraph2" style="text-align: right">次</div>
+      </div>
+      <div class="col">
+        <div class="paragraph2" style="text-align: right">次</div>
       </div>
     </div>
     <div
       class="buttonRow"
       style="
-        height: 20%;
+        height: 30%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -125,22 +133,42 @@ const handleButtonClick = () => {
 <style>
 .card-component {
   width: 100%;
-  height: 20vh; /* 设置为1/5普通手机高度 */
+  height: 20vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 15px;
   box-sizing: border-box;
+  position: relative; /* 添加相对定位，用于定位分割线 */
 }
 
 .row {
   display: flex;
   justify-content: space-between;
+  position: relative;
+}
+
+.row::before,
+.row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #000;
+}
+
+.row::before {
+  left: 33.3333%; /* 将第一条分割线放置在左侧 */
+}
+
+.row::after {
+  right: 33.3333%; /* 将第二条分割线放置在右侧 */
 }
 
 .col {
   flex: 1;
-  margin: 5px; /* 可根据需要调整边距 */
+  margin: 5px;
 }
 
 .loading-wrapper,
@@ -150,11 +178,17 @@ const handleButtonClick = () => {
   justify-content: center;
   height: 100%; /* 让段落内容垂直居中 */
 }
+.paragraph2 {
+  display: flex;
+  justify-content: flex-end;
+  height: 100%; /* 让段落内容垂直居中 */
+  font-size: 1.1em;
+}
 .bold-text {
   font-weight: 800; /* 设置字体加粗 */
 }
 .red-text {
-  color: red; /* 设置文本颜色为红色 */
+  color: #1989fa; /* 设置文本颜色为红色 */
   font-size: 1.7em;
 }
 </style>
