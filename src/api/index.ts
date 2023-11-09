@@ -198,7 +198,7 @@ export const replyCommentOrDynamic = async (
     .data
 
 export const myChatList = async () =>
-  (await instance.get<ChatDTO>('/my/chat')).data
+  (await instance.get<ChatDTO[]>('/my/chat')).data
 
 /**
  * 查看和某人的历史记录
