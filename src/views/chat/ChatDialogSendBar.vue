@@ -39,11 +39,13 @@ const send = async () => {
 .send-bar {
   display: flex;
   width: 100%;
+  height: 70px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   position: fixed;
-  bottom: 10px;
+  bottom: 0;
+  background-color: #eee;
 }
 
 .input {

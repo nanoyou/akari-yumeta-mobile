@@ -49,5 +49,7 @@ onUnmounted(() => {
 <style scoped>
 .dialog-body {
   width: 100%;
+  height: calc(100vh - 140px);
+  overflow: scroll;
 }
 </style>
