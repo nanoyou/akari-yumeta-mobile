@@ -214,7 +214,7 @@ export const sendMessage = async (
   type: MessageType = MessageType.Text
 ) =>
   (
-    await instance.post<Message[]>(`/chat/message/${userID}`, {
+    await instance.post<Message>(`/chat/message/${userID}`, {
       content,
       type
     })
