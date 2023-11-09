@@ -125,7 +125,7 @@ const handleButtonClick = () => {
 <style>
 .card-component {
   width: 100%;
-  height: 15vh; /* 设置为1/5普通手机高度 */
+  height: 20vh; /* 设置为1/5普通手机高度 */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
