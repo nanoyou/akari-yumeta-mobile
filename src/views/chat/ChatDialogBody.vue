@@ -7,16 +7,27 @@ import { ref } from 'vue'
 import type { Message, UserDTO } from '@/api/entity'
 import { getChatMessages, getUserInfo } from '@/api'
 import { useUserStore } from '@/stores'
+import { onUnmounted } from 'vue'
 
 const userID = computed(() => router.currentRoute.value.params.userID as string)
 const friend = ref<UserDTO>()
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 const messages = ref<(Message & { time?: string })[]>()
+let stopPolling: number
 
-onBeforeMount(async () => {
+const sync = async () => {
   friend.value = await getUserInfo(userID.value)
   messages.value = await getChatMessages(userID.value)
+}
+
+onBeforeMount(async () => {
+  sync()
+  stopPolling = setInterval(sync, 500)
+})
+
+onUnmounted(() => {
+  clearInterval(stopPolling)
 })
 </script>
 

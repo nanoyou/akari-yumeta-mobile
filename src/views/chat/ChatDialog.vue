@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ChatDialogBar from '@/views/chat/ChatDialogBar.vue'
-import { ref } from 'vue'
 import ChatDialogBody from './ChatDialogBody.vue'
 import ChatDialogSendBar from '@/views/chat/ChatDialogSendBar.vue'
 </script>
