@@ -26,7 +26,7 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/chat/dialog/:userID',
+    path: '/chat/:userID',
     name: 'chat_dialog',
     component: () => import('@/views/chat/ChatDialog.vue'),
     meta: {

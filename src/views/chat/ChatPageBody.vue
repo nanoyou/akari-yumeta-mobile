@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores'
 import { onBeforeMount } from 'vue'
 import { ref } from 'vue'
 import ChatBodyRow from './ChatBodyRow.vue'
+import router from '@/router'
 
 const userStore = useUserStore()
 
@@ -77,6 +78,7 @@ onBeforeMount(() => {
         :noInterrupt="message.noInterrupt"
         :unreadMessages="message.unreadMessages"
         :fixed="message.fixed"
+        @click="router.push(`/chat/${message.user.id}`)"
       />
     </div>
   </div>
