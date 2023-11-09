@@ -21,17 +21,6 @@ const handleNavigateToDetails = () => {
 
 <template>
   <UserDetail :userID="userStore.user!.id" perspective="me" />
-  <DonateHistory
-    v-if="userStore.user?.role === Role.Sponsor"
-    @navigate="handleNavigateToDetails"
-    class="user_detail_container"
-    :style="{ height: '120px' }"
-  />
-  <DonateChart
-    v-if="userStore.user?.role === Role.Sponsor"
-    class="user_detail_container"
-    :style="{ height: '180px' }"
-  />
 </template>
 
 <style scoped>

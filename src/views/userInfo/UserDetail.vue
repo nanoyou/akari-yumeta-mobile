@@ -6,6 +6,10 @@ import CommonCard from '@/components/user/CommonCard.vue'
 import pinia, { useUserStore, useBarStore } from '@/stores'
 import { onMounted } from 'vue'
 import router from '@/router'
+import UserDetail from './UserDetail.vue'
+import DonateHistory from '@/views/donate/donate_my/DonateHistoryCard0.vue'
+import DonateChart from '@/views/donate/donate_my/DonateChart.vue'
+import type { User } from '@/api/entity'
 import { onUnmounted } from 'vue'
 import { onBeforeMount } from 'vue'
 import { computed } from 'vue'
@@ -39,6 +43,12 @@ onUnmounted(() => {
 const navBarClass = computed(() =>
   props.perspective === 'me' ? '' : 'with-nav-bar'
 )
+
+const handleNavigateToDetails = () => {
+  // 在这里执行界面跳转逻辑
+  console.log('执行界面跳转')
+  router.push('/testDonateHistory')
+}
 </script>
 
 <template>
@@ -46,6 +56,17 @@ const navBarClass = computed(() =>
     <CommonCard :user="user" />
 
     <van-cell title="个人介绍" :label="user?.introduction"></van-cell>
+    <DonateHistory
+      v-if="userStore.user?.role === Role.Sponsor"
+      @navigate="handleNavigateToDetails"
+      class="user_detail_container"
+      :style="{ height: '120px' }"
+    />
+    <DonateChart
+      v-if="userStore.user?.role === Role.Sponsor"
+      class="user_detail_container"
+      :style="{ height: '180px' }"
+    />
     <van-cell-group>
       <van-cell
         v-if="perspective == 'me'"
