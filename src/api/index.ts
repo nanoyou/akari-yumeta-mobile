@@ -11,18 +11,19 @@ import {
   type Result,
   type Task,
   type User,
+  type Role,
   type UserDTO,
   type TaskRecord,
   type ChatDTO,
   type Message,
+  type CommentDetail,
   MessageType,
   type Subscription,
   Gender,
   type TaskCourseDTO,
-  Role
 } from './entity'
 
-// const baseURL = 'http://172.16.5.39:8080'
+// const baseURL = 'http://172.22.26.81:8080'
 const baseURL = 'http://127.0.0.1:8080'
 
 const instance = axios.create({

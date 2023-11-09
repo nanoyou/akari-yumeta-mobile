@@ -40,6 +40,7 @@ const load_sub_comments = async () => {
     commentNum: res.children.length
   };
 
+  subComments.value = []
   for (const subComment of res.children) {
     const user = await getUserInfo(subComment.commenterID);
     subComments.value.push({
@@ -61,60 +62,65 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="dynamicDetail" class="comment_card">
-    <div class="flex_container">
-      <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
-      <div class="teacher_info">
-        <div class="teacher_name">
-          <div class="teacher_name2">{{ dynamicDetail.name }}</div>
+  <div style="background-color: white">
+    <div v-if="dynamicDetail" class="comment_card">
+      <div class="flex_container">
+        <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
+        <div class="teacher_info">
+          <div class="teacher_name">
+            <div class="teacher_name2">{{ dynamicDetail.name }}</div>
+          </div>
+          <div class="teacher_tags2">
+            <div class="teacher_tags">{{ dynamicDetail.introduction }}</div>
+            <div class="comment_time2">{{ dynamicDetail.time }}</div>
+          </div>
         </div>
-        <div class="teacher_tags2">
-          <div class="teacher_tags">{{ dynamicDetail.introduction }}</div>
-          <div class="comment_time2">{{ dynamicDetail.time }}</div>
-        </div>
+      </div>
+
+      <div class="comment_word">{{ dynamicDetail.content }}</div>
+      <div class="comment_card_foot">
+        <div>{{ dynamicDetail.commentNum }}回答</div>
+        <div style="width: 50px"></div>
+        <div>{{ dynamicDetail.likes }}点赞</div>
       </div>
     </div>
 
-    <div class="comment_word">{{ dynamicDetail.content }}</div>
-    <div class="comment_card_foot">
-      <div>{{ dynamicDetail.commentNum }}回答</div>
-      <div style="width: 50px"></div>
-      <div>{{ dynamicDetail.likes }}点赞</div>
-    </div>
-  </div>
+    <div class="sub_comments_container">
+      <div v-if="subComments.length !== 0" v-for="comment in subComments">
+        <div class="comment_card">
+          <div class="flex_container">
+            <img class="teacher_photo" src="/imgs/teacher2.jpg" alt="" />
+            <div class="teacher_info">
+              <div class="commenter_info">
+                <div class="teacher_name2">{{ comment.username }}</div>
+                <div style="width: 300px"></div>
+                <div class="comment_time">{{ comment.createTime }}</div>
+              </div>
+            </div>
+          </div>
 
-  <div class="sub_comments_container">
-    <div v-if="subComments.length !== 0" v-for="comment in subComments">
-      <div class="comment_card">
-        <div class="flex_container">
-          <img class="teacher_photo" src="/imgs/teacher2.jpg" alt="" />
-          <div class="teacher_info">
-            <div class="commenter_info">
-              <div class="teacher_name2">{{ comment.username }}</div>
-              <div style="width: 300px"></div>
-              <div class="comment_time">{{ comment.createTime }}</div>
+          <div class="comment_word">{{ comment.content }}</div>
+          <div class="comment_card_foot">
+            <div class="comment_likes">
+              <van-icon class="like_icon" size="20" name="good-job-o"></van-icon>
+              {{ comment.likes }}
             </div>
           </div>
         </div>
-
-        <div class="comment_word">{{ comment.content }}</div>
-        <div class="comment_card_foot">
-          <div class="comment_likes">
-            <van-icon class="like_icon" size="20" name="good-job-o"></van-icon>
-            {{ comment.likes }}
-          </div>
-        </div>
+        <img class="line" src="/imgs/line.png" alt="" />
       </div>
-      <img class="line" src="/imgs/line.png" alt="" />
+      <div v-else>
+        <div class="no_comments">暂无讨论</div>
+        <div style="height: 100px"></div>
+      </div>
     </div>
-    <div v-else class="no_comments">暂无讨论</div>
+
+    <div @click="showPopup" class="input_comment_container">
+      <van-icon class="edit_icon" size="20" name="edit"></van-icon>
+      <div>我来回答</div>
+    </div>
   </div>
 
-
-  <div @click="showPopup" class="input_comment_container">
-    <van-icon class="edit_icon" size="20" name="edit"></van-icon>
-    <div>我来回答</div>
-  </div>
 
   <van-popup v-model:show="showInput"
              position="bottom"
@@ -134,6 +140,7 @@ onMounted(async () => {
       <div @click="send_comment" :class="comment_input_words === '' ? 'send_button' : 'send_button_active'">发布回答</div>
     </van-cell-group>
   </van-popup>
+
 </template>
 
 <style scoped>
@@ -180,7 +187,7 @@ onMounted(async () => {
 }
 .input_comment_container {
   position: fixed;
-  top: 700px;
+  top: calc(100vh - 50px);
   display: flex;
   justify-content: center;
   width: 100vw;

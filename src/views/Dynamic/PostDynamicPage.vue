@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import {sendTaskComment} from "@/api";
+import router from "@/router";
+import {showNotify} from "vant";
 
 const dynamic_message = ref('')
 const fileList = ref([
@@ -35,6 +37,8 @@ const post_dynamic = async () => {
     }),
     taskID: null
   })
+  showNotify({ type: 'success', message: '发布成功' })
+  await router.push('/dynamic')
   console.log(res)
 }
 

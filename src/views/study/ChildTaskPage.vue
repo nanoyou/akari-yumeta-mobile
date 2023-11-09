@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <van-tabs v-model:active="active">
+  <van-tabs style="background-color: white" v-model:active="active">
     <van-tab title="课程详细">
       <div v-if="taskDetail !== null">
         <div class="task-details">
@@ -66,7 +66,7 @@
       </div>
     </van-tab>
     <van-tab title="学习讨论区">
-      <div v-if="comments_info.length !== 0" v-for="comment in comments_info">
+      <div class="comments_container" v-if="comments_info.length !== 0" v-for="comment in comments_info">
         <div @click="check_dynamic(comment.id)" class="comment_card">
           <div class="flex_container">
             <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
@@ -203,6 +203,9 @@ const send_comment = async () => {
 </script>
 
 <style scoped>
+.comments_container {
+  background-color: white;
+}
 .no_comments{
   margin: 30px;
   font-size: large;

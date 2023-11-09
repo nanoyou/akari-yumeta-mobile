@@ -98,42 +98,45 @@ const select_tag = (index: number) => {
   <div>
     <van-tabs v-model:active="active">
       <van-tab title="所有课程">
-        <div v-for="task in allTasks" :key="task.id">
-          <van-card
-            :tag="'积分：' + task.bonus"
-            :desc="task.description"
-            :title="task.taskName"
-            :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
-          >
-            <template #tags>
-              <van-tag plain type="primary">{{
-                getCategoryStr(task.category)
-              }}</van-tag>
-              <van-tag plain type="primary">{{
-                getStatusStr(task.status)
-              }}</van-tag>
-            </template>
+        <div>
+          <div v-for="task in allTasks" :key="task.id">
+            <van-card
+                :tag="'积分：' + task.bonus"
+                :desc="task.description"
+                :title="task.taskName"
+                :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
+            >
+              <template #tags>
+                <van-tag plain type="primary">{{
+                    getCategoryStr(task.category)
+                  }}</van-tag>
+                <van-tag plain type="primary">{{
+                    getStatusStr(task.status)
+                  }}</van-tag>
+              </template>
 
-            <template #footer>
-              <van-button
-                v-if="task.status === 'IN_PROGRESS'"
-                @click="start_task(task.id)"
-                size="mini"
+              <template #footer>
+                <van-button
+                    v-if="task.status === 'IN_PROGRESS'"
+                    @click="start_task(task.id)"
+                    size="mini"
                 >开启</van-button
-              >
-              <van-button @click="check_task(task.id)" size="mini"
+                >
+                <van-button @click="check_task(task.id)" size="mini"
                 >查看</van-button
-              >
-            </template>
+                >
+              </template>
 
-            <template #bottom>
-              <div>
-                <div>开始时间：{{ task.startTime }}</div>
-                <div>结束时间：{{ task.endTime }}</div>
-              </div>
-            </template>
-          </van-card>
+              <template #bottom>
+                <div>
+                  <div>开始时间：{{ task.startTime }}</div>
+                  <div>结束时间：{{ task.endTime }}</div>
+                </div>
+              </template>
+            </van-card>
+          </div>
         </div>
+
       </van-tab>
       <van-tab title="我的学习">
         <div v-for="task in myTasks" :key="task.id">
