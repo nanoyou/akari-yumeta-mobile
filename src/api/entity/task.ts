@@ -157,5 +157,6 @@ export interface subCommentInfo {
   username: string,
   content: string,
   createTime: string,
-  likes: number
+  likes: number,
+  id: string
 }

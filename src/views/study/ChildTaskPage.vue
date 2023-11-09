@@ -67,28 +67,31 @@
     </van-tab>
     <van-tab title="学习讨论区">
       <div class="comments_container" v-if="comments_info.length !== 0" v-for="comment in comments_info">
-        <div @click="check_dynamic(comment.id)" class="comment_card">
-          <div class="flex_container">
-            <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
-            <div class="teacher_info">
-              <div class="teacher_name">
-                <div class="teacher_name2">{{ comment.name }}</div>
-<!--                <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />-->
-              </div>
-              <div class="teacher_tags2">
-                <div class="teacher_tags">{{ comment.introduction }}</div>
-                <div class="teacher_tags">{{ comment.time }}</div>
+        <div class="comment_card">
+          <div @click="check_dynamic(comment.id)">
+            <div class="flex_container">
+              <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
+              <div class="teacher_info">
+                <div class="teacher_name">
+                  <div class="teacher_name2">{{ comment.name }}</div>
+                  <!--                <img class="teacher_icon" src="/imgs/teach_icon.png" alt="" />-->
+                </div>
+                <div class="teacher_tags2">
+                  <div class="teacher_tags">{{ comment.introduction }}</div>
+                  <div class="teacher_tags">{{ comment.time }}</div>
+                </div>
               </div>
             </div>
+            <div class="comment_word">{{ comment.content }}</div>
           </div>
 
-          <div class="comment_word">{{ comment.content }}</div>
           <div class="comment_card_foot">
             <div>{{ comment.commentNum }}回答</div>
             <div style="width: 50px"></div>
-            <div>{{ comment.likes }}点赞</div>
-<!--            <div style="width: 50px"></div>-->
-<!--            <div>已围观</div>-->
+            <div>
+              {{ comment.likes }}
+              <van-icon @click="like_comment(comment.id)" size="20" name="good-job-o"></van-icon>
+            </div>
           </div>
         </div>
         <img class="line" src="/imgs/line.png" alt="" />
@@ -124,10 +127,10 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, Ref, ref} from 'vue'
+import {onMounted, type Ref, ref} from 'vue'
 import {getCategoryStr} from '@/util/translate'
-import {getTaskDetail, getTaskDynamic, getUserInfo, sendTaskComment} from '@/api'
-import {type commentInfo, subCommentInfo, type TaskCourseDTO} from '@/api/entity'
+import {getTaskDetail, getTaskDynamic, getUserInfo, likeComment, sendTaskComment} from '@/api'
+import {type commentInfo, type TaskCourseDTO} from '@/api/entity'
 import router from "@/router";
 import {showNotify} from "vant";
 
@@ -138,6 +141,10 @@ const showInput = ref(false);
 const comment_input_words = ref('')
 const comments_info: Ref<commentInfo[]> = ref([]);
 
+const like_comment = async (commentId: string) => {
+   await likeComment(commentId)
+   await load_data()
+}
 
 const load_data = async () => {
   try {
@@ -203,6 +210,9 @@ const send_comment = async () => {
 </script>
 
 <style scoped>
+.like_button {
+
+}
 .comments_container {
   background-color: white;
 }

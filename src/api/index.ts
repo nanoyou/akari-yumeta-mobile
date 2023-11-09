@@ -16,6 +16,7 @@ import {
   type TaskRecord,
   type ChatDTO,
   type Message,
+  type Like,
   type CommentDetail,
   MessageType,
   type Subscription,
@@ -23,8 +24,8 @@ import {
   type TaskCourseDTO,
 } from './entity'
 
-// const baseURL = 'http://172.22.26.81:8080'
-const baseURL = 'http://127.0.0.1:8080'
+const baseURL = 'http://172.22.26.81:8080'
+// const baseURL = 'http://127.0.0.1:8080'
 
 const instance = axios.create({
   baseURL,
@@ -232,3 +233,6 @@ export const sendDynamicComment = async (
 })).data
 
 export const getAllDynamic = async () => (await instance.get<DynamicDTO[]>(`/my/dynamic`)).data
+
+export const likeComment = async (commentId: string) =>
+    (await instance.post<Like>(`/dynamic/${commentId}/like`)).data

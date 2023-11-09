@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, type Ref, ref} from "vue";
-import {getDynamicDetail, getUserInfo, sendDynamicComment} from "@/api";
+import {getDynamicDetail, getUserInfo, likeComment, sendDynamicComment} from "@/api";
 import {type commentInfo, type subCommentInfo} from "@/api/entity";
 import {showNotify} from "vant";
 
@@ -20,6 +20,11 @@ const send_comment = async () => {
 const showPopup = () => {
   showInput.value = true;
 };
+
+const like_comment = async (commentId: string) => {
+  await likeComment(commentId)
+  await load_sub_comments()
+}
 
 const load_sub_comments = async () => {
   const res = await getDynamicDetail(dynamicId)
@@ -47,7 +52,8 @@ const load_sub_comments = async () => {
       username: user.username,
       content: subComment.content,
       createTime: subComment.createTime.slice(5, 7) + "月" + subComment.createTime.slice(8, 10) + "日",
-      likes: subComment.likes
+      likes: subComment.likes,
+      id: subComment.id
     })
   }
 
@@ -102,7 +108,7 @@ onMounted(async () => {
           <div class="comment_word">{{ comment.content }}</div>
           <div class="comment_card_foot">
             <div class="comment_likes">
-              <van-icon class="like_icon" size="20" name="good-job-o"></van-icon>
+              <van-icon @click="like_comment(comment.id)" class="like_icon" size="20" name="good-job-o"></van-icon>
               {{ comment.likes }}
             </div>
           </div>
