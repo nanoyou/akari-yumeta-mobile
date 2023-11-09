@@ -126,6 +126,24 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/testmy',
+    name: 'testmy',
+    component: () => import('@/views/donate/donate_my/My.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/testDonateHistory',
+    name: 'testDonateHistory',
+    component: () => import('@/views/donate/donate_my/DonateHistory.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
     path: '/find',
     name: 'find',
     component: () => import('@/views/find/FindPage.vue'),
@@ -153,6 +171,16 @@ const routes: RouteRecordRaw[] = [
       title: '捐赠物资',
       showTabBar: false,
       showTopBar: true
+    }
+  },
+  {
+    path: '/testChart',
+    name: 'testChart',
+    component: () => import('@/views/donate/donate_my/DonateChart.vue'),
+    meta: {
+      title: '发现',
+      showTabBar: false,
+      showTopBar: false
     }
   }
 ]

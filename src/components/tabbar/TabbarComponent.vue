@@ -52,7 +52,7 @@ const tabbarItems = computed<TabbarItem[]>(() => {
       return [items.chat, items.dynamic, items.study, items.my]
     default:
       // 捐助者
-      return [items.chat, items.dynamic, items.find, items.my]
+      return [items.chat, items.find, items.my]
   }
 })
 </script>
