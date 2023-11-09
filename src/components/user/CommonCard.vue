@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { Gender, Role, type UserDTO } from '@/api/entity'
 import { getGenderStr } from '@/util/translate'
+import RoleTag from '../RoleTag.vue'
 
 const props = defineProps<{
-  user: UserDTO
+  user?: UserDTO
 }>()
 </script>
 
@@ -15,46 +16,37 @@ const props = defineProps<{
         fit="cover"
         width="80px"
         height="80px"
-        :src="user.avatarURL"
+        :src="user?.avatarURL"
       />
     </div>
     <div class="content">
       <div class="name">
         <div class="nickname">
-          {{ user.nickname }}
+          {{ user?.nickname }}
         </div>
-        <div class="username">{{ '@' + user.username }}</div>
+        <div class="username">{{ '@' + user?.username }}</div>
       </div>
-      <div class="row-tag" v-if="user.tags && user.tags.length > 0">
-        {{ user.tags.join(' | ') }}
+      <div class="row-tag" v-if="user?.tags && user?.tags.length > 0">
+        {{ user?.tags.join(' | ') }}
       </div>
     </div>
     <div class="extra">
-      <!-- <div class="gender">{{ getGenderStr(user.gender) }}</div> -->
+      <!-- <div class="gender">{{ getGenderStr(user?.gender) }}</div> -->
       <div class="gender">
         <van-icon
           size="20px"
-          v-if="user.gender == Gender.Male"
+          v-if="user?.gender == Gender.Male"
           name="/icon/gender-male.svg"
         />
         <van-icon
           size="20px"
-          v-else-if="user.gender == Gender.Female"
+          v-else-if="user?.gender == Gender.Female"
           name="/icon/gender-female.svg"
         />
         <div v-else style="opacity: 0">占位</div>
       </div>
       <div class="role">
-        <van-tag size="medium" type="primary" v-if="user.role == Role.Volunteer"
-          >志愿者</van-tag
-        >
-        <van-tag
-          size="medium"
-          type="warning"
-          v-else-if="user.role == Role.Child"
-          >儿童</van-tag
-        >
-        <van-tag size="medium" type="success" v-else>捐助者</van-tag>
+        <RoleTag :role="user?.role" />
       </div>
     </div>
   </div>
@@ -66,6 +58,7 @@ const props = defineProps<{
   height: 110px;
   display: flex;
   background-color: white;
+  margin-bottom: 1px;
 }
 .content {
   flex: 1;

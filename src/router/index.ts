@@ -26,6 +26,16 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/chat/:userID',
+    name: 'chat_dialog',
+    component: () => import('@/views/chat/ChatDialog.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false,
+      title: '聊天'
+    }
+  },
+  {
     path: '/dynamic',
     name: 'dynamic',
     component: () => import('@/views/dynamic/CheckDynamicPage.vue'),
@@ -96,6 +106,17 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/study/dynamicDetail/:dynamicId',
+    name: 'study_dynamicDetail',
+    component: () => import('@/views/study/DynamicDetailPage.vue'),
+    props: true,
+    meta: {
+      title: '动态详情',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/LoginPage.vue'),
@@ -128,6 +149,26 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/find/FindPage.vue'),
     meta: {
       title: '发现',
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/money',
+    name: 'money',
+    component: () => import('@/views/find/DonateMoney.vue'),
+    meta: {
+      title: '资助儿童',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/goods',
+    name: 'goods',
+    component: () => import('@/views/find/DonateGoods.vue'),
+    meta: {
+      title: '捐赠物资',
       showTabBar: false,
       showTopBar: true
     }

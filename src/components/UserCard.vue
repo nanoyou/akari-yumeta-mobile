@@ -6,7 +6,11 @@
     <div class="info-wrapper">
       <div class="name-wrapper">
         <div class="username">{{ user.username }}</div>
+        <div class="nickname">({{ user.nickname }})</div>
         <div class="gender">{{ checkGender }}</div>
+        <div v-if="user.role === role.Child" class="score">
+          积分：{{ user.score }}
+        </div>
       </div>
       <div class="introduction van-multi-ellipsis--l2">
         {{ user.introduction }}
@@ -34,7 +38,8 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { Gender, type UserDTO } from '@/api/entity'
+import type { UserDTO } from '@/api/entity'
+import { Role, Gender } from '@/api/entity'
 export default defineComponent({
   props: {
     user: {
@@ -46,6 +51,11 @@ export default defineComponent({
   methods: {
     emitFollow() {
       this.$emit('follow', this.user.id)
+    }
+  },
+  data() {
+    return {
+      role: Role
     }
   },
   computed: {
@@ -106,7 +116,17 @@ export default defineComponent({
   font-weight: bold;
 }
 
+.nickname {
+  font-size: 20px;
+}
+
 .gender {
+  font-size: 10px;
+  margin-left: 10px;
+}
+
+.score {
+  font-size: 10px;
   margin-left: 10px;
 }
 

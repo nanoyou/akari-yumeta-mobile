@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Role } from '@/api/entity'
-import { useUserStore } from '@/stores'
-import { computed } from 'vue'
+import {Role} from '@/api/entity'
+import {useUserStore} from '@/stores'
+import {computed} from 'vue'
 
 interface TabbarItem {
   to: string
@@ -47,6 +47,8 @@ const tabbarItems = computed<TabbarItem[]>(() => {
       return [items.chat, items.dynamic, items.my]
     case Role.Child:
       // 孩子
+      return [items.chat, items.dynamic, items.study, items.my]
+    case Role.Admin:
       return [items.chat, items.dynamic, items.study, items.my]
     default:
       // 捐助者

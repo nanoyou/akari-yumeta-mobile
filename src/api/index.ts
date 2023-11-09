@@ -1,6 +1,7 @@
 import { useUserStore } from '@/stores'
 import axios, { type AxiosResponse } from 'axios'
 import {
+  type commentContent,
   type DynamicDTO,
   type DonateGoods,
   type DonateHistoryDTO,
@@ -16,9 +17,12 @@ import {
   type Message,
   MessageType,
   type Subscription,
-  Gender
+  Gender,
+  type TaskCourseDTO,
+  Role
 } from './entity'
 
+// const baseURL = 'http://172.16.5.39:8080'
 const baseURL = 'http://127.0.0.1:8080'
 
 const instance = axios.create({
@@ -77,10 +81,13 @@ export const getUserInfo = async (userID: string) =>
 export const getAllTask = async () => (await instance.get<Task[]>('/task')).data
 
 export const getTaskDetail = async (taskID: string) =>
-  (await instance.get<Task>('/task/' + taskID)).data
+  (await instance.get<TaskCourseDTO>('/task/' + taskID)).data
+
+export const getDynamicDetail = async (DynamicId: string) =>
+  (await instance.get<DynamicDTO>('/dynamic/' + DynamicId)).data
 
 export const getTaskDynamic = async (taskID: string) =>
-  (await instance.get<Task>('/task/' + taskID + '/dynamic')).data
+  (await instance.get<DynamicDTO[]>('/task/' + taskID + '/dynamic')).data
 
 export const startTask = async (taskID: string) =>
   (await instance.post<TaskRecord>('/task/' + taskID + '/open')).data
@@ -102,8 +109,8 @@ export const register = async (data: {
   gender: string
 }) => (await instance.post<User>('/register', data)).data
 
-export const getUserList = async () =>
-  (await instance.get<UserDTO>('/user')).data
+export const getUserList = async (role: Role) =>
+  (await instance.get<UserDTO[]>(`/user?role=${role}`)).data
 
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data
@@ -114,8 +121,7 @@ export const getFolloweeList = async () =>
  * @returns 是否关注
  */
 export const isFollowed = async (userID: string) =>
-  (await instance.get<{ followed: boolean }>(`/my/follow/${userID}`)).data
-    .followed
+  (await instance.get<boolean>(`/my/follow/${userID}`)).data
 
 /**
  * 关注某人
@@ -140,6 +146,7 @@ export const postTask = async (data: {
   description: string
   category: string
   bonus: number
+  videoDuration: number
   videoURL: string
 }) => (await instance.post<Task>('/task', data)).data
 
@@ -164,6 +171,16 @@ export const getDonateHistory = async (userID: string) =>
 export const getGoodsInfo = async (goodsID: string) =>
   (await instance.get<GoodsInfo>(`/donate/goods/${goodsID}`)).data
 
+export const sendTaskComment = async (data: {
+  content: string
+  taskID: string | null
+}) => (await instance.post<Comment>(`/dynamic`, data)).data
+
+export const getUsers = async () => (await instance.post<Comment>(`/user`)).data
+export const getGoodsList = async (description: string) =>
+  (await instance.get<GoodsInfo[]>(`/donate/goods?description=${description}`))
+    .data
+
 export const postDynamic = async (data: { content: string; taskID?: string }) =>
   (await instance.post<Comment>('/dynamic', data)).data
 
@@ -181,7 +198,7 @@ export const replyCommentOrDynamic = async (
     .data
 
 export const myChatList = async () =>
-  (await instance.get<ChatDTO>('/my/chat')).data
+  (await instance.get<ChatDTO[]>('/my/chat')).data
 
 /**
  * 查看和某人的历史记录
