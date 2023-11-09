@@ -62,7 +62,7 @@ const position = '' as BadgePosition
   background-color: #fff;
   flex-direction: row;
   width: 100%;
-  height: 60px;
+  height: 65px;
   align-items: center;
 }
 .row-body.fixed {
