@@ -8,6 +8,10 @@ import type { Message, UserDTO } from '@/api/entity'
 import { getChatMessages, getUserInfo } from '@/api'
 import { useUserStore } from '@/stores'
 import { onUnmounted } from 'vue'
+import { arrayEquals } from '@/util/array'
+import { onMounted } from 'vue'
+import { numberKeyboardProps } from 'vant'
+import { nextTick } from 'vue'
 
 const userID = computed(() => router.currentRoute.value.params.userID as string)
 const friend = ref<UserDTO>()
@@ -17,11 +21,35 @@ const messages = ref<(Message & { time?: string })[]>()
 let stopPolling: number
 
 const sync = async () => {
-  friend.value = await getUserInfo(userID.value)
-  messages.value = await getChatMessages(userID.value)
+  const tempList = await getChatMessages(userID.value)
+
+  if (
+    messages.value !== undefined &&
+    arrayEquals(
+      messages.value?.map((m) => m.id),
+      tempList.map((m) => m.id)
+    )
+  ) {
+    return
+  }
+  messages.value = tempList
+
+  const dialogBody = document.querySelector('.dialog-body')
+  if (
+    dialogBody &&
+    dialogBody?.scrollHeight -
+      dialogBody?.scrollTop -
+      dialogBody?.clientHeight <
+      10
+  ) {
+    nextTick(() => {
+      dialogBody?.scrollTo({ top: Number.MAX_SAFE_INTEGER })
+    })
+  }
 }
 
 onBeforeMount(async () => {
+  friend.value = await getUserInfo(userID.value)
   sync()
   stopPolling = setInterval(sync, 500)
 })
