@@ -155,7 +155,7 @@ const handleButtonClick = () => {
   top: 0;
   bottom: 0;
   width: 1px;
-  background-color: #000;
+  background-color: #7573735c;
 }
 
 .row::before {

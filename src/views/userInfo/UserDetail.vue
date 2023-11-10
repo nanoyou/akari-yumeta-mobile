@@ -65,7 +65,7 @@ const handleNavigateToDetails = () => {
     <DonateChart
       v-if="userStore.user?.role === Role.Sponsor"
       class="user_detail_container"
-      :style="{ height: '180px' }"
+      :style="{ height: '230px' }"
     />
     <van-cell-group>
       <van-cell

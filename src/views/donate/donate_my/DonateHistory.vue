@@ -7,6 +7,7 @@ import axios from 'axios'
 // 导入vant库的Card组件
 import { Card } from 'vant'
 import type { DonateHistoryDTO } from '@/api/entity'
+import router from '@/router'
 
 // 使用useUserStore函数获取用户store实例
 const userStore = useUserStore()
@@ -106,6 +107,9 @@ function formatAmount(amount) {
   const amountInYuan = (amount / 100).toFixed(2)
   return `${amountInYuan}` // 返回格式化后的金额
 }
+function gotoProgress() {
+  router.push('/GoodsProgress')
+}
 </script>
 
 <template>
@@ -131,6 +135,7 @@ function formatAmount(amount) {
     <van-tab title="物品">
       <div v-if="isGoodsDataLoaded && resultData">
         <van-card
+          @click="gotoProgress"
           v-for="(item, index) in resultData.goods"
           :num="item.amount"
           :key="index"
