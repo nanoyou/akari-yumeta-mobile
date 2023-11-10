@@ -51,7 +51,7 @@ const sync = async () => {
 onBeforeMount(async () => {
   friend.value = await getUserInfo(userID.value)
   sync()
-  // stopPolling = setInterval(sync, 500)
+  stopPolling = setInterval(sync, 500)
 })
 
 onUnmounted(() => {
