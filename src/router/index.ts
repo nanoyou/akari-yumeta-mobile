@@ -85,6 +85,16 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/myStudyTask',
+    name: 'myStudyTask',
+    component: () => import('@/views/study/myTaskListPage.vue'),
+    meta: {
+      title: '学习任务列表',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
     path: '/postDynamic',
     name: 'post_dynamic',
     component: () => import('@/views/dynamic/PostDynamicPage.vue'),

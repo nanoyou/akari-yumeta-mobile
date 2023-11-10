@@ -39,6 +39,7 @@ export interface DynamicDTO {
 export interface dynamicDetail {
   id: string
   taskDetail: TaskCourseDTO | null,
+  taskId: string,
   children: dynamicDetail[]
   commenterName: string
   contentText: string
@@ -137,4 +138,8 @@ export interface Like {
    */
   likerID: string;
   [property: string]: any;
+}
+
+export interface Photo {
+  content: string
 }

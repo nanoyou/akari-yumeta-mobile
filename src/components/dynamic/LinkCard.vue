@@ -31,6 +31,7 @@ const taskDetail: TaskCourseDTO = props.TaskDetail
 .link_img {
   height: 55px;
   width: 55px;
+  object-fit: cover;
 }
 .link_word {
   font-size: small;

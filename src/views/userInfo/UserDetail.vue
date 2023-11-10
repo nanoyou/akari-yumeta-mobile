@@ -14,6 +14,7 @@ import { onUnmounted } from 'vue'
 import { onBeforeMount } from 'vue'
 import { computed } from 'vue'
 import ActionBar from '@/components/user/ActionBar.vue'
+import BonusDiagram from '@/components/user/BonusDiagram.vue'
 const props = defineProps<{
   userID: string
   perspective: 'me' | 'others'
@@ -28,6 +29,9 @@ const barStore = useBarStore()
 const logout = () => {
   userStore.logout()
   window.location.href = '/login'
+}
+const toMyTask = () => {
+  router.push('/myStudyTask')
 }
 onBeforeMount(() => {
   if (props.perspective === 'others') {
@@ -49,6 +53,13 @@ const handleNavigateToDetails = () => {
   console.log('执行界面跳转')
   router.push('/testDonateHistory')
 }
+
+const images = [
+  '/imgs/lesson1.png',
+  '/imgs/lesson2.png',
+  '/imgs/lesson3.png',
+  '/imgs/lesson4.png'
+]
 </script>
 
 <template>
@@ -62,11 +73,41 @@ const handleNavigateToDetails = () => {
       class="user_detail_container"
       :style="{ height: '120px' }"
     />
+
     <DonateChart
       v-if="userStore.user?.role === Role.Sponsor"
       class="user_detail_container"
       :style="{ height: '180px' }"
     />
+
+    <van-cell
+      @click="toMyTask"
+      title="学习课程"
+      v-if="userStore.user?.role === Role.Child"
+      :label="user?.introduction"
+    />
+
+    <van-cell title="学习积分" v-if="userStore.user?.role === Role.Child">
+      <template #label>
+        <div style="width: 320px; height: 200px">
+          <BonusDiagram></BonusDiagram>
+        </div>
+      </template>
+    </van-cell>
+
+    <van-cell v-if="userStore.user?.role === Role.Child" title="照片墙">
+      <template #label>
+        <div style="display: flex; margin-bottom: 20px">
+          <img
+            v-for="(photo, index) in images"
+            :key="index"
+            class="comment_photo"
+            :src="photo"
+          />
+        </div>
+      </template>
+    </van-cell>
+
     <van-cell-group>
       <van-cell
         v-if="perspective == 'me'"
@@ -101,5 +142,11 @@ const handleNavigateToDetails = () => {
 }
 .info-page.with-nav-bar {
   margin-top: 46px;
+}
+.comment_photo {
+  width: 90px;
+  height: 85px;
+  margin-left: 5px;
+  object-fit: cover;
 }
 </style>

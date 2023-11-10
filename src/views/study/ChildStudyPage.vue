@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getMyTask, postTask, getAllTask, startTask } from '@/api'
 import { ref, onMounted } from 'vue'
-import { type Task, Category, Status } from '@/api/entity'
+import { type Task} from '@/api/entity'
 import { showNotify } from 'vant'
 import router from '@/router'
 import { getCategoryStr, getStatusStr } from '@/util/translate'
@@ -23,21 +23,31 @@ const TaskCategory = [
   '历史',
   '政治'
 ]
+const TaskCategory_en = ['AGRICULTURE', 'ANIMAL_HUSBANDRY', 'LANGUAGE', 'SCIENCE', 'HYGIENE', 'SOCIETY', 'HISTORY', 'POLITICS']
+
 const active = ref('')
 const allTasks = ref<Task[]>([])
 const myTasks = ref<Task[]>([])
-let is_select = ref(Array(8).fill(0))
+const allTasks_back = ref<Task[]>([])
+const myTasks_back = ref<Task[]>([])
 
-onMounted(async () => {
+let is_select = ref(Array(8).fill(1))
+
+const load_data = async () => {
   getAllTask().then((result) => {
     allTasks.value = result
-    console.log(allTasks.value)
+    allTasks_back.value = allTasks.value
   })
 
   getMyTask().then((result) => {
     myTasks.value = result
-    console.log(myTasks.value)
+    myTasks_back.value = myTasks.value
   })
+
+}
+
+onMounted(async () => {
+ await load_data()
 })
 
 const check_task = (task_id: string) => {
@@ -47,10 +57,11 @@ const check_task = (task_id: string) => {
 const start_task = (task_id: string) => {
   startTask(task_id).then((res) => {
     if (res !== null) {
-      showNotify({ type: 'success', message: '开启成功' })
     }
     console.log(res)
   })
+  load_data()
+
 }
 
 const submit = async () => {
@@ -68,9 +79,35 @@ const submit = async () => {
 }
 
 const select_tag = (index: number) => {
-  submit()
   is_select.value[index] = 1 - is_select.value[index]
+
+  let allTask_new: Task[] = []
+  TaskCategory_en.forEach((category, index) => {
+    if (is_select.value[index]) {
+      allTasks_back.value.forEach((task) => {
+        if (task.category === category) {
+          allTask_new.push(task)
+        }
+      })
+    }
+
+  })
+  allTasks.value = allTask_new
+
+  let myTask_new: Task[] = []
+  TaskCategory_en.forEach((category, index) => {
+    if (is_select.value[index]) {
+      myTasks_back.value.forEach((task) => {
+        if (task.category === category) {
+          myTask_new.push(task)
+        }
+      })
+    }
+
+  })
+  myTasks.value = myTask_new
 }
+
 </script>
 
 <template>
@@ -103,6 +140,7 @@ const select_tag = (index: number) => {
             <van-card
                 :tag="'积分：' + task.bonus"
                 :desc="task.description"
+                :key="task.id"
                 :title="task.taskName"
                 :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
             >
@@ -143,6 +181,7 @@ const select_tag = (index: number) => {
           <van-card
             :tag="'积分：' + task.bonus"
             :desc="task.description"
+            :key="task.id"
             :title="task.taskName"
             :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
           >
