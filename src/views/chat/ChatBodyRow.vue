@@ -48,7 +48,12 @@ const position = '' as BadgePosition
       <div class="secondary-row">
         <div class="message">{{ message }}</div>
         <van-icon v-if="noInterrupt" name="/icon/bell-no.svg" />
-        <van-badge v-else :content="unreadMessages" :position="position" />
+        <van-badge
+          v-else
+          :content="unreadMessages"
+          :position="position"
+          :showZero="false"
+        />
       </div>
     </div>
     <!-- 填充右侧空隙 -->

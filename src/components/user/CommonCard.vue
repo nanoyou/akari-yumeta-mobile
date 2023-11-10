@@ -1,11 +1,30 @@
 <script setup lang="ts">
 import { Gender, Role, type UserDTO } from '@/api/entity'
+import { follow, sendMessage } from '@/api'
 import { getGenderStr } from '@/util/translate'
 import RoleTag from '../RoleTag.vue'
+import { showNotify } from 'vant'
 
 const props = defineProps<{
   user?: UserDTO
+  isFollowed?: boolean
+  showFollowButton?: boolean
 }>()
+const emits = defineEmits<{
+  (event: 'followed', userID: string): void
+}>()
+
+const clickFollow = async () => {
+  if (props.user == undefined || props.isFollowed) return
+  try {
+    await follow(props.user.id)
+    await sendMessage(props.user.id, '我们已经是好友了，让我们开始聊天吧！')
+    showNotify({ type: 'success', message: '关注成功' })
+    emits('followed', props.user.id)
+  } catch (e) {
+    showNotify({ type: 'danger', message: '关注失败' })
+  }
+}
 </script>
 
 <template>
@@ -32,19 +51,27 @@ const props = defineProps<{
     </div>
     <div class="extra">
       <!-- <div class="gender">{{ getGenderStr(user?.gender) }}</div> -->
-      <div class="gender">
-        <van-icon
-          size="20px"
-          v-if="user?.gender == Gender.Male"
-          name="/icon/gender-male.svg"
-        />
-        <van-icon
-          size="20px"
-          v-else-if="user?.gender == Gender.Female"
-          name="/icon/gender-female.svg"
-        />
-        <div v-else style="opacity: 0">占位</div>
+      <div class="extra-top">
+        <div class="gender">
+          <van-icon
+            size="20px"
+            v-if="user?.gender == Gender.Male"
+            name="/icon/gender-male.svg"
+          />
+          <van-icon
+            size="20px"
+            v-else-if="user?.gender == Gender.Female"
+            name="/icon/gender-female.svg"
+          />
+          <div v-else style="opacity: 0">占位</div>
+        </div>
+        <div v-if="showFollowButton" class="follow-btn">
+          <van-button plain round size="small" @click="clickFollow">{{
+            props.isFollowed ? '已关注' : '+ 关注'
+          }}</van-button>
+        </div>
       </div>
+
       <div class="role">
         <RoleTag :role="user?.role" />
       </div>
@@ -62,7 +89,7 @@ const props = defineProps<{
 }
 .content {
   flex: 1;
-  margin-left: 20px;
+  margin-left: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -71,15 +98,16 @@ const props = defineProps<{
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 }
 .nickname {
   font-weight: bold;
   font-size: larger;
+  margin-right: 15px;
 }
 .username {
   font-size: medium;
   color: #787878;
-  margin-left: 15px;
 }
 .row-3 {
   display: flex;
@@ -98,7 +126,16 @@ const props = defineProps<{
   align-items: flex-end;
   margin: 15px;
 }
+.extra-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 .avatar {
   margin: 15px;
+}
+.follow-btn {
+  margin-left: 5px;
 }
 </style>

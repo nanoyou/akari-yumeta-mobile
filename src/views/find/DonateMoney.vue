@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref, getCurrentInstance } from 'vue'
 import { donateMoney } from '@/api'
-import { ConfigProviderThemeVars, showDialog, showConfirmDialog } from 'vant'
+import {
+  type ConfigProviderThemeVars,
+  showDialog,
+  showConfirmDialog
+} from 'vant'
 import { useUserStore } from '@/stores'
+import type { UserDTO } from '@/api/entity'
 
 const userStore = useUserStore()
+const donee = ref<UserDTO>()
 let moneyStr = ref<string>()
 let money = ref<number>()
 const message = ref()
@@ -13,6 +19,16 @@ const themeVars: ConfigProviderThemeVars = {
   cellBackground: '#f2f3f5',
   cellBorderColor: '#323233'
 }
+
+onMounted(async () => {
+  const instance = getCurrentInstance()
+  if (instance !== null && instance.proxy !== null) {
+    const doneeID: string = String(instance.proxy.$route.params.userID)
+    console.log(doneeID)
+    // 临时去除报错
+  }
+})
+
 function checkMoney(moneyString: string | undefined) {
   if (typeof moneyString === 'string') {
     // 移除可能的千位分隔符
@@ -38,9 +54,9 @@ async function submitDonateInfo() {
     .then(async () => {
       // on confirm 确定捐助
       if (money.value) {
-        if (message.value !== '') {
+        if (message.value !== '' && message.value !== undefined) {
           const res = await donateMoney({
-            doneeID: userStore.user?.id,
+            doneeID: userStore.user?.id || '',
             amount: money.value,
             wishes: message.value
           })
@@ -50,8 +66,8 @@ async function submitDonateInfo() {
           })
             .then(async () => {
               const res = await donateMoney({
-                doneeID: userStore.user?.id,
-                amount: money.value,
+                doneeID: userStore.user?.id || '',
+                amount: money.value || 0,
                 wishes: message.value
               })
             })
@@ -111,6 +127,7 @@ async function submitDonateInfo() {
 body {
   display: flex;
   flex-direction: column;
+  margin-top: 120px;
 }
 
 .input {

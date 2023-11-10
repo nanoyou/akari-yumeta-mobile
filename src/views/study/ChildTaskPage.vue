@@ -164,7 +164,7 @@ const load_data = async () => {
     const content = data.text;
     return {
       id: comment.id,
-      name: user.username,
+      name: user.nickname,
       introduction: user.introduction,
       role: user.role,
       time: time,
@@ -201,7 +201,6 @@ const send_comment = async () => {
     taskID: taskId
   })
   comment_input_words.value = ""
-  showNotify({ type: 'success', message: '提问成功' })
   showInput.value = false
   await load_data()
   console.log(res)

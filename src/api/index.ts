@@ -24,13 +24,14 @@ import {
   type TaskCourseDTO
 } from './entity'
 import { HTTP_HOST } from '@/constants'
+import { useRouter } from 'vue-router'
 
 const baseURL = HTTP_HOST
 // const baseURL = 'http://127.0.0.1:8080'
 
 const instance = axios.create({
   baseURL,
-  timeout: 1000
+  timeout: 1145141919
 })
 
 instance.interceptors.request.use(
@@ -54,8 +55,7 @@ instance.interceptors.response.use(
       } else {
         // 如果需要登录，则跳转登录页面
         if (res.data.code == 2) {
-          // 不知道为什么这里用 router.push 会出问题
-          window.location.href = '/login'
+          useRouter().push('/login')
         }
         return Promise.reject(res.data)
       }
@@ -112,8 +112,8 @@ export const register = async (data: {
   gender: string
 }) => (await instance.post<User>('/register', data)).data
 
-export const getUserList = async (role: Role) =>
-  (await instance.get<UserDTO[]>(`/user?role=${role}`)).data
+export const getUserList = async (role?: Role) =>
+  (await instance.get<UserDTO[]>(`/user`, { params: { role } })).data
 
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data
@@ -224,7 +224,7 @@ export const sendMessage = async (
   ).data
 
 export const markRead = async (messageID: string) =>
-  (await instance.post<Message>(`/chat/message/${messageID}`)).data
+  (await instance.post<Message>(`/chat/message/${messageID}/read`)).data
 
 export const sendDynamicComment = async (commentID: string, content: string) =>
   (

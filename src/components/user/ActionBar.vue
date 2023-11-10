@@ -8,9 +8,10 @@ import { computed } from 'vue'
 import { follow } from '@/api'
 import { showNotify } from 'vant'
 import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
 
 const props = defineProps<{
-  user: UserDTO
+  user?: UserDTO
   perspective: 'me' | 'others'
 }>()
 
@@ -24,8 +25,13 @@ onBeforeMount(() => {
   if (props.perspective == 'others') {
     barStore.setShowTabBar(false)
   }
+})
+onMounted(() => {
   ;(async () => {
-    subscribed.value = await isFollowed(props.user.id)
+    if (props.user === undefined) {
+      return
+    }
+    subscribed.value = await isFollowed(props.user?.id)
     console.log(subscribed.value)
   })()
 })
@@ -37,6 +43,8 @@ onUnmounted(() => {
 
 const clickFollow = async () => {
   try {
+    if (props.user === undefined) return
+
     await follow(props.user.id)
     subscribed.value = true
   } catch (e) {
@@ -92,7 +100,7 @@ const router = useRouter()
     <van-action-bar-button
       type="danger"
       text="发消息"
-      @click="router.push(`/chat/dialog/${user.id}`)"
+      @click="router.push(`/chat/dialog/${user?.id}`)"
     />
   </van-action-bar>
 </template>

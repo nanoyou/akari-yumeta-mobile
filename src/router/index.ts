@@ -85,6 +85,16 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/myStudyTask',
+    name: 'myStudyTask',
+    component: () => import('@/views/study/myTaskListPage.vue'),
+    meta: {
+      title: '学习任务列表',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
     path: '/postDynamic',
     name: 'post_dynamic',
     component: () => import('@/views/dynamic/PostDynamicPage.vue'),
@@ -154,7 +164,7 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/money',
+    path: '/money/:userID',
     name: 'money',
     component: () => import('@/views/find/DonateMoney.vue'),
     meta: {
@@ -164,8 +174,8 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/goods',
-    name: 'goods',
+    path: '/good/:goodID',
+    name: 'good',
     component: () => import('@/views/find/DonateGoods.vue'),
     meta: {
       title: '捐赠物资',
@@ -181,6 +191,16 @@ const routes: RouteRecordRaw[] = [
       title: '发现',
       showTabBar: false,
       showTopBar: false
+    }
+  },
+  {
+    path: '/user',
+    name: 'user_list',
+    component: () => import('@/views/userList/UserList.vue'),
+    meta: {
+      title: '新朋友',
+      showTabBar: false,
+      showTopBar: true
     }
   },
   {
