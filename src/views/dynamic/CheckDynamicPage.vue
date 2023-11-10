@@ -135,7 +135,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div style="background-color: white">
+  <div class="dynamic-page" style="background-color: white">
     <div class="content-top">
       <div class="circle-bg">
         <div style="display: flex; justify-content: flex-end">
@@ -154,7 +154,7 @@ onMounted(async () => {
       </div>
     </div>
     <DynamicCard @show_input="show_input" v-for="dynamic in dynamics" :key="dynamic.id" :dynamicDetail="dynamic"></DynamicCard>
-    <div style="height: 50px"></div>
+    <!-- <div style="height: 50px"></div> -->
 
     <van-popup v-model:show="showInput"
                position="bottom"
@@ -178,6 +178,9 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.dynamic-page {
+  width: 100vw;
+}
 .input_title {
   margin: 18px;
 }
