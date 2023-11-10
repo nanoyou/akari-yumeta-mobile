@@ -27,7 +27,7 @@ const user = computed(() => userStore.user)
       </div>
     </div>
     <div class="extra">
-      <van-icon name="plus" size="24px" />
+      <van-icon name="plus" size="24px" @click="router.push('/user')" />
     </div>
   </div>
 </template>

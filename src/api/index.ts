@@ -112,8 +112,8 @@ export const register = async (data: {
   gender: string
 }) => (await instance.post<User>('/register', data)).data
 
-export const getUserList = async (role: Role) =>
-  (await instance.get<UserDTO[]>(`/user?role=${role}`)).data
+export const getUserList = async (role?: Role) =>
+  (await instance.get<UserDTO[]>(`/user`, { params: { role } })).data
 
 export const getFolloweeList = async () =>
   (await instance.get<UserDTO[]>('/my/follow')).data

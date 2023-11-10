@@ -5,12 +5,17 @@ import { isFollowed } from '@/api'
 import UserCardW from '@/components/UserCard.vue'
 import { onBeforeMount, ref } from 'vue'
 import CommonCard from '@/components/user/CommonCard.vue'
+import { useUserStore } from '@/stores'
 type User = UserDTO & { isFollowed?: boolean }
+
+const userStore = useUserStore()
 const users = ref<User[]>([])
 onBeforeMount(async () => {
-  const tempList: User[] = await getUserList()
+  const tempList: User[] = (await getUserList()).filter(
+    (u) => u.id !== userStore.user?.id
+  )
   await Promise.all(
-    users.value.map(async (user, index) => {
+    tempList.map(async (user, index) => {
       tempList[index].isFollowed = await isFollowed(user.id)
     })
   )

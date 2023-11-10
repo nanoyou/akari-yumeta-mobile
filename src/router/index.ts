@@ -182,6 +182,16 @@ const routes: RouteRecordRaw[] = [
       showTabBar: false,
       showTopBar: false
     }
+  },
+  {
+    path: '/user',
+    name: 'user_list',
+    component: () => import('@/views/userList/UserList.vue'),
+    meta: {
+      title: '新朋友',
+      showTabBar: false,
+      showTopBar: true
+    }
   }
 ]
 
