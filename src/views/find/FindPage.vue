@@ -7,11 +7,11 @@ import {
   follow,
   getGoodsList
 } from '@/api'
-import { GoodsInfo, UserDTO } from '@/api/entity'
+import { type GoodsInfo, type UserDTO } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
 import userCard from '@/components/UserCard.vue'
 import router from '@/router'
-import { ConfigProviderThemeVars } from 'vant'
+import { type ConfigProviderThemeVars } from 'vant'
 
 const choice = ref(true)
 const childrenSortOrder = ref({
@@ -36,10 +36,10 @@ const themeVars: ConfigProviderThemeVars = {
 const checkedBoy = ref(true)
 const checkedGirl = ref(true)
 const checkedFollower = ref(false)
-const scoreScope = ref([0xfff, 0])
+const scoreScope = ref<[number, number]>([0xfff, 0])
 const maxScope = ref(0)
 const minScope = ref(0xfff)
-const unitPriceScope = ref([0xfff, 0])
+const unitPriceScope = ref<[number, number]>([0xfff, 0])
 const maxUnitPrice = ref(0)
 const minUnitPrice = ref(0xfff)
 let childrenList = ref<UserDTO[]>([])

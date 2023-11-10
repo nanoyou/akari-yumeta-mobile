@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref, getCurrentInstance } from 'vue'
 import { donateMoney } from '@/api'
-import { ConfigProviderThemeVars, showDialog, showConfirmDialog } from 'vant'
+import {
+  type ConfigProviderThemeVars,
+  showDialog,
+  showConfirmDialog
+} from 'vant'
 import { useUserStore } from '@/stores'
-import type { UserDTO } from '@/api/entity';
+import type { UserDTO } from '@/api/entity'
 
 const userStore = useUserStore()
 const donee = ref<UserDTO>()
@@ -21,7 +25,7 @@ onMounted(async () => {
   if (instance !== null && instance.proxy !== null) {
     const doneeID: string = String(instance.proxy.$route.params.userID)
     console.log(doneeID)
-    donee = await 
+    // 临时去除报错
   }
 })
 
@@ -52,7 +56,7 @@ async function submitDonateInfo() {
       if (money.value) {
         if (message.value !== '' && message.value !== undefined) {
           const res = await donateMoney({
-            doneeID: userStore.user?.id,
+            doneeID: userStore.user?.id || '',
             amount: money.value,
             wishes: message.value
           })
@@ -62,8 +66,8 @@ async function submitDonateInfo() {
           })
             .then(async () => {
               const res = await donateMoney({
-                doneeID: userStore.user?.id,
-                amount: money.value,
+                doneeID: userStore.user?.id || '',
+                amount: money.value || 0,
                 wishes: message.value
               })
             })

@@ -3,7 +3,7 @@ import { onMounted, ref, getCurrentInstance } from 'vue'
 import type { ConfigProviderThemeVars } from 'vant'
 import { showConfirmDialog } from 'vant'
 import { getGoodsInfo, donateGoods } from '@/api'
-import { GoodsInfo } from '@/api/entity'
+import { type GoodsInfo } from '@/api/entity'
 import { useUserStore } from '@/stores'
 
 const userStore = useUserStore()
@@ -92,7 +92,9 @@ onMounted(async () => {
           <span class="good-name">{{ good?.name }}</span>
         </div>
         <span class="stepper-wapper">
-          <span class="money">¥{{ (good?.unitPrice * 0.01).toFixed(2) }}</span>
+          <span class="money"
+            >¥{{ ((good?.unitPrice || 0) * 0.01).toFixed(2) }}</span
+          >
           <span class="amount-text"> 数量 </span>
           <van-stepper v-model="amount" integer class="stepper" />
         </span>
@@ -117,7 +119,7 @@ onMounted(async () => {
     <hr />
     <span class="donate-info-wrapper">
       <span class="total-money"
-        >¥{{ (amount * good?.unitPrice * 0.01).toFixed(2) }}</span
+        >¥{{ (amount * (good?.unitPrice || 0) * 0.01).toFixed(2) }}</span
       >
       <van-button
         type="primary"
