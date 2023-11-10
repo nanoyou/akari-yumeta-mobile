@@ -30,7 +30,7 @@ const baseURL = HTTP_HOST
 
 const instance = axios.create({
   baseURL,
-  timeout: 1000
+  timeout: 1145141919
 })
 
 instance.interceptors.request.use(
