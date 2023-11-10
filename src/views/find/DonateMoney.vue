@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref, getCurrentInstance } from 'vue'
-import { donateMoney } from '@/api'
-import { ConfigProviderThemeVars, showDialog, showConfirmDialog } from 'vant'
+import { showDialog, showConfirmDialog } from 'vant'
+import type { ConfigProviderThemeVars } from 'vant'
+import { donateMoney, getUserInfo, isFollowed, follow } from '@/api'
 import { useUserStore } from '@/stores'
-import type { UserDTO } from '@/api/entity';
+import type { UserDTO } from '@/api/entity'
+import router from '@/router'
 
 const userStore = useUserStore()
 const donee = ref<UserDTO>()
+const checkFollowed = ref<Boolean>()
 let moneyStr = ref<string>()
 let money = ref<number>()
 const message = ref()
@@ -21,9 +24,15 @@ onMounted(async () => {
   if (instance !== null && instance.proxy !== null) {
     const doneeID: string = String(instance.proxy.$route.params.userID)
     console.log(doneeID)
-    donee = await 
+    donee.value = await getUserInfo(doneeID)
+    checkFollowed.value = await isFollowed(doneeID)
   }
 })
+
+async function handleFollow() {
+  await follow(donee.value!.id)
+  checkFollowed.value = !checkFollowed.value
+}
 
 function checkMoney(moneyString: string | undefined) {
   if (typeof moneyString === 'string') {
@@ -52,20 +61,60 @@ async function submitDonateInfo() {
       if (money.value) {
         if (message.value !== '' && message.value !== undefined) {
           const res = await donateMoney({
-            doneeID: userStore.user?.id,
+            doneeID: donee.value!.id,
             amount: money.value,
             wishes: message.value
           })
+          if (
+            res.amount === money.value &&
+            res.donatorID === userStore.user?.id &&
+            res.doneeID === donee.value!.id
+          ) {
+            showConfirmDialog({
+              message: `感谢您在${res.createdTime}为${donee.value
+                ?.nickname}资助${
+                res.amount * 0.01
+              }元，你要发一条动态记录一下吗？`
+            })
+              .then(async () => {
+                // on confirm 返回发布动态页
+                router.push('/postDynamic')
+              })
+              .catch(async () => {
+                // on cancel 返回find页
+                router.push('/find')
+              })
+          }
         } else {
           showConfirmDialog({
             message: '确定不给孩子们说些什么吗？'
           })
             .then(async () => {
               const res = await donateMoney({
-                doneeID: userStore.user?.id,
-                amount: money.value,
+                doneeID: donee.value!.id,
+                amount: money.value!,
                 wishes: message.value
               })
+              if (
+                res.amount === money.value &&
+                res.donatorID === userStore.user?.id &&
+                res.doneeID === donee.value!.id
+              ) {
+                showConfirmDialog({
+                  message: `感谢您在${res.createdTime}为${donee.value
+                    ?.nickname}资助${
+                    res.amount * 0.01
+                  }元，你要发一条动态记录一下吗？`
+                })
+                  .then(async () => {
+                    // on confirm 返回发布动态页
+                    router.push('/postDynamic')
+                  })
+                  .catch(async () => {
+                    // on cancel 返回find页
+                    router.push('/find')
+                  })
+              }
             })
             .catch(() => {
               // on cancel 取消
@@ -83,6 +132,15 @@ async function submitDonateInfo() {
 
 <template>
   <body>
+    <div class="doneeInfo">
+      <user-card
+        v-if="donee !== undefined"
+        style="background-color: #f2f3f5"
+        :user="donee"
+        :is-followed="checkFollowed"
+        @follow="handleFollow"
+      />
+    </div>
     <van-config-provider :theme-vars="themeVars" class="input">
       <van-cell-group inset>
         <van-cell>
@@ -123,11 +181,11 @@ async function submitDonateInfo() {
 body {
   display: flex;
   flex-direction: column;
-  margin-top: 120px;
+  margin-top: 60px;
 }
 
 .input {
-  margin-top: 5px;
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 
