@@ -5,12 +5,10 @@ import { computed } from 'vue'
 import router from '@/router'
 import { ref } from 'vue'
 import type { Message, UserDTO } from '@/api/entity'
-import { getChatMessages, getUserInfo } from '@/api'
+import { getChatMessages, getUserInfo, markRead } from '@/api'
 import { useUserStore } from '@/stores'
 import { onUnmounted } from 'vue'
 import { arrayEquals } from '@/util/array'
-import { onMounted } from 'vue'
-import { numberKeyboardProps } from 'vant'
 import { nextTick } from 'vue'
 
 const userID = computed(() => router.currentRoute.value.params.userID as string)
@@ -46,6 +44,11 @@ const sync = async () => {
       dialogBody?.scrollTo({ top: Number.MAX_SAFE_INTEGER })
     })
   }
+  tempList
+    .filter((m) => !m.read && m.receiverID == user.value?.id)
+    .forEach((m) => {
+      markRead(m.id)
+    })
 }
 
 onBeforeMount(async () => {

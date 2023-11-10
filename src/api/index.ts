@@ -224,7 +224,7 @@ export const sendMessage = async (
   ).data
 
 export const markRead = async (messageID: string) =>
-  (await instance.post<Message>(`/chat/message/${messageID}`)).data
+  (await instance.post<Message>(`/chat/message/${messageID}/read`)).data
 
 export const sendDynamicComment = async (commentID: string, content: string) =>
   (

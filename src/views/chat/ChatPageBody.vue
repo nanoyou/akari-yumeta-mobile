@@ -28,7 +28,7 @@ const loadMessages = async () => {
     tempList.map(async (message, index) => {
       tempList[index].unreadMessages = (
         await getChatMessages(message.user.id)
-      ).filter((m) => !m.isRead).length
+      ).filter((m) => !m.read && m.receiverID === userStore.user?.id).length
     })
   )
 
@@ -37,7 +37,7 @@ const loadMessages = async () => {
       firstMessage: {
         id: '',
         content: 'こんにちは',
-        isRead: false,
+        read: false,
         type: MessageType.Text,
         senderID: '',
         receiverID: '',
