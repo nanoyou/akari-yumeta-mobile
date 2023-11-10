@@ -25,6 +25,7 @@ import {
 } from './entity'
 import { HTTP_HOST } from '@/constants'
 import { useRouter } from 'vue-router'
+import router from '@/router'
 
 const baseURL = HTTP_HOST
 // const baseURL = 'http://127.0.0.1:8080'
@@ -55,7 +56,7 @@ instance.interceptors.response.use(
       } else {
         // 如果需要登录，则跳转登录页面
         if (res.data.code == 2) {
-          useRouter().push('/login')
+          router.push('/login')
         }
         return Promise.reject(res.data)
       }
