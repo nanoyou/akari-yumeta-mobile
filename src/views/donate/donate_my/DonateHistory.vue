@@ -8,7 +8,7 @@ import axios from 'axios'
 import { Card } from 'vant'
 import type { DonateHistoryDTO } from '@/api/entity'
 import router from '@/router'
-
+import instance from '@/api/index'
 // 使用useUserStore函数获取用户store实例
 const userStore = useUserStore()
 // 获取用户ID和结果数据的响应式变量
@@ -36,13 +36,11 @@ if (userID.value) {
 async function fetchData(userID) {
   try {
     // 发送请求获取用户信息
-    const result = await axios.get(
-      `https://mock.apifox.com/m1/3503500-0-default/donate/${userID}/info`
-    )
+    const result = await instance.get(`/donate/${userID.value}/info`)
     console.log('数据：', result)
-    console.log('真正的数据：', result.data.data)
+    console.log('真正的数据：', result.data)
     // 将数据赋值给 resultData
-    resultData.value = result.data.data[0]
+    resultData.value = result.data
 
     // 遍历资金数据，每次调用fetchMoneyData异步函数
     for (let i = 0; i < resultData.value.money.length; i++) {
@@ -70,11 +68,9 @@ async function fetchMoneyData(i) {
     // 获取当前资金数据的doneeID
     const doneeID = resultData.value.money[i].doneeID
     // 发送请求获取用户信息
-    const moneyResult = await axios.get(
-      `https://mock.apifox.com/m1/3503500-0-default/user/${doneeID}/info`
-    )
+    const moneyResult = await instance.get(`/user/${doneeID}/info`)
     // 获取用户数据
-    const userData = moneyResult.data.data
+    const userData = moneyResult.data
     // 将用户数据添加到resultData的当前资金数据中
     resultData.value.money[i].userData = userData
     // 添加新属性（用户全部信息）到resultData[0].money[i]
@@ -89,9 +85,7 @@ async function fetchGoodsData(i) {
     // 获取当前物品数据的goodsID
     const goodsID = resultData.value.goods[i].goodsID
     // 发送请求获取物品信息
-    const goodsResult = await axios.get(
-      `https://mock.apifox.com/m1/3503500-0-default/donate/goods/${goodsID}`
-    )
+    const goodsResult = await instance.get(`/donate/goods/${goodsID}`)
     // 获取物品数据
     const goodsData = goodsResult.data.data
     // 将物品数据添加到resultData的当前物品数据中
@@ -110,6 +104,9 @@ function formatAmount(amount) {
 function gotoProgress() {
   router.push('/GoodsProgress')
 }
+function goptoUser() {
+  router.push('/GoodsProgress')
+}
 </script>
 
 <template>
@@ -118,6 +115,7 @@ function gotoProgress() {
       <div v-if="isMoneyDataLoaded && resultData">
         <van-card
           v-for="(item, index) in resultData.money"
+          @click="router.push(`/user/${item.doneeID}`)"
           :key="index"
           :centered="true"
           :price="formatAmount(item.amount)"
@@ -140,10 +138,6 @@ function gotoProgress() {
           :num="item.amount"
           :key="index"
           :centered="true"
-          :price="formatAmount(item.goodsData.unitPrice)"
-          :desc="item.goodsData.description"
-          :title="item.goodsData.name"
-          :thumb="item.goodsData.imageURL"
         >
           <template #footer>
             <span :style="{ fontWeight: 'bold', fontSize: '20px' }">
@@ -151,6 +145,12 @@ function gotoProgress() {
             </span>
           </template>
         </van-card>
+        <!-- 
+             :price="formatAmount(item.goodsData.unitPrice)"
+          :desc="item.goodsData.description"
+          :title="item.goodsData.name"
+          :thumb="item.goodsData.imageURL"   由于数据库中无对应实物，接口查询不到对应物品，undefined
+         -->
       </div>
       <div v-else class="loading-container">
         <!-- 渲染加载数据时的占位内容 -->

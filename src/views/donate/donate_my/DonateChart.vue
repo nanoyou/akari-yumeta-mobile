@@ -18,6 +18,7 @@ import { useUserStore } from '../../../stores/modules/user'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import type { DonateHistoryDTO } from '@/api/entity'
+import instance from '@/api/index'
 export default {
   mounted() {
     const currentMonthIndex = new Date().getMonth()
@@ -34,17 +35,14 @@ export default {
     if (userID.value) {
       console.log('用户已登录')
 
-      axios
-        .get(
-          `https://mock.apifox.com/m1/3503500-0-default/donate/${userID.value}/info`,
-          {
-            //改为自己的接口地址即可，现在是apifox的mock地址
-          }
-        )
+      instance
+        .get(`/donate/${userID.value}/info`, {
+          //改为自己的接口地址即可，现在是apifox的mock地址
+        })
         .then((result) => {
           console.log('数据：', result)
-          console.log('真正的数据：', result.data.data)
-          resultData.value = result.data.data[0] // 将数据赋值给 resultData
+          console.log('真正的数据：', result.data)
+          resultData.value = result.data // 将数据赋值给 resultData
 
           // 遍历捐助物品的数据
           resultData.value.goods.forEach((donation) => {
@@ -69,7 +67,7 @@ export default {
             // 只处理今年的数据
             if (year === new Date().getFullYear()) {
               // 累加对应月份的捐助金额
-              monthlyDonation[month] += donation.amount
+              monthlyDonation[month] += donation.amount / 100
             }
           })
 
@@ -117,7 +115,7 @@ export default {
             // 只处理今年的数据
             if (year === new Date().getFullYear()) {
               // 累加对应月份的捐助金额
-              monthlyDonation[month] += donation.amount
+              monthlyDonation[month] += (donation.amount / 100).toFixed(2)
             }
           })
 
@@ -240,6 +238,11 @@ export default {
       }
     }
   }
+}
+function formatAmount(amount) {
+  // 将金额转换为元，并保留两位小数
+  const amountInYuan = (amount / 100).toFixed(2)
+  return amountInYuan // 返回格式化后的金额
 }
 </script>
 

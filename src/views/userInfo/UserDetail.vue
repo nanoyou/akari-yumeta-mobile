@@ -68,14 +68,14 @@ const images = [
 
     <van-cell title="个人介绍" :label="user?.introduction"></van-cell>
     <DonateHistory
-      v-if="userStore.user?.role === Role.Sponsor"
+      v-if="user?.role === Role.Sponsor"
       @navigate="handleNavigateToDetails"
       class="user_detail_container"
       :style="{ height: '120px' }"
     />
 
     <DonateChart
-      v-if="userStore.user?.role === Role.Sponsor"
+      v-if="user?.role === Role.Sponsor"
       class="user_detail_container"
       :style="{ height: '230px' }"
     />
