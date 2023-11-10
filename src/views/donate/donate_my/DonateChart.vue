@@ -1,6 +1,6 @@
 <template>
   <div class="card-component">
-    <div style="font-weight: bold; color: red">捐款统计</div>
+    <div style="font-weight: bold; color: #1989fa">捐款统计</div>
     <div class="chartContainer" ref="chartContainer">
       <div class="chartContent" ref="chartContent">
         <div class="chart" ref="chart"></div>
@@ -102,7 +102,7 @@ export default {
             const month = createdTime.getMonth()
 
             // 只处理今年的数据
-            if (year === new Date().getFullYear()) {
+            if (!(year === new Date().getFullYear())) {
               // 累加对应月份的捐助金额
               monthlyDonation[month] += donation.totalMoney
             }
@@ -196,8 +196,8 @@ export default {
               color: (params) => {
                 // 判断当前项是否为当前月份的柱子，是则返回自定义的颜色，否则返回默认颜色
                 return params.dataIndex === currentMonthIndex
-                  ? '#FF0000'
-                  : '#91cc75'
+                  ? '#0034D9'
+                  : '#1989fa'
               }
             },
             markPoint: {
@@ -252,7 +252,7 @@ export default {
   justify-content: space-between;
   padding: 15px;
   box-sizing: border-box;
-  background-color: #e6f3ff; /* 设置为淡蓝色背景 */
+  background-color: transparent; /* 设置为淡蓝色背景 */
 }
 
 .chartContainer {

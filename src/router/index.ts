@@ -202,6 +202,16 @@ const routes: RouteRecordRaw[] = [
       showTabBar: false,
       showTopBar: true
     }
+  },
+  {
+    path: '/GoodsProgress',
+    name: 'GoodsProgress',
+    component: () => import('@/views/donate/donate_my/GoodsProgress.vue'),
+    meta: {
+      title: '发现',
+      showTabBar: false,
+      showTopBar: true
+    }
   }
 ]
 
