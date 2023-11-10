@@ -1,27 +1,39 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref, getCurrentInstance } from 'vue'
 import type { ConfigProviderThemeVars } from 'vant'
-const message = ref()
-const amount = ref()
-const goodURL = ref('../../../public/imgs/xiaoyi.png')
+import { getGoodsInfo } from '@/api'
+import type { GoodsInfo } from '@/api/entity'
+
+const good = ref<GoodsInfo>()
+const amount = ref<number>(0)
+const message = ref<string>('')
 const themeVars: ConfigProviderThemeVars = {
   fieldTextAreaMinHeight: '250px'
 }
+
+onMounted(async () => {
+  const instance = getCurrentInstance()
+  if (instance !== null && instance.proxy !== null) {
+    const goodID: string = instance.proxy.$route.params.goodID
+    console.log(goodID)
+    good.value = await getGoodsInfo(goodID)
+  }
+})
 </script>
 
 <template>
   <body>
     <div class="good-card">
       <div class="img-wrapper">
-        <img :src="goodURL" alt="good-image" />
+        <img :src="good?.imageURL" alt="good-image" />
       </div>
       <div class="good-choose-wrapper">
         <div class="good-name-wrapper">
           <span class="good-name-text">物品名称：</span>
-          <span class="good-name">书包</span>
+          <span class="good-name">{{ good?.name }}</span>
         </div>
         <span class="stepper-wapper">
-          <span class="money">¥20.00</span>
+          <span class="money">¥{{ (good?.unitPrice * 0.01).toFixed(2) }}</span>
           <span class="amount-text"> 数量 </span>
           <van-stepper v-model="amount" integer class="stepper" />
         </span>

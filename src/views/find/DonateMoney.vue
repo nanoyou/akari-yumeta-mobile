@@ -38,7 +38,7 @@ async function submitDonateInfo() {
     .then(async () => {
       // on confirm 确定捐助
       if (money.value) {
-        if (message.value !== '') {
+        if (message.value !== '' && message.value !== undefined) {
           const res = await donateMoney({
             doneeID: userStore.user?.id,
             amount: money.value,
@@ -111,6 +111,7 @@ async function submitDonateInfo() {
 body {
   display: flex;
   flex-direction: column;
+  margin-top: 120px;
 }
 
 .input {
