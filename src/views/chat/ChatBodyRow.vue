@@ -103,5 +103,9 @@ const position = '' as BadgePosition
 .message {
   color: #9e9e9e;
   font-size: small;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100vw - 150px);
 }
 </style>

@@ -15,10 +15,10 @@ export default defineConfig({
       resolvers: [VantResolver()]
     })
   ],
-  // server:{
-  //   host:'0.0.0.0',
+  // server: {
+  //   host: '0.0.0.0',
   //   port: 9003,
-  //   https: false,
+  //   https: false
   // },
   resolve: {
     alias: {
