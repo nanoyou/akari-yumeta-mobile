@@ -164,7 +164,7 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/money',
+    path: '/money/:userID',
     name: 'money',
     component: () => import('@/views/find/DonateMoney.vue'),
     meta: {
@@ -174,8 +174,8 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/goods',
-    name: 'goods',
+    path: '/good/:goodID',
+    name: 'good',
     component: () => import('@/views/find/DonateGoods.vue'),
     meta: {
       title: '捐赠物资',

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import {
   getUserList,
   getFolloweeList,
@@ -10,9 +10,11 @@ import {
 import { GoodsInfo, UserDTO } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
 import userCard from '@/components/UserCard.vue'
+import router from '@/router'
+import { ConfigProviderThemeVars } from 'vant'
 
 const choice = ref(true)
-const sortOrder = ref({
+const childrenSortOrder = ref({
   value: 0,
   option: [
     { text: '智能排序', value: 0 },
@@ -20,16 +22,33 @@ const sortOrder = ref({
     { text: '积分排序', value: 2 }
   ]
 })
+const goodsSortOrder = ref({
+  value: 0,
+  option: [
+    { text: '智能排序', value: 0 },
+    { text: '名称排序', value: 1 },
+    { text: '价格排序', value: 2 }
+  ]
+})
+const themeVars: ConfigProviderThemeVars = {
+  buttonLargeHeight: '44px'
+}
 const checkedBoy = ref(true)
 const checkedGirl = ref(true)
 const checkedFollower = ref(false)
-let childrenList = ref<UserDTO[]>()
-let followeeList = ref<UserDTO[]>()
+const scoreScope = ref([0xfff, 0])
+const maxScope = ref(0)
+const minScope = ref(0xfff)
+const unitPriceScope = ref([0xfff, 0])
+const maxUnitPrice = ref(0)
+const minUnitPrice = ref(0xfff)
+let childrenList = ref<UserDTO[]>([])
+let followeeList = ref<UserDTO[]>([])
 let followStatusList = reactive<Boolean[]>([])
-let goodList = ref<GoodsInfo[]>()
-let childrenFollowStatusList = ref<[UserDTO, Boolean][]>() //儿童和对应的关注状态列表
-const childDescription = ref<string>()
-const goodDescription = ref<string>()
+let goodList = ref<GoodsInfo[]>([])
+let childrenFollowStatusList = ref<[UserDTO, Boolean][]>([]) //儿童和对应的关注状态列表
+const childDescription = ref<string>('')
+const goodDescription = ref<string>('')
 
 // const tags = ref([
 //   { text: '低保', value: '低保' },
@@ -61,9 +80,20 @@ function zip<T, U>(array1: T[], array2: U[]): [T, U][] {
   return result
 }
 
-function filterChildren() {
-  initData() //初始化数据
+async function filterChildren() {
+  await initData() //初始化数据
   try {
+    // 根据学习积分范围筛选
+    childrenFollowStatusList.value = childrenFollowStatusList.value?.filter(
+      (childAndStatus: [UserDTO, Boolean]) => {
+        if (
+          childAndStatus[0].score! >= scoreScope.value[0] &&
+          childAndStatus[0].score! <= scoreScope.value[1]
+        )
+          return childAndStatus
+      }
+    )
+    // 筛选男孩
     if (!checkedBoy.value) {
       childrenFollowStatusList.value = childrenFollowStatusList.value?.filter(
         (childAndStatus: [UserDTO, Boolean]) => {
@@ -71,6 +101,7 @@ function filterChildren() {
         }
       )
     }
+    // 筛选女孩
     if (!checkedGirl.value) {
       childrenFollowStatusList.value = childrenFollowStatusList.value?.filter(
         (childAndStatus: [UserDTO, Boolean]) => {
@@ -78,6 +109,7 @@ function filterChildren() {
         }
       )
     }
+    // 筛选关注者
     if (checkedFollower.value) {
       childrenFollowStatusList.value = childrenFollowStatusList.value?.filter(
         (childAndStatus: [UserDTO, Boolean]) => {
@@ -85,25 +117,44 @@ function filterChildren() {
         }
       )
     }
+    // 根据用户输入筛选
     const childTargets: Set<string> = new Set(
       childDescription.value?.split(' ')
     )
-    if (childTargets.size > 0) {
+    if (
+      childTargets.size > 0 &&
+      childDescription.value !== '' &&
+      childDescription.value !== undefined
+    ) {
       childrenFollowStatusList.value = childrenFollowStatusList.value?.filter(
         (childAndStatus: [UserDTO, Boolean]) => {
+          // 根据用户标签筛选
           if (
             new Set(
-              childAndStatus[0].tags.filter((tag: string) =>
-                childTargets.has(tag)
-              )
+              childAndStatus[0].tags.filter((tag: string) => {
+                if (childTargets.has(tag)) {
+                  console.log(tag)
+                  return tag
+                }
+              })
             ).size > 0
           )
             return childAndStatus
+          // 根据用户昵称筛选
           else if (childTargets.has(childAndStatus[0].nickname))
             return childAndStatus
+          // 根据用户名筛选
           else if (childTargets.has(childAndStatus[0].username))
             return childAndStatus
-          else if (childTargets.has(childAndStatus[0].score?.toString))
+          // 根据儿童学习积分筛选
+          else if (childTargets.has(childAndStatus[0].score!.toString()))
+            return childAndStatus
+          // 根据用户个人简介筛选
+          else if (
+            Array.from(childTargets).filter((target) => {
+              return childAndStatus[0].introduction?.includes(target)
+            }).length > 0
+          )
             return childAndStatus
         }
       )
@@ -111,6 +162,125 @@ function filterChildren() {
   } catch (error) {
     console.log(error)
   }
+}
+
+function orderChildren() {
+  switch (childrenSortOrder.value.value) {
+    // 智能排序
+    case 0: {
+      childrenFollowStatusList.value.sort(() => Math.random() - 0.5)
+      break
+    }
+    // 名称排序
+    case 1: {
+      childrenFollowStatusList.value.sort((a, b) => {
+        if (a[0].nickname < b[0].nickname) {
+          return -1
+        }
+        if (a[0].nickname > b[0].nickname) {
+          return 1
+        }
+        return 0
+      })
+      break
+    }
+    // 积分排序
+    case 2: {
+      childrenFollowStatusList.value.sort((a, b) => {
+        if (a[0].score! < b[0].score!) {
+          return -1
+        }
+        if (a[0].score! > b[0].score!) {
+          return 1
+        }
+        return 0
+      })
+      break
+    }
+  }
+}
+
+async function filterGoods() {
+  await initData() //初始化数据
+  try {
+    // 根据用户描述筛选
+    const goodTargets: string[] = goodDescription.value.split(' ')
+    console.log(goodTargets)
+    if (
+      goodTargets.length > 0 &&
+      goodDescription.value !== '' &&
+      goodDescription.value !== undefined
+    ) {
+      goodList.value = goodList.value.filter((good: GoodsInfo) => {
+        // 筛选商品简介
+        if (
+          goodTargets.filter((tag: string) => {
+            return good.description.includes(tag)
+          }).length > 0
+        )
+          return good
+        // 筛选商品名称
+        else if (
+          goodTargets.filter((tag: string) => {
+            return good.name.includes(tag)
+          }).length > 0
+        )
+          return good
+        // 筛选商品价格
+        else if (
+          goodTargets.filter((tag: string) => {
+            return (good.unitPrice * 0.01).toFixed(2).includes(tag)
+          }).length > 0
+        )
+          return good
+      })
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function filterGoodsByPriceScope() {
+  await initData() //初始化数据
+  // 根据价格范围筛选
+  goodList.value = goodList.value?.filter((good: GoodsInfo) => {
+    if (
+      good.unitPrice >= unitPriceScope.value[0] * 100 &&
+      good.unitPrice <= unitPriceScope.value[1] * 100
+    )
+      return good
+  })
+}
+
+function orderGoods() {
+  switch (goodsSortOrder.value.value) {
+    case 0: {
+      goodList.value.sort(() => Math.random() - 0.5)
+      break
+    }
+    case 1: {
+      goodList.value.sort((goodA: GoodsInfo, goodB: GoodsInfo) => {
+        if (goodA.name > goodB.name) return 1
+        else if (goodA.name < goodB.name) return -1
+        else return 0
+      })
+      break
+    }
+    case 2: {
+      goodList.value.sort((goodA: GoodsInfo, goodB: GoodsInfo) => {
+        if (goodA.unitPrice > goodB.unitPrice) return 1
+        else if (goodA.unitPrice < goodB.unitPrice) return -1
+        else return 0
+      })
+      break
+    }
+  }
+}
+
+function jumpToGoodInfo(goodID: string) {
+  router.push({
+    path: `/good/${goodID}` // 跳转到物品详情页
+  })
 }
 
 // 初始化数据
@@ -122,11 +292,32 @@ async function initData() {
     followStatusList.push(await getFollowStatus(child.id))
   }
   childrenFollowStatusList.value = zip(childrenList.value, followStatusList)
+  goodList.value.forEach((good: GoodsInfo) => {
+    if (minUnitPrice.value > Number((good.unitPrice * 0.01).toFixed(2))) {
+      minUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
+    }
+    if (maxUnitPrice.value < Number((good.unitPrice * 0.01).toFixed(2)))
+      maxUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
+  })
+  // minUnitPrice.value = Number((minUnitPrice.value * 0.01).toFixed(2))
+  // maxUnitPrice.value = Number((maxUnitPrice.value * 0.01).toFixed(2))
+  console.log(minUnitPrice.value)
+  console.log(maxUnitPrice.value)
+  childrenFollowStatusList.value.forEach(
+    (childAndStatus: [UserDTO, Boolean]) => {
+      if (minScope.value > childAndStatus[0].score!)
+        minScope.value = childAndStatus[0].score!
+      if (maxScope.value < childAndStatus[0].score!)
+        maxScope.value = childAndStatus[0].score!
+    }
+  )
 }
 
 // 页面加载时即获取儿童列表和关注列表
 onMounted(async () => {
-  initData()
+  await initData()
+  unitPriceScope.value = [minUnitPrice.value, maxUnitPrice.value]
+  scoreScope.value = [minScope.value, maxScope.value]
 })
 </script>
 
@@ -138,17 +329,23 @@ onMounted(async () => {
           <span class="search-bar">
             <van-search
               v-model="childDescription"
-              placeholder="请输入搜索关键词"
+              placeholder="输入关键词(姓名、用户名、描述、标签、学习积分等)"
               @search="filterChildren"
             />
           </span>
-          <span class="tag-bar">
+          <span class="order-select-bar">
             <van-dropdown-menu>
               <van-dropdown-item
-                v-model="sortOrder.value"
-                :options="sortOrder.option"
+                v-model="childrenSortOrder.value"
+                :options="childrenSortOrder.option"
+                @closed="orderChildren"
               />
-              <van-dropdown-item title="筛选" ref="custom">
+
+              <van-dropdown-item
+                title="筛选"
+                ref="custom"
+                @close="filterChildren"
+              >
                 <van-cell title="男孩" cell-class="switch-cell">
                   <van-switch v-model="checkedBoy" />
                 </van-cell>
@@ -158,7 +355,28 @@ onMounted(async () => {
                 <van-cell title="我的关注" cell-class="switch-cell">
                   <van-switch v-model="checkedFollower" />
                 </van-cell>
+                <van-cell
+                  title="积分范围"
+                  cell-class="switch-cell"
+                  style="display: flex; align-items: center"
+                >
+                  <van-slider
+                    v-model="scoreScope"
+                    range
+                    :min="minScope"
+                    :max="maxScope"
+                    style="align-self: center; height: 20px"
+                  >
+                    <template #left-button>
+                      <div class="custom-button">{{ scoreScope[0] }}</div>
+                    </template>
+                    <template #right-button>
+                      <div class="custom-button">{{ scoreScope[1] }}</div>
+                    </template>
+                  </van-slider>
+                </van-cell>
               </van-dropdown-item>
+
               <!-- <van-dropdown-item
           ref="tags"
           title="标签"
@@ -196,8 +414,44 @@ onMounted(async () => {
           <span class="search-bar">
             <van-search
               v-model="goodDescription"
-              placeholder="请输入搜索关键词"
+              placeholder="请输入搜索关键词(商品名称、描述、价格等)"
+              @search="filterGoods"
             />
+          </span>
+          <span class="order-select-bar">
+            <van-dropdown-menu>
+              <van-dropdown-item
+                v-model="goodsSortOrder.value"
+                :options="goodsSortOrder.option"
+                @closed="orderGoods"
+              />
+              <van-dropdown-item
+                title="筛选"
+                ref="custom"
+                @close="filterGoodsByPriceScope"
+              >
+                <van-cell
+                  title="价格范围"
+                  cell-class="switch-cell"
+                  style="display: flex; align-items: center"
+                >
+                  <van-slider
+                    v-model="unitPriceScope"
+                    range
+                    :min="minUnitPrice"
+                    :max="maxUnitPrice"
+                    style="align-self: center; height: 20px"
+                  >
+                    <template #left-button>
+                      <div class="custom-button">{{ unitPriceScope[0] }}</div>
+                    </template>
+                    <template #right-button>
+                      <div class="custom-button">{{ unitPriceScope[1] }}</div>
+                    </template>
+                  </van-slider>
+                </van-cell>
+              </van-dropdown-item>
+            </van-dropdown-menu>
           </span>
           <div class="show_cards">
             <van-card
@@ -207,7 +461,28 @@ onMounted(async () => {
               :price="good.unitPrice * 0.01"
               :thumb="good.imageURL"
               :title="good.name"
-            />
+            >
+              <template #footer>
+                <van-config-provider :theme-vars="themeVars">
+                  <van-button
+                    type="danger"
+                    round
+                    @click="jumpToGoodInfo(good.id)"
+                  >
+                    <van-swipe
+                      vertical
+                      class="notice-swipe"
+                      :autoplay="2000"
+                      :touchable="false"
+                      :show-indicators="false"
+                    >
+                      <van-swipe-item>谢谢您</van-swipe-item>
+                      <van-swipe-item>捐给儿童</van-swipe-item>
+                    </van-swipe>
+                  </van-button>
+                </van-config-provider>
+              </template>
+            </van-card>
           </div>
         </div>
       </van-tab>
@@ -215,4 +490,19 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.custom-button {
+  width: 26px;
+  color: var(--van-primary-color);
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 100px;
+}
+
+.notice-swipe {
+  height: 40px;
+  line-height: 40px;
+}
+</style>

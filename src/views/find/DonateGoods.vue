@@ -1,27 +1,98 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref, getCurrentInstance } from 'vue'
 import type { ConfigProviderThemeVars } from 'vant'
-const message = ref()
-const amount = ref()
-const goodURL = ref('../../../public/imgs/xiaoyi.png')
+import { showConfirmDialog } from 'vant'
+import { getGoodsInfo, donateGoods } from '@/api'
+import { GoodsInfo } from '@/api/entity'
+import { useUserStore } from '@/stores'
+
+const userStore = useUserStore()
+const good = ref<GoodsInfo>()
+const amount = ref<number>(0)
+const message = ref<string>('')
 const themeVars: ConfigProviderThemeVars = {
   fieldTextAreaMinHeight: '250px'
 }
+
+async function submitDonateInfo() {
+  showConfirmDialog({
+    message: '确定捐助吗？'
+  })
+    .then(async () => {
+      // on confirm 确定捐助
+
+      if (message.value !== '' && message.value !== undefined) {
+        const res = await donateGoods({
+          goodsID: good.value!.id,
+          amount: amount.value,
+          wishes: message.value
+        })
+        if (
+          res.donatorID === userStore.$id &&
+          res.goodsID === good.value?.id &&
+          res.amount === amount.value
+        ) {
+          // TODO: 跳转到动态
+        }
+      } else {
+        showConfirmDialog({
+          message: '确定不给孩子们说些什么吗？'
+        })
+          .then(async () => {
+            const res = await donateGoods({
+              goodsID: good.value!.id,
+              amount: amount.value,
+              wishes: message.value
+            })
+            if (
+              res.donatorID === userStore.$id &&
+              res.goodsID === good.value?.id &&
+              res.amount === amount.value
+            ) {
+              // TODO: 跳转到动态
+            }
+          })
+          .catch(() => {
+            // on cancel 取消
+          })
+      }
+    })
+    .catch(() => {
+      // on cancel
+    })
+}
+
+onMounted(async () => {
+  const instance = getCurrentInstance()
+  if (instance !== null && instance.proxy !== null) {
+    const goodID: string = String(instance.proxy.$route.params.goodID)
+    console.log(goodID)
+    // TODO: 等待后端改获取商品信息的BUG
+    // good.value = await getGoodsInfo(goodID)
+    good.value = {
+      description: '这是一个书包',
+      name: '书包',
+      unitPrice: 5000,
+      id: goodID,
+      imageURL: '../../../public/imgs/xiaoyi.png'
+    }
+  }
+})
 </script>
 
 <template>
   <body>
     <div class="good-card">
       <div class="img-wrapper">
-        <img :src="goodURL" alt="good-image" />
+        <img :src="good?.imageURL" alt="good-image" />
       </div>
       <div class="good-choose-wrapper">
         <div class="good-name-wrapper">
           <span class="good-name-text">物品名称：</span>
-          <span class="good-name">书包</span>
+          <span class="good-name">{{ good?.name }}</span>
         </div>
         <span class="stepper-wapper">
-          <span class="money">¥20.00</span>
+          <span class="money">¥{{ (good?.unitPrice * 0.01).toFixed(2) }}</span>
           <span class="amount-text"> 数量 </span>
           <van-stepper v-model="amount" integer class="stepper" />
         </span>
@@ -45,12 +116,15 @@ const themeVars: ConfigProviderThemeVars = {
     </van-config-provider>
     <hr />
     <span class="donate-info-wrapper">
-      <span class="total-money">¥0.00</span>
+      <span class="total-money"
+        >¥{{ (amount * good?.unitPrice * 0.01).toFixed(2) }}</span
+      >
       <van-button
         type="primary"
         round
         icon="gold-coin-o"
         color="linear-gradient(to right, #ff6034, #ee0a24)"
+        @click="submitDonateInfo"
         >确定</van-button
       >
     </span>

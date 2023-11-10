@@ -5,8 +5,8 @@
     </div>
     <div class="info-wrapper">
       <div class="name-wrapper">
-        <div class="username">{{ user.username }}</div>
-        <div class="nickname">({{ user.nickname }})</div>
+        <div class="username">{{ user.nickname }}</div>
+        <div class="nickname">({{ user.username }})</div>
         <div class="gender">{{ checkGender }}</div>
         <div v-if="user.role === role.Child" class="score">
           积分：{{ user.score }}
@@ -104,6 +104,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   flex-basis: 180px;
+  flex-grow: 1;
 }
 
 .name-wrapper {
@@ -112,12 +113,12 @@ export default defineComponent({
 }
 
 .username {
-  font-size: 25px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 .nickname {
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .gender {
