@@ -1,35 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import {type Ref, ref} from 'vue'
 import {sendTaskComment} from "@/api";
 import router from "@/router";
 import {showNotify} from "vant";
+import type {Photo} from "@/api/entity";
 
 const dynamic_message = ref('')
-const fileList = ref([
-  {
-    url: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg',
-  },
-  { url: 'http://e.hiphotos.baidu.com/image/pic/item/a1ec08fa513d2697e542494057fbb2fb4316d81e.jpg',
-  },
-  {
-    url: 'http://c.hiphotos.baidu.com/image/pic/item/30adcbef76094b36de8a2fe5a1cc7cd98d109d99.jpg',
-  },
-  {
-    url: 'http://h.hiphotos.baidu.com/image/pic/item/7c1ed21b0ef41bd5f2c2a9e953da81cb39db3d1d.jpg'
-  },
-  {
-    url: 'http://g.hiphotos.baidu.com/image/pic/item/55e736d12f2eb938d5277fd5d0628535e5dd6f4a.jpg'
-  },
-  {
-    url: 'http://e.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7e41f5cfe760e0cf3d6cad6ee.jpg'
-  }
-])
+const fileList: Ref<Photo[]> = ref([])
 
 const post_dynamic = async () => {
   let photos: string[] = []
   fileList.value.forEach(item => {
-    photos.push(item.url);
+    photos.push(item.content);
   });
+
+  console.log(photos)
+
   const res = await sendTaskComment({
     content: JSON.stringify({
       text: dynamic_message.value,
@@ -37,7 +23,7 @@ const post_dynamic = async () => {
     }),
     taskID: null
   })
-  showNotify({ type: 'success', message: '发布成功' })
+
   await router.push('/dynamic')
   console.log(res)
 }

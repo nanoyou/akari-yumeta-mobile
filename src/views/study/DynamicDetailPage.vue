@@ -9,10 +9,11 @@ let dynamicDetail: Ref<commentInfo | null> = ref(null);
 const showInput = ref(false)
 const comment_input_words = ref("")
 const subComments: Ref<subCommentInfo[]> = ref([]);
+const notify_message = ref("")
 
 const send_comment = async () => {
   await sendDynamicComment(dynamicId, comment_input_words.value)
-  showNotify({ type: 'success', message: '回答成功' })
+
   showInput.value = false
   await load_sub_comments()
 }
@@ -35,7 +36,7 @@ const load_sub_comments = async () => {
 
   dynamicDetail.value =  {
     id: res.id,
-    name: user.username,
+    name: user.nickname,
     introduction: user.introduction,
     role: user.role,
     time: time,
@@ -49,7 +50,7 @@ const load_sub_comments = async () => {
   for (const subComment of res.children) {
     const user = await getUserInfo(subComment.commenterID);
     subComments.value.push({
-      username: user.username,
+      username: user.nickname,
       content: subComment.content,
       createTime: subComment.createTime.slice(5, 7) + "月" + subComment.createTime.slice(8, 10) + "日",
       likes: subComment.likes,
@@ -92,7 +93,7 @@ onMounted(async () => {
     </div>
 
     <div class="sub_comments_container">
-      <div v-if="subComments.length !== 0" v-for="comment in subComments">
+      <div v-if="subComments.length !== 0" v-for="comment in subComments" :key="comment.id">
         <div class="comment_card">
           <div class="flex_container">
             <img class="teacher_photo" src="/imgs/teacher2.jpg" alt="" />
@@ -231,6 +232,7 @@ onMounted(async () => {
 .teacher_name2 {
   margin-top: 15px;
   font-weight: bold;
+  white-space: nowrap;
 }
 .comment_time {
   color: #9f9ea4;
