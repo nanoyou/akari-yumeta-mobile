@@ -89,7 +89,7 @@ const handleNavigateToDetails = () => {
         </template>
       </van-cell>
     </van-cell-group>
-    <ActionBar :user="user!" :perspective="perspective" />
+    <ActionBar :user="user" :perspective="perspective" />
   </div>
 </template>
 
