@@ -7,8 +7,11 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ActionBar: typeof import('./src/components/user/ActionBar.vue')['default']
+    CommonCard: typeof import('./src/components/user/CommonCard.vue')['default']
     DynamicCard: typeof import('./src/components/dynamic/DynamicCard.vue')['default']
     LinkCard: typeof import('./src/components/dynamic/LinkCard.vue')['default']
+    RoleTag: typeof import('./src/components/RoleTag.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TabbarComponent: typeof import('./src/components/tabbar/TabbarComponent.vue')['default']
@@ -18,8 +21,6 @@ declare module 'vue' {
     VanCard: typeof import('vant/es')['Card']
     VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']
-    VanCheckbox: typeof import('vant/es')['Checkbox']
-    VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
     VanDropdownItem: typeof import('vant/es')['DropdownItem']
     VanDropdownMenu: typeof import('vant/es')['DropdownMenu']

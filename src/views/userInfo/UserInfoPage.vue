@@ -2,8 +2,9 @@
 import router from '@/router'
 import { ref, onMounted } from 'vue'
 import { getMyInfo } from '@/api'
-import type { User, Role } from '@/api/entity'
-
+import type { User } from '@/api/entity'
+import { Role } from '@/api/entity'
+import DonateHistory from '@/views/donate/donate_my/DonateHistoryCard0.vue'
 const back = () => {
   router.push('/login')
 }
@@ -39,6 +40,11 @@ const show_more = () => {
   show_tags.value = tags.value
   is_show.value = true
   console.log(show_tags.value)
+}
+const handleNavigateToDetails = () => {
+  // 在这里执行界面跳转逻辑,暴露给子组件DonateHistoryCard0的
+  console.log('执行界面跳转')
+  router.push('/testDonateHistory')
 }
 </script>
 
@@ -106,7 +112,12 @@ const show_more = () => {
         />
       </van-cell-group>
     </div>
-
+    <!-- //捐助历史卡片 -->
+    <DonateHistory
+      v-if="user_info?.role === Role.Sponsor"
+      @navigate="handleNavigateToDetails"
+      class="user_detail_container"
+    />
     <div class="button_container">
       <van-button class="function_button" type="primary" @click="back"
         >退出登录</van-button

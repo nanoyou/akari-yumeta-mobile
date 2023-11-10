@@ -26,6 +26,16 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/chat/:userID',
+    name: 'chat_dialog',
+    component: () => import('@/views/chat/ChatDialog.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false,
+      title: '聊天'
+    }
+  },
+  {
     path: '/dynamic',
     name: 'dynamic',
     component: () => import('@/views/dynamic/CheckDynamicPage.vue'),
@@ -36,11 +46,30 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/my',
-    name: 'my',
+    path: '/my_old',
+    name: 'my_old',
     component: () => import('@/views/userInfo/UserInfoPage.vue'),
     meta: {
       title: '个人中心',
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/my',
+    name: 'my',
+    component: () => import('@/views/userInfo/MyPage.vue'),
+    meta: {
+      showTabBar: true,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/user/:userID',
+    name: 'userinfo',
+    component: () => import('@/views/userInfo/UserInfo.vue'),
+    meta: {
+      title: '个人主页',
       showTabBar: true,
       showTopBar: false
     }
@@ -77,12 +106,41 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
+    path: '/study/dynamicDetail/:dynamicId',
+    name: 'study_dynamicDetail',
+    component: () => import('@/views/study/DynamicDetailPage.vue'),
+    props: true,
+    meta: {
+      title: '动态详情',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/LoginPage.vue'),
     meta: {
       showTabBar: false,
       showTopBar: false
+    }
+  },
+  {
+    path: '/testmy',
+    name: 'testmy',
+    component: () => import('@/views/donate/donate_my/My.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/testDonateHistory',
+    name: 'testDonateHistory',
+    component: () => import('@/views/donate/donate_my/DonateHistory.vue'),
+    meta: {
+      showTabBar: false,
+      showTopBar: true
     }
   },
   {
@@ -111,6 +169,26 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/find/DonateGoods.vue'),
     meta: {
       title: '捐赠物资',
+      showTabBar: false,
+      showTopBar: true
+    }
+  },
+  {
+    path: '/testChart',
+    name: 'testChart',
+    component: () => import('@/views/donate/donate_my/DonateChart.vue'),
+    meta: {
+      title: '发现',
+      showTabBar: false,
+      showTopBar: false
+    }
+  },
+  {
+    path: '/user',
+    name: 'user_list',
+    component: () => import('@/views/userList/UserList.vue'),
+    meta: {
+      title: '新朋友',
       showTabBar: false,
       showTopBar: true
     }

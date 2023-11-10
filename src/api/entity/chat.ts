@@ -17,7 +17,7 @@ export interface Message {
   /**
    * 是否已读
    */
-  isRead: boolean
+  read: boolean
   /**
    * 接收者ID
    */
