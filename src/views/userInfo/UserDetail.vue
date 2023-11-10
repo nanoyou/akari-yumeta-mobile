@@ -28,7 +28,7 @@ const barStore = useBarStore()
 
 const logout = () => {
   userStore.logout()
-  window.location.href = '/login'
+  router.push('/login')
 }
 const toMyTask = () => {
   router.push('/myStudyTask')
