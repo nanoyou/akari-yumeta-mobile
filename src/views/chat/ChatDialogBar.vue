@@ -5,11 +5,14 @@ import router from '@/router'
 import { ref } from 'vue'
 import { onBeforeMount } from 'vue'
 import { computed } from 'vue'
+import VideoCall from './VideoCall.vue'
 
 const userID = computed(() => router.currentRoute.value.params.userID as string)
+const videoCall = ref()
 
 const call = async () => {
   console.log(`和 ${userID.value} 发起视频通话`)
+  videoCall.value.startCall()
 }
 
 const user = ref<UserDTO>()
@@ -49,6 +52,7 @@ onBeforeMount(async () => {
       />
     </template>
   </van-nav-bar>
+  <VideoCall ref="videoCall" />
 </template>
 
 <style scoped>

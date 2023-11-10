@@ -46,7 +46,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (res: AxiosResponse<Result<any>>) => {
-    console.log(res)
+    // console.log(res)
     if (res.status === 200) {
       if (res.data.ok) {
         res.data = res.data.data
