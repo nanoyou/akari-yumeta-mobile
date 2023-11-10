@@ -35,23 +35,23 @@ const directionClass = computed(() =>
 <style scoped>
 .message-row {
   width: 100%;
-  height: 80px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+  margin: 15px 0 15px;
 }
 .message-row.row-right {
   flex-direction: row-reverse;
 }
 .avatar {
-  margin: 15px;
+  margin: 0 15px 0 15px;
 }
 .message {
   background-color: white;
-  height: 46px;
-  line-height: 46px;
+  line-height: 24px;
   border-radius: 5px;
-  padding: 0 15px 0 15px;
+  padding: 10px;
+  max-width: calc(100% - 160px);
 }
 .message.row-right {
   background-color: #0199fe;
