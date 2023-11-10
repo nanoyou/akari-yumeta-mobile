@@ -31,7 +31,10 @@ const goodsSortOrder = ref({
   ]
 })
 const themeVars: ConfigProviderThemeVars = {
-  buttonLargeHeight: '44px'
+  buttonLargeHeight: '44px',
+  cardBackground: '#fff',
+  cardTitleLineHeight: '22px',
+  cardFontSize: '16px'
 }
 const checkedBoy = ref(true)
 const checkedGirl = ref(true)
@@ -283,9 +286,16 @@ function jumpToGoodInfo(goodID: string) {
   })
 }
 
+function jumpToUserInfo(userID: string) {
+  router.push({
+    path: `/user/${userID}` // 跳转到个人详情页
+  })
+}
+
 // 初始化数据
 async function initData() {
   childrenList.value = await getUserList(Role.Child)
+  console.log(childrenList.value)
   followeeList.value = await getFolloweeList()
   goodList.value = await getGoodsList('')
   for (const child of childrenList.value) {
@@ -301,8 +311,7 @@ async function initData() {
   })
   // minUnitPrice.value = Number((minUnitPrice.value * 0.01).toFixed(2))
   // maxUnitPrice.value = Number((maxUnitPrice.value * 0.01).toFixed(2))
-  console.log(minUnitPrice.value)
-  console.log(maxUnitPrice.value)
+  console.log(childrenFollowStatusList.value)
   childrenFollowStatusList.value.forEach(
     (childAndStatus: [UserDTO, Boolean]) => {
       if (minScope.value > childAndStatus[0].score!)
@@ -404,6 +413,7 @@ onMounted(async () => {
                 :user="childAndStatus[0]"
                 :is-followed="!!childAndStatus[1]"
                 @follow="handleFollow(childAndStatus[0].id, index)"
+                @jump="jumpToUserInfo(childAndStatus[0].id)"
               />
             </van-list>
           </div>
@@ -436,7 +446,7 @@ onMounted(async () => {
                   style="display: flex; align-items: center"
                 >
                   <van-slider
-                    v-model="unitPriceScope"
+                    v-model:number="unitPriceScope"
                     range
                     :min="minUnitPrice"
                     :max="maxUnitPrice"
@@ -454,16 +464,16 @@ onMounted(async () => {
             </van-dropdown-menu>
           </span>
           <div class="show_cards">
-            <van-card
-              v-for="good in goodList"
-              :key="good.id"
-              :desc="good.description"
-              :price="good.unitPrice * 0.01"
-              :thumb="good.imageURL"
-              :title="good.name"
-            >
-              <template #footer>
-                <van-config-provider :theme-vars="themeVars">
+            <van-config-provider :theme-vars="themeVars">
+              <van-card
+                v-for="good in goodList"
+                :key="good.id"
+                :desc="good.description"
+                :price="good.unitPrice * 0.01"
+                :thumb="good.imageURL"
+                :title="good.name"
+              >
+                <template #footer>
                   <van-button
                     type="danger"
                     round
@@ -480,9 +490,9 @@ onMounted(async () => {
                       <van-swipe-item>捐给儿童</van-swipe-item>
                     </van-swipe>
                   </van-button>
-                </van-config-provider>
-              </template>
-            </van-card>
+                </template>
+              </van-card>
+            </van-config-provider>
           </div>
         </div>
       </van-tab>
@@ -502,7 +512,7 @@ onMounted(async () => {
 }
 
 .notice-swipe {
-  height: 40px;
-  line-height: 40px;
+  height: 20px;
+  line-height: 20px;
 }
 </style>
