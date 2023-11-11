@@ -13,6 +13,7 @@ import { type dynamicDetail, type TaskCourseDTO } from '@/api/entity'
 import { useUserStore } from '@/stores'
 import { showNotify } from 'vant'
 
+const userStore = useUserStore()
 const showInput = ref(false)
 const dynamics: Ref<dynamicDetail[]> = ref([])
 const comment_input_words = ref('')
@@ -157,8 +158,18 @@ onMounted(async () => {
         </div>
       </div>
       <div class="user">
-        <span>小益</span>
-        <img @click="toMy" src="/imgs/xiaoyi.png" height="80" width="80" />
+        <span style="transform: translateY(30px)">{{
+          userStore.user?.nickname || '小益'
+        }}</span>
+        <van-image
+          @click="toMy"
+          :src="userStore.user?.avatarURL || '/imgs/xiaoyi.png'"
+          height="80"
+          width="80"
+          fit="cover"
+          radius="5px"
+          style="transform: translateY(30px)"
+        />
       </div>
     </div>
     <DynamicCard

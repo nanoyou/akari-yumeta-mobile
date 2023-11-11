@@ -207,6 +207,8 @@ const like_comment = async (commentId: string) => {
   width: 100vw;
   margin-top: 20px;
   display: flex;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f7f8fa;
 }
 .name_word {
   color: #606d91;
