@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
-import {
-  getUserList,
-  getFolloweeList,
-  isFollowed,
-  follow,
-  getGoodsList
-} from '@/api'
+import { getUserList, isFollowed, follow, getGoodsList } from '@/api'
 import { type GoodsInfo, type UserDTO } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
 import userCard from '@/components/UserCard.vue'
@@ -46,7 +40,7 @@ const unitPriceScope = ref<[number, number]>([0xfff, 0])
 const maxUnitPrice = ref(0)
 const minUnitPrice = ref(0xfff)
 let childrenList = ref<UserDTO[]>([])
-let followeeList = ref<UserDTO[]>([])
+// let followeeList = ref<UserDTO[]>([])
 let followStatusList = reactive<Boolean[]>([])
 let goodList = ref<GoodsInfo[]>([])
 let childrenFollowStatusList = ref<[UserDTO, Boolean][]>([]) //儿童和对应的关注状态列表
@@ -294,32 +288,42 @@ function jumpToUserInfo(userID: string) {
 
 // 初始化数据
 async function initData() {
-  childrenList.value = await getUserList(Role.Child)
   console.log(childrenList.value)
-  followeeList.value = await getFolloweeList()
-  goodList.value = await getGoodsList('')
-  for (const child of childrenList.value) {
-    followStatusList.push(await getFollowStatus(child.id))
-  }
-  childrenFollowStatusList.value = zip(childrenList.value, followStatusList)
-  goodList.value.forEach((good: GoodsInfo) => {
-    if (minUnitPrice.value > Number((good.unitPrice * 0.01).toFixed(2))) {
-      minUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
-    }
-    if (maxUnitPrice.value < Number((good.unitPrice * 0.01).toFixed(2)))
-      maxUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
-  })
+  const childResult = (async () => {
+    childrenList.value = await getUserList(Role.Child)
+    followStatusList = new Array(childrenList.value.length)
+    await Promise.all(
+      childrenList.value.map(async (child, index) => {
+        followStatusList[index] = await getFollowStatus(child.id)
+      })
+    )
+    childrenFollowStatusList.value = zip(childrenList.value, followStatusList)
+    childrenFollowStatusList.value.forEach(
+      (childAndStatus: [UserDTO, Boolean]) => {
+        if (minScope.value > childAndStatus[0].score!)
+          minScope.value = childAndStatus[0].score!
+        if (maxScope.value < childAndStatus[0].score!)
+          maxScope.value = childAndStatus[0].score!
+      }
+    )
+  })()
+
+  const goodListResult = (async () => {
+    goodList.value = await getGoodsList('')
+    goodList.value.forEach((good: GoodsInfo) => {
+      if (minUnitPrice.value > Number((good.unitPrice * 0.01).toFixed(2))) {
+        minUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
+      }
+      if (maxUnitPrice.value < Number((good.unitPrice * 0.01).toFixed(2)))
+        maxUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
+    })
+  })()
+
+  await Promise.all([childResult, goodListResult])
+
   // minUnitPrice.value = Number((minUnitPrice.value * 0.01).toFixed(2))
   // maxUnitPrice.value = Number((maxUnitPrice.value * 0.01).toFixed(2))
   console.log(childrenFollowStatusList.value)
-  childrenFollowStatusList.value.forEach(
-    (childAndStatus: [UserDTO, Boolean]) => {
-      if (minScope.value > childAndStatus[0].score!)
-        minScope.value = childAndStatus[0].score!
-      if (maxScope.value < childAndStatus[0].score!)
-        maxScope.value = childAndStatus[0].score!
-    }
-  )
 }
 
 // 页面加载时即获取儿童列表和关注列表
