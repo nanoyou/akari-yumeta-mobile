@@ -1,22 +1,27 @@
 <script setup lang="ts">
-import type {PropType} from "vue";
-import {type TaskCourseDTO} from "@/api/entity";
+import type { PropType } from 'vue'
+import { type TaskCourseDTO } from '@/api/entity'
+import { hashStr } from '@/util/hash'
 
 const props = defineProps({
   TaskDetail: {
     type: Object as PropType<TaskCourseDTO>, // Use the type from your import
-    required: true, // You can set this to false if the prop is optional
-  },
-});
+    required: true // You can set this to false if the prop is optional
+  }
+})
 
 const taskDetail: TaskCourseDTO = props.TaskDetail
-
 </script>
 
 <template>
   <div class="like_card">
-    <img class="link_img" :src="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`" />
-    <div class="link_word">{{ taskDetail.taskName }} : {{ taskDetail.description }}</div>
+    <img
+      class="link_img"
+      :src="`/imgs/task${hashStr(taskDetail.id, 6) + 1}.png`"
+    />
+    <div class="link_word">
+      {{ taskDetail.taskName }} : {{ taskDetail.description }}
+    </div>
   </div>
 </template>
 

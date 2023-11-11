@@ -6,6 +6,7 @@ import UserCardW from '@/components/UserCard.vue'
 import { onBeforeMount, ref } from 'vue'
 import CommonCard from '@/components/user/CommonCard.vue'
 import { useUserStore } from '@/stores'
+import router from '@/router'
 type User = UserDTO & { isFollowed?: boolean }
 
 const userStore = useUserStore()
@@ -41,6 +42,7 @@ const followed = (userID: string) => {
       :isFollowed="user.isFollowed || false"
       :showFollowButton="true"
       @followed="followed"
+      @click="router.push(`/user/${user.id}`)"
     />
   </div>
 </template>

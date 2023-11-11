@@ -55,10 +55,10 @@ const handleNavigateToDetails = () => {
 }
 
 const images = [
-  '/imgs/lesson1.png',
-  '/imgs/lesson2.png',
-  '/imgs/lesson3.png',
-  '/imgs/lesson4.png'
+  '/imgs/child1.jpg',
+  '/imgs/child2.jpg',
+  '/imgs/child3.jpg',
+  '/imgs/child4.jpg'
 ]
 </script>
 
@@ -67,55 +67,51 @@ const images = [
     <CommonCard :user="user" />
 
     <van-cell title="个人介绍" :label="user?.introduction"></van-cell>
-    <DonateHistory
-      v-if="user?.role === Role.Sponsor"
-      @navigate="handleNavigateToDetails"
-      class="user_detail_container"
-      :style="{ height: '120px' }"
-    />
+    <van-cell-group title="捐助信息" v-if="user?.role === Role.Sponsor">
+      <DonateHistory
+        @navigate="handleNavigateToDetails"
+        class="user_detail_container"
+        :style="{ height: '120px' }"
+      />
 
-    <DonateChart
-      v-if="user?.role === Role.Sponsor"
-      class="user_detail_container"
-      :style="{ height: '230px' }"
-    />
+      <DonateChart class="user_detail_container" :style="{ height: '230px' }" />
+    </van-cell-group>
+    <van-cell-group title="学习信息" v-if="user?.role === Role.Child">
+      <van-cell title="学习课程" @click="toMyTask" clickable is-link>
+      </van-cell>
+      <van-cell title="学习积分变化">
+        <template #label>
+          <div
+            style="width: 100vw; height: 140px; transform: translateY(-60px)"
+          >
+            <BonusDiagram></BonusDiagram>
+          </div>
+        </template>
+      </van-cell>
+      <van-cell title="照片墙">
+        <template #label>
+          <div
+            style="
+              display: flex;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              width: calc(100vw - 40px);
+              overflow: scroll;
+            "
+          >
+            <img
+              v-for="(photo, index) in images"
+              :key="index"
+              class="comment_photo"
+              :src="photo"
+            />
+          </div>
+        </template>
+      </van-cell>
+    </van-cell-group>
 
-    <van-cell
-      @click="toMyTask"
-      title="学习课程"
-      v-if="userStore.user?.role === Role.Child"
-      :label="user?.introduction"
-    />
-
-    <van-cell title="学习积分" v-if="userStore.user?.role === Role.Child">
-      <template #label>
-        <div style="width: 320px; height: 200px">
-          <BonusDiagram></BonusDiagram>
-        </div>
-      </template>
-    </van-cell>
-
-    <van-cell v-if="userStore.user?.role === Role.Child" title="照片墙">
-      <template #label>
-        <div style="display: flex; margin-bottom: 20px">
-          <img
-            v-for="(photo, index) in images"
-            :key="index"
-            class="comment_photo"
-            :src="photo"
-          />
-        </div>
-      </template>
-    </van-cell>
-
-    <van-cell-group>
-      <van-cell
-        v-if="perspective == 'me'"
-        title="退出登录"
-        @click="logout"
-        clickable
-        is-link
-      >
+    <van-cell-group v-if="perspective == 'me'" title="操作">
+      <van-cell title="退出登录" @click="logout" clickable is-link>
         <template #icon>
           <div
             style="

@@ -76,7 +76,7 @@
           <div
             style="
               background-color: #f7f7f7;
-              width: 90%;
+              width: 100%;
               margin-top: 1px;
               padding: 5px 0 5px;
             "
@@ -185,6 +185,7 @@ const like_comment = async (commentId: string) => {
   color: #606d91;
   font-weight: bold;
   font-size: small;
+  white-space: nowrap;
 }
 .like_button {
   color: #f55b54;

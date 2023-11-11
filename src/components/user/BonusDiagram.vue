@@ -13,11 +13,11 @@ const chart = ref(null)
 onMounted(() => {
   // 模拟儿童学习积分数据
   const data = [
-    { date: '2023-01-01', score: 10 },
-    { date: '2023-02-01', score: 20 },
-    { date: '2023-03-01', score: 35 },
-    { date: '2023-04-01', score: 50 },
-    { date: '2023-05-01', score: 60 }
+    { date: '01-01', score: 10 },
+    { date: '02-01', score: 20 },
+    { date: '03-01', score: 35 },
+    { date: '04-01', score: 50 },
+    { date: '05-01', score: 60 }
   ]
 
   // 提取日期和分数数据
