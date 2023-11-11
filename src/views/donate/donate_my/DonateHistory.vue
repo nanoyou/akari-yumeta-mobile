@@ -87,7 +87,7 @@ async function fetchGoodsData(i) {
     // 发送请求获取物品信息
     const goodsResult = await instance.get(`/donate/goods/${goodsID}`)
     // 获取物品数据
-    const goodsData = goodsResult.data.data
+    const goodsData = goodsResult.data
     // 将物品数据添加到resultData的当前物品数据中
     resultData.value.goods[i].goodsData = goodsData
   } catch (err) {
@@ -138,6 +138,10 @@ function goptoUser() {
           :num="item.amount"
           :key="index"
           :centered="true"
+          :price="formatAmount(item.goodsData.unitPrice)"
+          :desc="item.goodsData.description"
+          :title="item.goodsData.name"
+          :thumb="item.goodsData.imageURL"
         >
           <template #footer>
             <span :style="{ fontWeight: 'bold', fontSize: '20px' }">
@@ -146,10 +150,7 @@ function goptoUser() {
           </template>
         </van-card>
         <!-- 
-             :price="formatAmount(item.goodsData.unitPrice)"
-          :desc="item.goodsData.description"
-          :title="item.goodsData.name"
-          :thumb="item.goodsData.imageURL"   由于数据库中无对应实物，接口查询不到对应物品，undefined
+                由于数据库中无对应实物，接口查询不到对应物品，undefined
          -->
       </div>
       <div v-else class="loading-container">
