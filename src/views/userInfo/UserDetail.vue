@@ -84,7 +84,6 @@ const images = [
       @click="toMyTask"
       title="学习课程"
       v-if="userStore.user?.role === Role.Child"
-      :label="user?.introduction"
     />
 
     <van-cell title="学习积分" v-if="userStore.user?.role === Role.Child">
