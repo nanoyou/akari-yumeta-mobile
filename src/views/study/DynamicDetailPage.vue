@@ -44,7 +44,8 @@ const load_sub_comments = async () => {
     likes: res.likes,
     content: content,
     answers: res.children,
-    commentNum: res.children.length
+    commentNum: res.children.length,
+    photo: user.avatarURL
   };
 
   subComments.value = []
@@ -55,7 +56,8 @@ const load_sub_comments = async () => {
       content: subComment.content,
       createTime: subComment.createTime.slice(5, 7) + "月" + subComment.createTime.slice(8, 10) + "日",
       likes: subComment.likes,
-      id: subComment.id
+      id: subComment.id,
+      photo: user.avatarURL
     })
   }
 
@@ -73,7 +75,7 @@ onMounted(async () => {
   <div style="background-color: white">
     <div v-if="dynamicDetail" class="comment_card">
       <div class="flex_container">
-        <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
+        <img class="teacher_photo" :src="dynamicDetail.photo ? dynamicDetail.photo : '/imgs/teacher1.jpg'" alt="" />
         <div class="teacher_info">
           <div class="teacher_name">
             <div class="teacher_name2">{{ dynamicDetail.name }}</div>
@@ -97,7 +99,7 @@ onMounted(async () => {
       <div v-if="subComments.length !== 0" v-for="comment in subComments" :key="comment.id">
         <div class="comment_card">
           <div class="flex_container">
-            <img class="teacher_photo" src="/imgs/teacher2.jpg" alt="" />
+            <img class="teacher_photo" :src="comment.photo ? comment.photo : '/imgs/teacher2.jpg'" alt="" />
             <div class="teacher_info">
               <div class="commenter_info">
                 <div class="teacher_name2">{{ comment.username }}</div>
