@@ -6,6 +6,8 @@ import { onBeforeMount } from 'vue'
 import { ref } from 'vue'
 import ChatBodyRow from './ChatBodyRow.vue'
 import router from '@/router'
+import { onUnmounted } from 'vue'
+import { clear } from 'console'
 
 const userStore = useUserStore()
 
@@ -54,8 +56,14 @@ const loadMessages = async () => {
     .sort((m1, m2) => (m1.fixed ? (m2.fixed ? 0 : -1) : 1))
 }
 
+let loadMessageHandler: number
 onBeforeMount(() => {
   loadMessages()
+  loadMessageHandler = setInterval(loadMessages, 1000)
+})
+
+onUnmounted(() => {
+  clearInterval(loadMessageHandler)
 })
 </script>
 
