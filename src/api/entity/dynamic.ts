@@ -1,4 +1,4 @@
-import {type TaskCourseDTO} from "@/api/entity/task";
+import { type TaskCourseDTO } from '@/api/entity/task'
 
 /**
  * DynamicDTO
@@ -7,39 +7,39 @@ export interface DynamicDTO {
   /**
    * 发评论的人的ID
    */
-  commenterID: string;
+  commenterID: string
   /**
    * 以Markdown格式存储的评论
    */
-  content: string;
+  content: string
   /**
    * 评论发表时间
    */
-  createTime: string;
+  createTime: string
   /**
    * Markdown评论
    */
-  id: string;
+  id: string
   /**
    * 点赞数
    */
-  likes: number;
+  likes: number
   /**
    * 点赞用户列表，点赞用户的ID列表
    */
-  likeUsers: string[];
+  likeUsers: string[]
   /**
    * 父评论ID，被回复评论的ID，为空则为动态节点（根节点）
    */
-  replyTo: string;
-  taskID: string;
-  children: DynamicDTO[];
+  replyTo: string
+  taskID: string
+  children: DynamicDTO[]
 }
 
 export interface dynamicDetail {
   id: string
-  taskDetail: TaskCourseDTO | null,
-  taskId: string,
+  taskDetail: TaskCourseDTO | null
+  taskId: string
   children: dynamicDetail[]
   commenterName: string
   contentText: string
@@ -48,6 +48,7 @@ export interface dynamicDetail {
   likeUsers: string[]
   photos: string[]
   my_isLike: boolean
+  commenterID: string
 }
 /**
  * Comment
@@ -99,28 +100,28 @@ export interface CommentDetail {
   /**
    * 发评论的人的ID
    */
-  commenterID: string;
+  commenterID: string
   /**
    * 以Markdown格式存储的评论
    */
-  content: string;
+  content: string
   /**
    * 评论发表时间
    */
-  createTime: string;
+  createTime: string
   /**
    * Markdown评论
    */
-  id: string;
+  id: string
   /**
    * 点赞数
    */
-  likes: number;
+  likes: number
   /**
    * 父评论ID，被回复评论的ID，为空则为动态节点（根节点）
    */
-  replyTo: string;
-  [property: string]: any;
+  replyTo: string
+  [property: string]: any
 }
 
 /**
@@ -132,12 +133,12 @@ export interface Like {
   /**
    * 被点赞的评论的ID
    */
-  commentID: string;
+  commentID: string
   /**
    * 发起点赞的人的ID
    */
-  likerID: string;
-  [property: string]: any;
+  likerID: string
+  [property: string]: any
 }
 
 export interface Photo {

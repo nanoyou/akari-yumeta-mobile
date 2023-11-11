@@ -120,6 +120,7 @@ const load_data = async () => {
 
       dynamics_info.push({
         id: dynamicDetail.id,
+        commenterID: dynamicDetail.commenterID,
         taskDetail: taskDetail.value,
         commenterName: user.nickname,
         contentText: JSON.parse(dynamicDetail.content).text,

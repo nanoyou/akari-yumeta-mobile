@@ -1,9 +1,6 @@
 <template>
   <div class="dynamic_container">
-    <img
-      class="head_photo"
-      src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-    />
+    <img class="head_photo" :src="avatarURL" />
     <div class="main">
       <div class="name_word">{{ dynamicInfo.commenterName }}</div>
       <van-text-ellipsis
@@ -103,17 +100,25 @@
 import LinkCard from '@/components/dynamic/LinkCard.vue'
 import type { PropType, Ref } from 'vue'
 import type { dynamicDetail as dd } from '@/api/entity'
-import { likeComment } from '@/api'
+import { getUserInfo, likeComment } from '@/api'
 import { useUserStore } from '@/stores'
 import router from '@/router'
 import { showImagePreview } from 'vant'
 import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { onBeforeMount } from 'vue'
 
 const props = defineProps({
   dynamicDetail: {
     type: Object as PropType<dd>,
     required: true
   }
+})
+
+const avatarURL = ref('')
+onBeforeMount(async () => {
+  const userInfo = await getUserInfo(props.dynamicDetail.commenterID)
+  avatarURL.value = userInfo.avatarURL || '/imgs/xiaoyi.png'
 })
 const dynamicInfo: Ref<dd> = ref(props.dynamicDetail)
 
