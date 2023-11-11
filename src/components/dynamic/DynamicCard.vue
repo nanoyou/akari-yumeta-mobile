@@ -52,7 +52,7 @@
           style="
             display: flex;
             background-color: #f7f7f7;
-            width: 90%;
+            width: 100%;
             padding: 5px 0 5px;
           "
           v-if="dynamicInfo.likeUsers.length != 0"
@@ -233,5 +233,6 @@ const like_comment = async (commentId: string) => {
 }
 .comment_photo_container {
   margin-top: 8px;
+  width: calc(100vw - 100px);
 }
 </style>
