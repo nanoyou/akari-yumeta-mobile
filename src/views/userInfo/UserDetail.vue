@@ -56,11 +56,10 @@ const handleNavigateToDetails = () => {
 
 const images = [
   '/imgs/child1.jpg',
-  'imgs/child2.jpg',
+  '/imgs/child2.jpg',
   '/imgs/child3.jpg',
   '/imgs/child4.jpg'
 ]
-
 </script>
 
 <template>
@@ -68,21 +67,17 @@ const images = [
     <CommonCard :user="user" />
 
     <van-cell title="个人介绍" :label="user?.introduction"></van-cell>
-    <DonateHistory
-      v-if="user?.role === Role.Sponsor"
-      @navigate="handleNavigateToDetails"
-      class="user_detail_container"
-      :style="{ height: '120px' }"
-    />
+    <van-cell-group title="捐助信息" v-if="user?.role === Role.Sponsor">
+      <DonateHistory
+        @navigate="handleNavigateToDetails"
+        class="user_detail_container"
+        :style="{ height: '120px' }"
+      />
 
-    <DonateChart
-      v-if="user?.role === Role.Sponsor"
-      class="user_detail_container"
-      :style="{ height: '230px' }"
-    />
-    <van-cell-group title="学习信息">
+      <DonateChart class="user_detail_container" :style="{ height: '230px' }" />
+    </van-cell-group>
+    <van-cell-group title="学习信息" v-if="user?.role === Role.Child">
       <van-cell
-        v-if="userStore.user?.role === Role.Child"
         title="学习课程"
         @click="toMyTask"
         clickable
@@ -90,14 +85,16 @@ const images = [
         icon="notes-o"
       >
       </van-cell>
-      <van-cell title="学习积分变化" v-if="userStore.user?.role === Role.Child">
+      <van-cell title="学习积分变化">
         <template #label>
-          <div style="width: 100vw; height: 140px; transform: translateY(-60px)">
+          <div
+            style="width: 100vw; height: 140px; transform: translateY(-60px)"
+          >
             <BonusDiagram></BonusDiagram>
           </div>
         </template>
       </van-cell>
-      <van-cell v-if="userStore.user?.role === Role.Child" title="照片墙">
+      <van-cell title="照片墙">
         <template #label>
           <div
             style="
