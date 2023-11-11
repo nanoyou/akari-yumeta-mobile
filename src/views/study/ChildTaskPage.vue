@@ -76,7 +76,7 @@
         <div class="comment_card">
           <div @click="check_dynamic(comment.id)">
             <div class="flex_container">
-              <img class="teacher_photo" src="/imgs/teacher1.jpg" alt="" />
+              <img class="teacher_photo" :src="comment.photo ? comment.photo : '/imgs/teacher1.jpg'" alt="" />
               <div class="teacher_info">
                 <div class="teacher_name">
                   <div class="teacher_name2">{{ comment.name }}</div>
@@ -199,7 +199,8 @@ const load_data = async () => {
       likes: comment.likes,
       content: content,
       answers: comment.children,
-      commentNum: comment.children.length
+      commentNum: comment.children.length,
+      photo: user.avatarURL
     }
   })
 

@@ -187,5 +187,6 @@ export interface commentInfo {
     likes: number,
     content: string,
     answers: number | DynamicDTO[],
-    commentNum: number
+    commentNum: number,
+    photo: string | undefined
 }
