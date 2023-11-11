@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 import { type TaskCourseDTO } from '@/api/entity'
+import { hashStr } from '@/util/hash'
 
 const props = defineProps({
   TaskDetail: {
@@ -16,7 +17,7 @@ const taskDetail: TaskCourseDTO = props.TaskDetail
   <div class="like_card">
     <img
       class="link_img"
-      :src="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
+      :src="`/imgs/task${hashStr(taskDetail.id, 6) + 1}.png`"
     />
     <div class="link_word">
       {{ taskDetail.taskName }} : {{ taskDetail.description }}
