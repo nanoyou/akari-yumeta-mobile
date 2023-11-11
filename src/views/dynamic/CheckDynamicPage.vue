@@ -47,6 +47,7 @@ const input_comment = async () => {
       dynamic.children.push({
         id: '',
         commenterName: user?.nickname || '',
+        commenterID: user?.id || '',
         contentText: comment_input_words.value,
         createTime: '',
         likes: 0,
@@ -90,6 +91,7 @@ const load_data = async () => {
             sub_comments.push({
               id: sub_dynamic.id,
               commenterName: sub_user.nickname,
+              commenterID: sub_user.id,
               taskId: '',
               contentText: sub_dynamic.content,
               createTime: '',

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import {type Ref, ref} from 'vue'
-import {sendTaskComment} from "@/api";
-import router from "@/router";
-import {showNotify} from "vant";
-import type {Photo} from "@/api/entity";
+import { type Ref, ref } from 'vue'
+import { sendTaskComment } from '@/api'
+import router from '@/router'
+import { showNotify } from 'vant'
+import type { Photo } from '@/api/entity'
 
 const dynamic_message = ref('')
 const fileList: Ref<Photo[]> = ref([])
 
 const post_dynamic = async () => {
   let photos: string[] = []
-  fileList.value.forEach(item => {
-    photos.push(item.content);
-  });
+  fileList.value.forEach((item) => {
+    photos.push(item.content)
+  })
 
   console.log(photos)
 
@@ -23,11 +23,11 @@ const post_dynamic = async () => {
     }),
     taskID: null
   })
+  showNotify({ type: 'success', message: '发布成功' })
 
   await router.push('/dynamic')
   console.log(res)
 }
-
 </script>
 
 <template>
@@ -40,7 +40,7 @@ const post_dynamic = async () => {
       rows="8"
       autosize
       type="textarea"
-      maxlength="50"
+      maxlength="100"
       placeholder="这一刻的想法..."
       show-word-limit
     />

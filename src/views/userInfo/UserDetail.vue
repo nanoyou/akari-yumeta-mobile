@@ -77,7 +77,13 @@ const images = [
       <DonateChart class="user_detail_container" :style="{ height: '230px' }" />
     </van-cell-group>
     <van-cell-group title="学习信息" v-if="user?.role === Role.Child">
-      <van-cell title="学习课程" @click="toMyTask" clickable is-link>
+      <van-cell
+        title="学习课程"
+        @click="toMyTask"
+        clickable
+        is-link
+        icon="notes-o"
+      >
       </van-cell>
       <van-cell title="学习积分变化">
         <template #label>

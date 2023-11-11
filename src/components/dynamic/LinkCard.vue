@@ -28,18 +28,26 @@ const taskDetail: TaskCourseDTO = props.TaskDetail
 <style scoped>
 .like_card {
   margin-top: 8px;
-  height: 60px;
+  height: 65px;
   background-color: #f7f7f7;
-  width: 90%;
+  width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .link_img {
   height: 55px;
   width: 55px;
   object-fit: cover;
+  margin: 10px;
 }
 .link_word {
-  font-size: small;
-  margin: 8px 5px 0px 10px;
+  font-size: medium;
+  height: 24px;
+  flex: 1;
+  margin-right: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
