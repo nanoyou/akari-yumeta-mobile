@@ -2,7 +2,7 @@
   <div class="user-card">
     <div class="avatarURL-wrapper">
       <img
-        :src="user.avatarURL ? user.avatarURL : '../../public/imgs/xiaoyi.png'"
+        :src="user.avatarURL ? user.avatarURL : '/imgs/xiaoyi.png'"
         alt="user avatarURL"
       />
     </div>
