@@ -1,21 +1,24 @@
 <template>
   <div class="user-card">
     <div class="avatarURL-wrapper">
-      <img :src="user.avatarURL" alt="user avatarURL" />
+      <img
+        :src="user.avatarURL ? user.avatarURL : '../../public/imgs/xiaoyi.png'"
+        alt="user avatarURL"
+      />
     </div>
     <div class="info-wrapper" @click="emitClick">
       <div class="name-wrapper">
         <div class="nickname">{{ user.nickname }}</div>
-        <!-- <div class="username">
-          <van-text-ellipsis :content="user.username" position="middle" />
-        </div> -->
         <div class="gender">{{ checkGender }}</div>
         <div v-if="user.role === role.Child" class="score">
           积分：{{ user.score }}
         </div>
       </div>
+      <div class="username">@{{ user.username }}</div>
       <div class="introduction van-multi-ellipsis--l2">
-        {{ user.introduction }}
+        {{
+          user.introduction ? user.introduction : '这个人很懒，没有留下任何东西'
+        }}
       </div>
       <div class="tag-wrapper">
         <van-tag
@@ -31,9 +34,18 @@
       </div>
     </div>
     <div class="follow-button-wrapper">
-      <van-button plain round size="small" @click="emitFollow">{{
-        isFollowed ? '已关注' : '+ 关注'
-      }}</van-button>
+      <van-button
+        v-if="isFollowed"
+        color="rgb(255, 199, 29)"
+        round
+        size="small"
+        @click="emitFollow"
+      >
+        已关注
+      </van-button>
+      <van-button v-if="!isFollowed" round size="small" @click="emitFollow"
+        >+ 关注</van-button
+      >
     </div>
   </div>
 </template>
@@ -96,6 +108,10 @@ export default defineComponent({
 }
 
 .avatarURL-wrapper {
+  display: flex;
+  align-items: center;
+  width: 70px;
+  height: 70px;
   margin-right: 10px;
 }
 
@@ -110,11 +126,13 @@ export default defineComponent({
   flex-direction: column;
   flex-basis: 180px;
   flex-grow: 1;
+  align-items: baseline;
 }
 
 .name-wrapper {
   display: flex;
-  align-items: flex-end;
+  flex-wrap: wrap;
+  align-items: baseline;
 }
 
 .nickname {
@@ -123,7 +141,8 @@ export default defineComponent({
 }
 
 .username {
-  font-size: 15px;
+  font-size: 10px;
+  color: #cfcaca;
 }
 
 .gender {

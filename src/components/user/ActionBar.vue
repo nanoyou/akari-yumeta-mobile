@@ -69,6 +69,7 @@ const router = useRouter()
       icon="gold-coin-o"
       text="捐助"
       v-if="userLoggedIn?.role == Role.Sponsor"
+      @click="router.push(`/money/${user?.id}`)"
     />
 
     <van-action-bar-icon

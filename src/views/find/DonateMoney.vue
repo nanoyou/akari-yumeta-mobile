@@ -26,7 +26,7 @@ onMounted(async () => {
   const instance = getCurrentInstance()
   if (instance !== null && instance.proxy !== null) {
     const doneeID: string = String(instance.proxy.$route.params.userID)
-    console.log(doneeID)
+    // console.log(doneeID)
     donee.value = await getUserInfo(doneeID)
     checkFollowed.value = await isFollowed(doneeID)
   }
@@ -64,10 +64,13 @@ async function submitDonateInfo() {
       if (money.value) {
         if (message.value !== '' && message.value !== undefined) {
           const res = await donateMoney({
-            doneeID: userStore.user?.id || '',
+            doneeID: donee.value?.id || '',
             amount: money.value,
             wishes: message.value
           })
+          // console.log(res)
+          // console.log(res.donatorID, res.doneeID)
+          // console.log(donee.value!.id, donee.value!.id)
           if (
             res.amount === money.value &&
             res.donatorID === userStore.user?.id &&
@@ -94,7 +97,7 @@ async function submitDonateInfo() {
           })
             .then(async () => {
               const res = await donateMoney({
-                doneeID: userStore.user?.id || '',
+                doneeID: donee.value?.id || '',
                 amount: money.value || 0,
                 wishes: message.value
               })
@@ -136,11 +139,18 @@ async function submitDonateInfo() {
 <template>
   <body>
     <div class="doneeInfo">
+      <van-loading
+        v-if="donee === undefined"
+        size="24"
+        vertical
+        style="justify-self: center; margin-top: 38px"
+        >加载中...</van-loading
+      >
       <user-card
         v-if="donee !== undefined"
-        style="background-color: #f2f3f5"
         :user="donee"
         :is-followed="checkFollowed"
+        style="background-color: #f2f3f5"
         @follow="handleFollow"
       />
     </div>
@@ -187,8 +197,14 @@ body {
   margin-top: 60px;
 }
 
+.doneeInfo {
+  border-radius: 5px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
 .input {
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 5px;
 }
 
@@ -207,6 +223,10 @@ body {
 }
 
 .submit {
-  align-items: center;
+  justify-self: center;
+  margin-top: 20px;
+  /* width: 70px;
+  height: 70px;
+  flex-grow: 1; */
 }
 </style>
