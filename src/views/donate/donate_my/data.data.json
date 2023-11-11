@@ -1,139 +1,88 @@
-[
-    {
+{
+    "data": {
         "goods": [
             {
-                "id": "11",
-                "donatorID": "84",
-                "goodsID": "66",
-                "amount": 32,
-                "wishes": "cillum",
-                "createdTime": "2006-06-21 19:30:55",
-                "totalMoney": 40
+                "id": "382fd700-3b4a-4b6c-880d-2ac7c1c1f5fa",
+                "amount": 6,
+                "createdTime": "2023-11-11 01:15:35",
+                "donatorID": "c9ddb042-8ad5-41f7-a754-ce19f1ddc412",
+                "goodsID": "113d15b8-28a0-4f94-bb2d-3000217405b0",
+                "totalMoney": 60000,
+                "wishes": "去死吧 cnm"
             },
             {
-                "id": "66",
-                "donatorID": "64",
-                "goodsID": "11",
-                "amount": 74,
-                "wishes": "aute",
-                "createdTime": "2003-01-29 13:56:22",
-                "totalMoney": 40
-            },
-            {
-                "id": "61",
-                "donatorID": "28",
-                "goodsID": "45",
-                "amount": 96,
-                "wishes": "est proident dolore",
-                "createdTime": "2001-06-29 16:03:54",
-                "totalMoney": 46
-            },
-            {
-                "id": "87",
-                "donatorID": "69",
-                "goodsID": "19",
-                "amount": 58,
-                "wishes": "officia",
-                "createdTime": "2002-01-21 11:04:15",
-                "totalMoney": 94
-            },
-            {
-                "id": "76",
-                "donatorID": "89",
-                "goodsID": "87",
-                "amount": 44,
-                "wishes": "aliquip",
-                "createdTime": "2020-08-17 11:57:46",
-                "totalMoney": 77
-            },
-            {
-                "id": "83",
-                "donatorID": "71",
-                "goodsID": "9",
-                "amount": 85,
-                "wishes": "reprehenderit",
-                "createdTime": "2013-05-14 05:36:08",
-                "totalMoney": 5
-            },
-            {
-                "id": "67",
-                "donatorID": "54",
-                "goodsID": "25",
-                "amount": 88,
-                "wishes": "in magna in",
-                "createdTime": "1987-01-01 06:45:52",
-                "totalMoney": 52
-            },
-            {
-                "id": "32",
-                "donatorID": "93",
-                "goodsID": "49",
-                "amount": 15,
-                "wishes": "esse sit do Lorem",
-                "createdTime": "1979-04-12 00:51:39",
-                "totalMoney": 62
-            },
-            {
-                "id": "51",
-                "donatorID": "34",
-                "goodsID": "7",
-                "amount": 65,
-                "wishes": "id",
-                "createdTime": "1995-03-26 20:38:46",
-                "totalMoney": 40
+                "id": "f4f96282-a9ce-49a2-af8e-7b5719ed79a8",
+                "amount": 10,
+                "createdTime": "2023-11-11 00:27:07",
+                "donatorID": "c9ddb042-8ad5-41f7-a754-ce19f1ddc412",
+                "goodsID": "113d15b8-28a0-4f94-bb2d-3000217405b0",
+                "totalMoney": 100000,
+                "wishes": ""
             }
         ],
+        "totalGoodsCount": 2,
         "money": [
             {
-                "id": "10",
-                "donatorID": "78",
-                "doneeID": "87",
-                "amount": 68,
-                "wishes": "ex sunt sit ipsum",
-                "createdTime": "2009-02-05 12:45:03"
+                "id": "31b0b192-fdbe-4123-b779-500072829f57",
+                "amount": 111100,
+                "createdTime": "2023-11-11 00:25:58",
+                "donatorID": "c9ddb042-8ad5-41f7-a754-ce19f1ddc412",
+                "doneeID": "0d2da53a-5e17-4372-abbc-2a293ca338f2",
+                "wishes": null
             },
             {
-                "id": "96",
-                "donatorID": "90",
-                "doneeID": "71",
-                "amount": 4,
-                "wishes": "Ut nulla sit est",
-                "createdTime": "1983-11-16 17:46:22"
+                "id": "ae08aa54-d85c-4ad3-b3ba-793b3920757c",
+                "amount": 1212131,
+                "createdTime": "2023-11-11 01:15:02",
+                "donatorID": "c9ddb042-8ad5-41f7-a754-ce19f1ddc412",
+                "doneeID": "373d466b-2fc9-463d-b6e5-7880974c4a2a",
+                "wishes": "去死吧"
             },
             {
-                "id": "91",
-                "donatorID": "45",
-                "doneeID": "9",
-                "amount": 9,
-                "wishes": "exercitation eiusmod",
-                "createdTime": "1990-07-31 04:03:15"
-            },
-            {
-                "id": "15",
-                "donatorID": "98",
-                "doneeID": "24",
-                "amount": 79,
-                "wishes": "eu quis ipsum Ut",
-                "createdTime": "1975-06-26 13:01:54"
-            },
-            {
-                "id": "35",
-                "donatorID": "63",
-                "doneeID": "33",
-                "amount": 38,
-                "wishes": "nulla incididunt sunt dolor",
-                "createdTime": "1981-11-20 19:45:39"
-            },
-            {
-                "id": "77",
-                "donatorID": "43",
-                "doneeID": "41",
-                "amount": 88,
-                "wishes": "eu elit incididunt ut est",
-                "createdTime": "1980-01-27 04:43:52"
+                "id": "f1be71a3-d705-48be-aa5f-d0c2475a97bc",
+                "amount": 1111111,
+                "createdTime": "2023-11-10 23:55:19",
+                "donatorID": "c9ddb042-8ad5-41f7-a754-ce19f1ddc412",
+                "doneeID": "47d61922-b7e4-477d-ab2f-7bbdd04081d5",
+                "wishes": "去死吧"
             }
         ],
-        "totalGoodsCount": 47,
-        "totalMoney": 79
-    }
-]
+        "totalMoney": 2434342
+    },
+    "status": 200,
+    "statusText": "",
+    "headers": {
+        "content-type": "application/json"
+    },
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "adapter": [
+            "xhr",
+            "http"
+        ],
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 1145141919,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {},
+        "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "Akari-Yumeta-Token": "d0b58766-9cbf-4997-8218-73e1d65c172b"
+        },
+        "baseURL": "http://104.156.230.230:8080",
+        "method": "get",
+        "url": "/donate/c9ddb042-8ad5-41f7-a754-ce19f1ddc412/info"
+    },
+    "request": {}
+}
