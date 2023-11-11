@@ -1,7 +1,8 @@
 <template>
   <div class="video_page">
     <div class="video_container">
-      <video v-if="taskDetail !== null"
+      <video
+        v-if="taskDetail !== null"
         controls
         :src="taskDetail?.videoURL"
       ></video>
@@ -66,7 +67,11 @@
       </div>
     </van-tab>
     <van-tab title="学习讨论区">
-      <div class="comments_container" v-if="comments_info.length !== 0" v-for="comment in comments_info">
+      <div
+        class="comments_container"
+        v-if="comments_info.length !== 0"
+        v-for="comment in comments_info"
+      >
         <div class="comment_card">
           <div @click="check_dynamic(comment.id)">
             <div class="flex_container">
@@ -90,35 +95,42 @@
             <div style="width: 50px"></div>
             <div>
               {{ comment.likes }}
-              <van-icon @click="like_comment(comment.id)" size="20" name="good-job-o"></van-icon>
+              <van-icon
+                @click="like_comment(comment.id)"
+                size="20"
+                name="good-job-o"
+              ></van-icon>
             </div>
           </div>
         </div>
         <img class="line" src="/imgs/line.png" alt="" />
       </div>
       <div v-else class="no_comments">暂无讨论</div>
-
     </van-tab>
   </van-tabs>
 
-  <van-popup v-model:show="showInput"
-      position="bottom"
-      class="input_container">
+  <van-popup v-model:show="showInput" position="bottom" class="input_container">
     <div class="input_title">提问</div>
     <van-cell-group inset>
       <van-field
-          v-model="comment_input_words"
-          rows="7"
-          autosize
-          type="textarea"
-          maxlength="1000"
-          style="z-index: 99999"
-          placeholder="写下你的问题，以问号结尾"
-          show-word-limit
+        v-model="comment_input_words"
+        rows="7"
+        autosize
+        type="textarea"
+        maxlength="1000"
+        style="z-index: 99999"
+        placeholder="写下你的问题，以问号结尾"
+        show-word-limit
       />
-      <div @click="send_comment" :class="comment_input_words === '' ? 'send_button' : 'send_button_active'">立即发布</div>
+      <div
+        @click="send_comment"
+        :class="
+          comment_input_words === '' ? 'send_button' : 'send_button_active'
+        "
+      >
+        立即发布
+      </div>
     </van-cell-group>
-
   </van-popup>
 
   <div @click="showPopup" class="comment_button">
@@ -127,41 +139,55 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, type Ref, ref} from 'vue'
-import {getCategoryStr} from '@/util/translate'
-import {getTaskDetail, getTaskDynamic, getUserInfo, likeComment, sendTaskComment} from '@/api'
-import {type commentInfo, type TaskCourseDTO} from '@/api/entity'
-import router from "@/router";
-import {showNotify} from "vant";
+import { onMounted, type Ref, ref } from 'vue'
+import { getCategoryStr } from '@/util/translate'
+import {
+  getTaskDetail,
+  getTaskDynamic,
+  getUserInfo,
+  likeComment,
+  sendTaskComment
+} from '@/api'
+import { type commentInfo, type TaskCourseDTO } from '@/api/entity'
+import router from '@/router'
+import { showNotify } from 'vant'
+import { HTTP_HOST } from '@/constants'
 
 const { taskId } = defineProps(['taskId'])
 const taskDetail = ref<TaskCourseDTO>()
 const active = ref('')
-const showInput = ref(false);
+const showInput = ref(false)
 const comment_input_words = ref('')
-const comments_info: Ref<commentInfo[]> = ref([]);
+const comments_info: Ref<commentInfo[]> = ref([])
 
 const like_comment = async (commentId: string) => {
-   await likeComment(commentId)
-   await load_data()
+  await likeComment(commentId)
+  await load_data()
 }
 
 const load_data = async () => {
   try {
     const result = await getTaskDetail(taskId)
+    if (result.videoURL !== undefined && result.videoURL.startsWith('/')) {
+      result.videoURL = HTTP_HOST + result.videoURL
+    }
     taskDetail.value = result
     console.log(result)
   } catch (error) {
     console.error('Error fetching task detail:', error)
   }
 
-  const comments = await getTaskDynamic(taskId);
+  const comments = await getTaskDynamic(taskId)
   const userPromises = comments.map(async (comment) => {
-    const user = await getUserInfo(comment.commenterID);
-    const time = comment.createTime.slice(5, 7) + "月" + comment.createTime.slice(8, 10) + "日"
+    const user = await getUserInfo(comment.commenterID)
+    const time =
+      comment.createTime.slice(5, 7) +
+      '月' +
+      comment.createTime.slice(8, 10) +
+      '日'
 
-    const data = JSON.parse(comment.content);
-    const content = data.text;
+    const data = JSON.parse(comment.content)
+    const content = data.text
     return {
       id: comment.id,
       name: user.nickname,
@@ -172,25 +198,25 @@ const load_data = async () => {
       content: content,
       answers: comment.children,
       commentNum: comment.children.length
-    };
-  });
+    }
+  })
 
-  comments_info.value = await Promise.all(userPromises);
+  comments_info.value = await Promise.all(userPromises)
 
-  console.log(comments_info.value);
+  console.log(comments_info.value)
 }
 
 onMounted(async () => {
   await load_data()
-});
+})
 
 const check_dynamic = (dynamic_id: string) => {
-  router.push("/study/dynamicDetail/" + dynamic_id)
+  router.push('/study/dynamicDetail/' + dynamic_id)
 }
 
 const showPopup = () => {
-  showInput.value = true;
-};
+  showInput.value = true
+}
 
 const send_comment = async () => {
   const res = await sendTaskComment({
@@ -200,22 +226,20 @@ const send_comment = async () => {
     }),
     taskID: taskId
   })
-  comment_input_words.value = ""
+  comment_input_words.value = ''
   showInput.value = false
   await load_data()
   console.log(res)
 }
-
 </script>
 
 <style scoped>
 .like_button {
-
 }
 .comments_container {
   background-color: white;
 }
-.no_comments{
+.no_comments {
   margin: 30px;
   font-size: large;
   font-weight: bold;
@@ -223,12 +247,12 @@ const send_comment = async () => {
 .send_button {
   display: flex;
   justify-content: right;
-  color: #C9C9C9;
+  color: #c9c9c9;
 }
 .send_button_active {
   display: flex;
   justify-content: right;
-  color: #4E83D1;
+  color: #4e83d1;
 }
 .input_title {
   margin: 18px;
@@ -245,7 +269,7 @@ const send_comment = async () => {
   position: fixed;
   top: 600px;
   left: 300px;
-  background-color: #3F85FE;
+  background-color: #3f85fe;
   width: 50px;
   height: 50px;
   border-radius: 25px;
