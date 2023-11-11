@@ -79,42 +79,47 @@ const images = [
       class="user_detail_container"
       :style="{ height: '230px' }"
     />
-
-    <van-cell
-      @click="toMyTask"
-      title="学习课程"
-      v-if="userStore.user?.role === Role.Child"
-    />
-
-    <van-cell title="学习积分" v-if="userStore.user?.role === Role.Child">
-      <template #label>
-        <div style="width: 320px; height: 200px">
-          <BonusDiagram></BonusDiagram>
-        </div>
-      </template>
-    </van-cell>
-
-    <van-cell v-if="userStore.user?.role === Role.Child" title="照片墙">
-      <template #label>
-        <div style="display: flex; margin-bottom: 20px">
-          <img
-            v-for="(photo, index) in images"
-            :key="index"
-            class="comment_photo"
-            :src="photo"
-          />
-        </div>
-      </template>
-    </van-cell>
-
-    <van-cell-group>
+    <van-cell-group title="学习信息">
       <van-cell
-        v-if="perspective == 'me'"
-        title="退出登录"
-        @click="logout"
+        v-if="userStore.user?.role === Role.Child"
+        title="学习课程"
+        @click="toMyTask"
         clickable
         is-link
+        icon="notes-o"
       >
+      </van-cell>
+      <van-cell title="学习积分变化" v-if="userStore.user?.role === Role.Child">
+        <template #label>
+          <div style="width: 100vw; height: 80px; transform: translateY(-60px)">
+            <BonusDiagram></BonusDiagram>
+          </div>
+        </template>
+      </van-cell>
+      <van-cell v-if="userStore.user?.role === Role.Child" title="照片墙">
+        <template #label>
+          <div
+            style="
+              display: flex;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              width: calc(100vw - 40px);
+              overflow: scroll;
+            "
+          >
+            <img
+              v-for="(photo, index) in images"
+              :key="index"
+              class="comment_photo"
+              :src="photo"
+            />
+          </div>
+        </template>
+      </van-cell>
+    </van-cell-group>
+
+    <van-cell-group v-if="perspective == 'me'" title="操作">
+      <van-cell title="退出登录" @click="logout" clickable is-link>
         <template #icon>
           <div
             style="

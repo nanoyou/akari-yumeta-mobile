@@ -5,43 +5,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import * as echarts from 'echarts';
+import { ref, onMounted } from 'vue'
+import * as echarts from 'echarts'
 
-const chart = ref(null);
+const chart = ref(null)
 
 onMounted(() => {
   // 模拟儿童学习积分数据
   const data = [
-    { date: '2023-01-01', score: 10 },
-    { date: '2023-02-01', score: 20 },
-    { date: '2023-03-01', score: 35 },
-    { date: '2023-04-01', score: 50 },
-    { date: '2023-05-01', score: 60 },
-  ];
+    { date: '01-01', score: 10 },
+    { date: '02-01', score: 20 },
+    { date: '03-01', score: 35 },
+    { date: '04-01', score: 50 },
+    { date: '05-01', score: 60 }
+  ]
 
   // 提取日期和分数数据
-  const dates = data.map(item => item.date);
-  const scores = data.map(item => item.score);
+  const dates = data.map((item) => item.date)
+  const scores = data.map((item) => item.score)
 
   // 初始化 ECharts 实例
-  const myChart = echarts.init(chart.value);
+  const myChart = echarts.init(chart.value)
 
   // 配置项
   const option = {
     title: {
       textStyle: {
-        color: '#333',
-      },
+        color: '#333'
+      }
     },
     tooltip: {
       trigger: 'axis',
       axisPointer: {
         type: 'cross',
         label: {
-          backgroundColor: '#6a7985',
-        },
-      },
+          backgroundColor: '#6a7985'
+        }
+      }
     },
     xAxis: {
       type: 'category',
@@ -49,25 +49,25 @@ onMounted(() => {
       data: dates,
       axisLine: {
         lineStyle: {
-          color: '#333',
-        },
-      },
+          color: '#333'
+        }
+      }
     },
     yAxis: {
       type: 'value',
       axisLabel: {
-        formatter: '{value} 分',
+        formatter: '{value} 分'
       },
       axisLine: {
         lineStyle: {
-          color: '#333',
-        },
+          color: '#333'
+        }
       },
       splitLine: {
         lineStyle: {
-          type: 'dashed',
-        },
-      },
+          type: 'dashed'
+        }
+      }
     },
     series: [
       {
@@ -78,28 +78,28 @@ onMounted(() => {
         symbol: 'circle',
         symbolSize: 8,
         itemStyle: {
-          color: '#1890ff',
+          color: '#1890ff'
         },
         lineStyle: {
           color: '#1890ff',
-          width: 2,
+          width: 2
         },
         areaStyle: {
-          color: 'rgba(24, 144, 255, 0.1)',
+          color: 'rgba(24, 144, 255, 0.1)'
         },
-        data: scores,
-      },
-    ],
-  };
+        data: scores
+      }
+    ]
+  }
 
   // 使用刚指定的配置项和数据显示图表。
-  myChart.setOption(option);
+  myChart.setOption(option)
 
   // 监听窗口大小变化，自适应图表大小
   window.addEventListener('resize', () => {
-    myChart.resize();
-  });
-});
+    myChart.resize()
+  })
+})
 </script>
 
 <style scoped>
