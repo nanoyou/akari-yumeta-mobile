@@ -23,6 +23,7 @@ const post_dynamic = async () => {
     }),
     taskID: null
   })
+  showNotify({ type: 'success', message: '发布成功' })
 
   await router.push('/dynamic')
   console.log(res)
@@ -40,7 +41,7 @@ const post_dynamic = async () => {
       rows="8"
       autosize
       type="textarea"
-      maxlength="50"
+      maxlength="100"
       placeholder="这一刻的想法..."
       show-word-limit
     />

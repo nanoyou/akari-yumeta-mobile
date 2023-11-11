@@ -23,10 +23,10 @@ let is_show = ref(false)
 let user_info = ref<User | null>(null)
 
 const images = [
-  '/imgs/lesson1.png',
-  'imgs/lesson2.png',
-  '/imgs/lesson3.png',
-  '/imgs/lesson4.png'
+  '/imgs/child1.jpg',
+  'imgs/child2.jpg',
+  '/imgs/child3.jpg',
+  '/imgs/child4.jpg'
 ]
 
 onMounted(async () => {

@@ -55,11 +55,12 @@ const handleNavigateToDetails = () => {
 }
 
 const images = [
-  '/imgs/lesson1.png',
-  '/imgs/lesson2.png',
-  '/imgs/lesson3.png',
-  '/imgs/lesson4.png'
+  '/imgs/child1.jpg',
+  'imgs/child2.jpg',
+  '/imgs/child3.jpg',
+  '/imgs/child4.jpg'
 ]
+
 </script>
 
 <template>
@@ -91,7 +92,7 @@ const images = [
       </van-cell>
       <van-cell title="学习积分变化" v-if="userStore.user?.role === Role.Child">
         <template #label>
-          <div style="width: 100vw; height: 80px; transform: translateY(-60px)">
+          <div style="width: 100vw; height: 140px; transform: translateY(-60px)">
             <BonusDiagram></BonusDiagram>
           </div>
         </template>

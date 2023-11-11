@@ -163,6 +163,7 @@ const comments_info: Ref<commentInfo[]> = ref([])
 
 const like_comment = async (commentId: string) => {
   await likeComment(commentId)
+  showNotify({ type: 'success', message: '点赞成功' })
   await load_data()
 }
 
@@ -227,6 +228,7 @@ const send_comment = async () => {
     }),
     taskID: taskId
   })
+  showNotify({ type: 'success', message: '提问成功' })
   comment_input_words.value = ''
   showInput.value = false
   await load_data()
