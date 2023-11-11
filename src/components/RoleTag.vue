@@ -13,6 +13,9 @@ defineProps<{
   <van-tag size="medium" type="warning" v-else-if="role == Role.Child"
     >儿童</van-tag
   >
+  <van-tag size="medium" type="danger" v-else-if="role == Role.Admin"
+    >管理员</van-tag
+  >
   <van-tag size="medium" type="success" v-else>捐助者</van-tag>
 </template>
 
