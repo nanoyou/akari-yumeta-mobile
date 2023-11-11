@@ -3,10 +3,12 @@
     <div class="avatarURL-wrapper">
       <img :src="user.avatarURL" alt="user avatarURL" />
     </div>
-    <div class="info-wrapper">
+    <div class="info-wrapper" @click="emitClick">
       <div class="name-wrapper">
-        <div class="username">{{ user.nickname }}</div>
-        <div class="nickname">({{ user.username }})</div>
+        <div class="nickname">{{ user.nickname }}</div>
+        <!-- <div class="username">
+          <van-text-ellipsis :content="user.username" position="middle" />
+        </div> -->
         <div class="gender">{{ checkGender }}</div>
         <div v-if="user.role === role.Child" class="score">
           积分：{{ user.score }}
@@ -51,6 +53,9 @@ export default defineComponent({
   methods: {
     emitFollow() {
       this.$emit('follow', this.user.id)
+    },
+    emitClick() {
+      this.$emit('jump', this.user.id)
     }
   },
   data() {
@@ -112,12 +117,12 @@ export default defineComponent({
   align-items: flex-end;
 }
 
-.username {
+.nickname {
   font-size: 18px;
   font-weight: bold;
 }
 
-.nickname {
+.username {
   font-size: 15px;
 }
 

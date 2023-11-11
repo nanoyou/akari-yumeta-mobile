@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
-import {
-  getUserList,
-  getFolloweeList,
-  isFollowed,
-  follow,
-  getGoodsList
-} from '@/api'
+import { getUserList, isFollowed, follow, getGoodsList } from '@/api'
 import { type GoodsInfo, type UserDTO } from '@/api/entity'
 import { Role, Gender } from '@/api/entity'
 import userCard from '@/components/UserCard.vue'
@@ -31,7 +25,10 @@ const goodsSortOrder = ref({
   ]
 })
 const themeVars: ConfigProviderThemeVars = {
-  buttonLargeHeight: '44px'
+  buttonLargeHeight: '44px',
+  cardBackground: '#fff',
+  cardTitleLineHeight: '22px',
+  cardFontSize: '16px'
 }
 const checkedBoy = ref(true)
 const checkedGirl = ref(true)
@@ -43,7 +40,7 @@ const unitPriceScope = ref<[number, number]>([0xfff, 0])
 const maxUnitPrice = ref(0)
 const minUnitPrice = ref(0xfff)
 let childrenList = ref<UserDTO[]>([])
-let followeeList = ref<UserDTO[]>([])
+// let followeeList = ref<UserDTO[]>([])
 let followStatusList = reactive<Boolean[]>([])
 let goodList = ref<GoodsInfo[]>([])
 let childrenFollowStatusList = ref<[UserDTO, Boolean][]>([]) //儿童和对应的关注状态列表
@@ -283,34 +280,50 @@ function jumpToGoodInfo(goodID: string) {
   })
 }
 
+function jumpToUserInfo(userID: string) {
+  router.push({
+    path: `/user/${userID}` // 跳转到个人详情页
+  })
+}
+
 // 初始化数据
 async function initData() {
-  childrenList.value = await getUserList(Role.Child)
-  followeeList.value = await getFolloweeList()
-  goodList.value = await getGoodsList('')
-  for (const child of childrenList.value) {
-    followStatusList.push(await getFollowStatus(child.id))
-  }
-  childrenFollowStatusList.value = zip(childrenList.value, followStatusList)
-  goodList.value.forEach((good: GoodsInfo) => {
-    if (minUnitPrice.value > Number((good.unitPrice * 0.01).toFixed(2))) {
-      minUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
-    }
-    if (maxUnitPrice.value < Number((good.unitPrice * 0.01).toFixed(2)))
-      maxUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
-  })
+  console.log(childrenList.value)
+  const childResult = (async () => {
+    childrenList.value = await getUserList(Role.Child)
+    followStatusList = new Array(childrenList.value.length)
+    await Promise.all(
+      childrenList.value.map(async (child, index) => {
+        followStatusList[index] = await getFollowStatus(child.id)
+      })
+    )
+    childrenFollowStatusList.value = zip(childrenList.value, followStatusList)
+    childrenFollowStatusList.value.forEach(
+      (childAndStatus: [UserDTO, Boolean]) => {
+        if (minScope.value > childAndStatus[0].score!)
+          minScope.value = childAndStatus[0].score!
+        if (maxScope.value < childAndStatus[0].score!)
+          maxScope.value = childAndStatus[0].score!
+      }
+    )
+  })()
+
+  const goodListResult = (async () => {
+    goodList.value = await getGoodsList('')
+    goodList.value.forEach((good: GoodsInfo) => {
+      if (minUnitPrice.value > Number((good.unitPrice * 0.01).toFixed(2))) {
+        minUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
+      }
+      if (maxUnitPrice.value < Number((good.unitPrice * 0.01).toFixed(2)))
+        maxUnitPrice.value = Number((good.unitPrice * 0.01).toFixed(2))
+    })
+  })()
+
+  await Promise.all([childResult, goodListResult])
+
   // minUnitPrice.value = Number((minUnitPrice.value * 0.01).toFixed(2))
   // maxUnitPrice.value = Number((maxUnitPrice.value * 0.01).toFixed(2))
-  console.log(minUnitPrice.value)
-  console.log(maxUnitPrice.value)
-  childrenFollowStatusList.value.forEach(
-    (childAndStatus: [UserDTO, Boolean]) => {
-      if (minScope.value > childAndStatus[0].score!)
-        minScope.value = childAndStatus[0].score!
-      if (maxScope.value < childAndStatus[0].score!)
-        maxScope.value = childAndStatus[0].score!
-    }
-  )
+  console.log(childrenFollowStatusList.value)
 }
 
 // 页面加载时即获取儿童列表和关注列表
@@ -404,6 +417,7 @@ onMounted(async () => {
                 :user="childAndStatus[0]"
                 :is-followed="!!childAndStatus[1]"
                 @follow="handleFollow(childAndStatus[0].id, index)"
+                @jump="jumpToUserInfo(childAndStatus[0].id)"
               />
             </van-list>
           </div>
@@ -436,7 +450,7 @@ onMounted(async () => {
                   style="display: flex; align-items: center"
                 >
                   <van-slider
-                    v-model="unitPriceScope"
+                    v-model:number="unitPriceScope"
                     range
                     :min="minUnitPrice"
                     :max="maxUnitPrice"
@@ -454,16 +468,16 @@ onMounted(async () => {
             </van-dropdown-menu>
           </span>
           <div class="show_cards">
-            <van-card
-              v-for="good in goodList"
-              :key="good.id"
-              :desc="good.description"
-              :price="good.unitPrice * 0.01"
-              :thumb="good.imageURL"
-              :title="good.name"
-            >
-              <template #footer>
-                <van-config-provider :theme-vars="themeVars">
+            <van-config-provider :theme-vars="themeVars">
+              <van-card
+                v-for="good in goodList"
+                :key="good.id"
+                :desc="good.description"
+                :price="good.unitPrice * 0.01"
+                :thumb="good.imageURL"
+                :title="good.name"
+              >
+                <template #footer>
                   <van-button
                     type="danger"
                     round
@@ -480,9 +494,9 @@ onMounted(async () => {
                       <van-swipe-item>捐给儿童</van-swipe-item>
                     </van-swipe>
                   </van-button>
-                </van-config-provider>
-              </template>
-            </van-card>
+                </template>
+              </van-card>
+            </van-config-provider>
           </div>
         </div>
       </van-tab>
@@ -502,7 +516,7 @@ onMounted(async () => {
 }
 
 .notice-swipe {
-  height: 40px;
-  line-height: 40px;
+  height: 20px;
+  line-height: 20px;
 }
 </style>
