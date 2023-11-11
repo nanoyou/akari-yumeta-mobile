@@ -409,7 +409,14 @@ onMounted(async () => {
         </van-dropdown-item> -->
             </van-dropdown-menu>
           </span>
-          <div class="show-cards">
+          <van-loading
+            v-if="childrenFollowStatusList.length === 0"
+            size="24"
+            vertical
+            style="justify-self: center; margin-top: 30px"
+            >加载中...</van-loading
+          >
+          <div v-if="childrenFollowStatusList.length > 0" class="show-cards">
             <van-list>
               <user-card
                 v-for="(childAndStatus, index) in childrenFollowStatusList"
@@ -467,7 +474,14 @@ onMounted(async () => {
               </van-dropdown-item>
             </van-dropdown-menu>
           </span>
-          <div class="show_cards">
+          <van-loading
+            v-if="goodList.length === 0"
+            size="24"
+            vertical
+            style="justify-self: center; margin-top: 30px"
+            >加载中...</van-loading
+          >
+          <div v-if="goodList.length > 0" class="show_cards">
             <van-config-provider :theme-vars="themeVars">
               <van-card
                 v-for="good in goodList"

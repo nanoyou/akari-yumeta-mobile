@@ -109,7 +109,14 @@ onMounted(async () => {
 
 <template>
   <body>
-    <div class="good-card">
+    <van-loading
+      v-if="good === undefined"
+      size="24"
+      vertical
+      style="justify-self: center; margin-top: 41.5px; margin-bottom: 40px"
+      >加载中...</van-loading
+    >
+    <div v-if="good !== undefined" class="good-card">
       <div class="img-wrapper">
         <img :src="good?.imageURL" alt="good-image" />
       </div>
