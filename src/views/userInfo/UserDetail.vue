@@ -31,7 +31,12 @@ const logout = () => {
   router.push('/login')
 }
 const toMyTask = () => {
-  router.push('/myStudyTask')
+  if (props.perspective === 'others') {
+    router.push('/myStudyTask/' + props.userID)
+  } else {
+    router.push('/myStudyTask/000')
+  }
+
 }
 onBeforeMount(() => {
   if (props.perspective === 'others') {

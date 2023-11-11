@@ -85,9 +85,10 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/myStudyTask',
+    path: '/myStudyTask/:userId',
     name: 'myStudyTask',
     component: () => import('@/views/study/myTaskListPage.vue'),
+    props: true,
     meta: {
       title: '学习任务列表',
       showTabBar: false,
