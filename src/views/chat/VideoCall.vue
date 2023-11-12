@@ -264,6 +264,9 @@ onUnmounted(() => {
           <img @click="hangUp" src="/imgs/refuse.svg" class="icon" alt="拒绝" />
         </div>
       </div>
+      <div v-else class="calling-overlay overlay">
+        <img @click="hangUp" src="/imgs/refuse.svg" class="icon" alt="拒绝" />
+      </div>
     </div>
   </div>
 
@@ -339,5 +342,10 @@ onUnmounted(() => {
 }
 .button-group > img {
   margin: 15px;
+}
+
+.calling-overlay {
+  position: fixed;
+  bottom: 20px;
 }
 </style>
