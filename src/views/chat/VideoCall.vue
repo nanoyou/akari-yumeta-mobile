@@ -264,7 +264,7 @@ onUnmounted(() => {
           <img @click="hangUp" src="/imgs/refuse.svg" class="icon" alt="拒绝" />
         </div>
       </div>
-      <div v-else class="calling-overlay overlay">
+      <div v-if="!calling" class="calling-overlay overlay">
         <img @click="hangUp" src="/imgs/refuse.svg" class="icon" alt="拒绝" />
       </div>
     </div>
