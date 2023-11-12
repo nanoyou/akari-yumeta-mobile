@@ -193,12 +193,12 @@ const select_tag = (index: number) => {
             </template>
 
             <template #footer>
-              <van-button
-                v-if="task.status === 'IN_PROGRESS'"
-                @click="start_task(task.id)"
-                size="mini"
-                >开启</van-button
-              >
+<!--              <van-button-->
+<!--                v-if="task.status === 'IN_PROGRESS'"-->
+<!--                @click="start_task(task.id)"-->
+<!--                size="mini"-->
+<!--                >开启</van-button-->
+<!--              >-->
               <van-button @click="check_task(task.id)" size="mini"
                 >查看</van-button
               >

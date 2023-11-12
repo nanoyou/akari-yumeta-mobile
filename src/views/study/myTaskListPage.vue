@@ -2,16 +2,23 @@
 
 import {getStatusStr} from "@/util/translate";
 import {onMounted, ref} from "vue";
-import {getMyTask} from "@/api";
+import {getChildTasks, getMyTask} from "@/api";
 import {type Task} from "@/api/entity";
 import router from "@/router";
-
+const { userId } = defineProps(['userId'])
 const myTasks = ref<Task[]>([])
 
 onMounted(async () => {
-  getMyTask().then((result) => {
-    myTasks.value = result
-  })
+  console.log(userId)
+  if (userId === '000') {
+    getMyTask().then((result) => {
+      myTasks.value = result
+    })
+  } else {
+    getChildTasks(userId).then((result) => {
+      myTasks.value = result
+    })
+  }
 })
 
 const check_task = (task_id: string) => {

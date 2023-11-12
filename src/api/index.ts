@@ -82,6 +82,9 @@ export const getMyInfo = async () =>
 export const getUserInfo = async (userID: string) =>
   (await instance.get<UserDTO>(`/user/${userID}/info`)).data
 
+export const getChildTasks = async (userID: string) =>
+    (await instance.get<Task[]>(`/user/${userID}/task`)).data
+
 export const getAllTask = async () => (await instance.get<Task[]>('/task')).data
 
 export const getTaskDetail = async (taskID: string) =>

@@ -5,6 +5,8 @@ import { computed } from 'vue'
 
 const route = useRouter()
 const userID = computed(() => route.currentRoute.value.params.userID as string)
+
+
 </script>
 
 <template>
