@@ -2,7 +2,6 @@
   <div class="video_page">
     <div class="video_container">
       <video
-        class="video"
         v-if="taskDetail !== null"
         controls
         :src="taskDetail?.videoURL"
@@ -70,8 +69,8 @@
     <van-tab title="学习讨论区">
       <div
         class="comments_container"
+        v-if="comments_info.length !== 0"
         v-for="comment in comments_info"
-        :key="comment.id"
       >
         <div class="comment_card">
           <div @click="check_dynamic(comment.id)">
@@ -106,7 +105,7 @@
         </div>
         <img class="line" src="/imgs/line.png" alt="" />
       </div>
-      <div v-if="comments_info.length === 0" class="no_comments">暂无讨论</div>
+      <div v-else class="no_comments">暂无讨论</div>
     </van-tab>
   </van-tabs>
 
@@ -163,7 +162,6 @@ const comments_info: Ref<commentInfo[]> = ref([])
 
 const like_comment = async (commentId: string) => {
   await likeComment(commentId)
-  showNotify({ type: 'success', message: '点赞成功' })
   await load_data()
 }
 
@@ -229,7 +227,6 @@ const send_comment = async () => {
     }),
     taskID: taskId
   })
-  showNotify({ type: 'success', message: '提问成功' })
   comment_input_words.value = ''
   showInput.value = false
   await load_data()
@@ -392,12 +389,5 @@ video {
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-}
-.video_page {
-}
-.video {
-  width: 100vw;
-  height: auto;
-  max-height: calc(100vh - 46px);
 }
 </style>

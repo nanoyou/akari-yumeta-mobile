@@ -57,11 +57,11 @@ const check_task = (task_id: string) => {
 const start_task = (task_id: string) => {
   startTask(task_id).then((res) => {
     if (res !== null) {
-      showNotify({ type: 'success', message: '开启成功' })
-      load_data()
     }
     console.log(res)
   })
+  load_data()
+
 }
 
 const submit = async () => {
@@ -136,13 +136,13 @@ const select_tag = (index: number) => {
     <van-tabs v-model:active="active">
       <van-tab title="所有课程">
         <div>
-          <div v-for="(task, index) of allTasks" :key="task.id">
+          <div v-for="task in allTasks" :key="task.id">
             <van-card
                 :tag="'积分：' + task.bonus"
                 :desc="task.description"
                 :key="task.id"
                 :title="task.taskName"
-                :thumb="`/imgs/task${index % 6 + 1}.png`"
+                :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
             >
               <template #tags>
                 <van-tag plain type="primary">{{
@@ -177,13 +177,13 @@ const select_tag = (index: number) => {
 
       </van-tab>
       <van-tab title="我的学习">
-        <div v-for="(task, index) of myTasks" :key="task.id">
+        <div v-for="task in myTasks" :key="task.id">
           <van-card
             :tag="'积分：' + task.bonus"
             :desc="task.description"
             :key="task.id"
             :title="task.taskName"
-            :thumb="`/imgs/task${index % 6 + 1}.png`"
+            :thumb="`/imgs/task${Math.floor(Math.random() * 6) + 1}.png`"
           >
             <template #tags>
               <van-tag plain type="primary">{{}}</van-tag>

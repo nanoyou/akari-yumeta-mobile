@@ -27,6 +27,7 @@ onMounted(() => {
   // 初始化 ECharts 实例
   const myChart = echarts.init(chart.value)
 
+  // 配置项
   const option = {
     title: {
       textStyle: {
@@ -104,10 +105,10 @@ onMounted(() => {
 <style scoped>
 .chart-container {
   width: 100%;
+  margin: 20px auto;
 }
 
 .chart {
-  height: 250px; /* 调整高度 */
-  margin: 30px 0px 500px 0px;
+  height: 200px; /* 调整高度 */
 }
 </style>

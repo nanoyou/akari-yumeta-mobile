@@ -13,7 +13,7 @@ const notify_message = ref("")
 
 const send_comment = async () => {
   await sendDynamicComment(dynamicId, comment_input_words.value)
-  showNotify({ type: 'success', message: '回答成功' })
+
   showInput.value = false
   await load_sub_comments()
 }
@@ -24,7 +24,6 @@ const showPopup = () => {
 
 const like_comment = async (commentId: string) => {
   await likeComment(commentId)
-  showNotify({ type: 'success', message: '点赞成功' })
   await load_sub_comments()
 }
 
